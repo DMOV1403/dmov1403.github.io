@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osama Monir — Content Creator, Designer & Web Developer</title>
+<meta name="description" content="Osama Monir. Content creator, video editor, graphic designer, web developer and voice over artist based in Sohar, Oman. I build brands from scratch and make content that performs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0B;
+    --bg-soft:#16130F;
+    --card:#1B1712;
+    --line:rgba(244,239,230,.10);
+    --ink:#F4EFE6;
+    --ink-dim:#B7AE9F;
+    --ink-faint:#7C7464;
+    --ember:#E89B4B;
+    --ember-deep:#D9722E;
+    --display:'Fraunces',Georgia,serif;
+    --body:'Hanken Grotesk',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* grain overlay */
+  body::before{
+    content:"";
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* warm radial glow */
+  body::after{
+    content:"";position:fixed;top:-30vh;right:-20vw;width:80vw;height:80vw;z-index:0;pointer-events:none;
+    background:radial-gradient(circle, rgba(217,114,46,.16), transparent 60%);
+    filter:blur(20px);
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- NAV ---------- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 32px;
+    backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom, rgba(16,14,11,.85), transparent);
+  }
+  nav .logo{font-family:var(--display);font-size:21px;font-weight:500;letter-spacing:.5px}
+  nav .logo span{color:var(--ember)}
+  nav .links{display:flex;gap:30px;font-size:14px;letter-spacing:.04em;color:var(--ink-dim)}
+  nav .links a{transition:color .25s}
+  nav .links a:hover{color:var(--ink)}
+  @media(max-width:720px){nav .links{display:none}}
+
+  /* ---------- HERO ---------- */
+  header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 80px;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.4rem,11vw,8.2rem);line-height:.92;letter-spacing:-.02em}
+  h1 em{font-style:italic;color:var(--ember)}
+  .hero-roles{margin:34px 0 30px;font-size:clamp(1rem,2.4vw,1.35rem);color:var(--ink-dim);font-weight:500}
+  .hero-roles .sep{color:var(--ember-deep);margin:0 12px}
+  .hero-statement{max-width:620px;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink);line-height:1.5}
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:100px;font-weight:600;font-size:15px;letter-spacing:.01em;transition:transform .2s, background .25s, color .25s, border-color .25s}
+  .btn-primary{background:var(--ember);color:#1a1208}
+  .btn-primary:hover{transform:translateY(-2px);background:#f2ab5e}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ember);color:var(--ember);transform:translateY(-2px)}
+  .btn svg{width:16px;height:16px}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0;margin-top:10px}
+  .marquee-track{display:inline-block;animation:scroll 26s linear infinite}
+  .marquee-track span{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--ink-faint);margin:0 28px}
+  .marquee-track span b{color:var(--ember);font-style:normal;font-weight:400}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:110px 0;position:relative}
+  .sec-label{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .sec-label::before{content:"";width:30px;height:1px;background:var(--ember)}
+  .sec-title{font-family:var(--display);font-weight:400;font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;letter-spacing:-.01em;max-width:760px}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:30px}
+  @media(max-width:780px){.about-grid{grid-template-columns:1fr;gap:34px}}
+  .about-grid p{color:var(--ink-dim);font-size:1.1rem;margin-bottom:20px}
+  .about-grid p strong{color:var(--ink);font-weight:600}
+
+  /* impact strip */
+  .impact{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:40px}
+  @media(max-width:780px){.impact{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--bg-soft);padding:34px 26px}
+  .stat .num{font-family:var(--display);font-size:clamp(2.4rem,5vw,3.4rem);color:var(--ember);line-height:1}
+  .stat .lab{margin-top:12px;font-size:.92rem;color:var(--ink-dim);line-height:1.4}
+
+  /* services */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+  @media(max-width:880px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s, border-color .3s}
+  .svc:hover{transform:translateY(-5px);border-color:rgba(232,155,75,.4)}
+  .svc .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:rgba(232,155,75,.12);margin-bottom:20px}
+  .svc .ic svg{width:21px;height:21px;stroke:var(--ember);fill:none;stroke-width:1.6}
+  .svc h3{font-family:var(--display);font-weight:500;font-size:1.32rem;margin-bottom:10px}
+  .svc p{font-size:.98rem;color:var(--ink-dim);line-height:1.55}
+
+  /* work */
+  .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:46px}
+  @media(max-width:780px){.work-grid{grid-template-columns:1fr}}
+  .work{background:linear-gradient(160deg,var(--card),var(--bg-soft));border:1px solid var(--line);border-radius:18px;padding:38px;position:relative;overflow:hidden;transition:border-color .3s}
+  .work:hover{border-color:rgba(232,155,75,.45)}
+  .work .tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);margin-bottom:18px}
+  .work h3{font-family:var(--display);font-weight:500;font-size:1.7rem;line-height:1.1;margin-bottom:14px}
+  .work p{color:var(--ink-dim);font-size:1rem}
+  .work .big{font-family:var(--display);font-size:3rem;color:var(--ember);line-height:1;margin-bottom:6px}
+
+  /* experience */
+  .exp{margin-top:40px;border-top:1px solid var(--line)}
+  .exp-row{display:grid;grid-template-columns:130px 1fr auto;gap:24px;padding:26px 4px;border-bottom:1px solid var(--line);align-items:baseline;transition:background .25s,padding-left .25s}
+  .exp-row:hover{background:rgba(232,155,75,.04);padding-left:14px}
+  .exp-row .yr{color:var(--ink-faint);font-size:.9rem;font-variant-numeric:tabular-nums}
+  .exp-row .role{font-family:var(--display);font-size:1.25rem;font-weight:500}
+  .exp-row .co{color:var(--ember);font-size:.95rem;margin-top:3px}
+  .exp-row .place{color:var(--ink-faint);font-size:.85rem;text-align:right}
+  @media(max-width:680px){.exp-row{grid-template-columns:1fr;gap:4px}.exp-row .place,.exp-row .yr{text-align:left}}
+
+  /* contact */
+  .contact{text-align:center;padding:120px 0 60px}
+  .contact .sec-label{justify-content:center}
+  .contact .sec-label::before{display:none}
+  .contact h2{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,7vw,5rem);line-height:1;margin:8px 0 14px}
+  .contact .mail{display:inline-block;font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,4vw,2.2rem);color:var(--ember);margin:20px 0 36px;border-bottom:1px solid transparent;transition:border-color .3s}
+  .contact .mail:hover{border-color:var(--ember)}
+  .contact-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 34px;color:var(--ink-dim);font-size:.98rem;margin-bottom:40px}
+  .contact-meta span{display:inline-flex;align-items:center;gap:8px}
+  .contact-meta b{color:var(--ink);font-weight:600}
+  footer{border-top:1px solid var(--line);padding:30px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ink-faint);font-size:.85rem}
+  footer a:hover{color:var(--ember)}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .stagger>*{opacity:0;transform:translateY(24px)}
+  .stagger.in>*{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .stagger.in>*:nth-child(1){transition-delay:.05s}
+  .stagger.in>*:nth-child(2){transition-delay:.12s}
+  .stagger.in>*:nth-child(3){transition-delay:.19s}
+  .stagger.in>*:nth-child(4){transition-delay:.26s}
+  .stagger.in>*:nth-child(5){transition-delay:.33s}
+  .stagger.in>*:nth-child(6){transition-delay:.40s}
+  @media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1;transform:none;transition:none}.marquee-track{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#top">Osama<span>.</span></a>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#services">What I Do</a>
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+  <header>
+    <div class="reveal in">
+      <span class="eyebrow"><span class="dot"></span>Sohar, Oman &nbsp;·&nbsp; Open to remote work worldwide</span>
+    </div>
+    <h1 class="reveal in" style="transition-delay:.08s">Osama <em>Monir</em></h1>
+    <p class="hero-roles reveal in" style="transition-delay:.16s">
+      Content Creator &amp; Video Editor<span class="sep">/</span>Graphic Designer<span class="sep">/</span>Web Developer<span class="sep">/</span>Voice Over Artist
+    </p>
+    <p class="hero-statement reveal in" style="transition-delay:.24s">
+      I build brands from scratch and make content that actually performs, not content that just looks good. Five plus years across video, design, paid social, and the web.
+    </p>
+    <div class="cta reveal in" style="transition-delay:.32s">
+      <a class="btn btn-primary" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">
+        View Behance
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="Osama-Monir-CV.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+        Download CV
+      </a>
+      <a class="btn btn-ghost" href="mailto:Monirosama6@gmail.com">Email me</a>
+    </div>
+  </header>
+</div>
+
+<div class="marquee reveal in">
+  <div class="marquee-track">
+    <span>Brand Identity</span><span><b>·</b></span><span>Short-Form Video</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>Reels &amp; TikTok</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
+    <span>Brand Identity</span><span><b>·</b></span><span>Short-Form Video</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>Reels &amp; TikTok</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="sec-label reveal">About</p>
+    <div class="about-grid">
+      <h2 class="sec-title reveal">A creative who can take a brand from blank page to content that ships and performs.</h2>
+      <div class="reveal">
+        <p>I'm a content creator and video editor based in Oman with just over five years of experience. Most of that time I have spent either <strong>building brand identities from the ground up</strong> or producing content that performs, not just content that looks good.</p>
+        <p>I work fast, I work independently, and I am comfortable running several projects at the same time. On top of design and video, I build <strong>websites for clients</strong> in HTML, CSS, and JavaScript, and I do freelance <strong>voice over</strong> in Arabic and English.</p>
+        <p>The combination is what makes me useful: one person who can handle the design, the video, the paid campaign, and the landing page it all points to.</p>
+      </div>
+    </div>
+    <div class="impact stagger">
+      <div class="stat"><div class="num">14x</div><div class="lab">Instagram monthly views grown in 30 days, 26.1K to 368.2K on a paid campaign</div></div>
+      <div class="stat"><div class="num">35%</div><div class="lab">Drop in cost per click after redesigning a Meta ad campaign</div></div>
+      <div class="stat"><div class="num">2</div><div class="lab">Restaurant brands built and run from scratch across multiple locations</div></div>
+      <div class="stat"><div class="num">5+</div><div class="lab">Years across design, video, paid social, and web</div></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <p class="sec-label reveal">What I Do</p>
+    <h2 class="sec-title reveal">Six disciplines, one workflow.</h2>
+    <div class="svc-grid stagger">
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Video &amp; Editing</h3>
+        <p>Shooting, editing, and producing short-form video for Reels, TikTok, and YouTube Shorts. Premiere Pro and the full Adobe suite, from script to final cut.</p>
+      </div>
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><path d="M11 18a6 6 0 0 0 8-8"/></svg></div>
+        <h3>Design &amp; Brand Identity</h3>
+        <p>Logos, menus, packaging, and complete visual systems built from scratch and applied consistently across every touchpoint.</p>
+      </div>
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 14 3-4 4 3 5-7"/></svg></div>
+        <h3>Paid Social &amp; Strategy</h3>
+        <p>Meta and Google Ads, content strategy, and campaigns judged by the numbers: cost per click, reach, and conversions, not just aesthetics.</p>
+      </div>
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M13 6l-2 12"/></svg></div>
+        <h3>Web Development</h3>
+        <p>Business sites, landing pages, and portfolio sites in HTML, CSS, and JavaScript. Designed, built, and deployed. This page is one of them.</p>
+      </div>
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <h3>Voice Over</h3>
+        <p>Commercial narration in Arabic and English for ads, explainers, and brand video. Native Arabic, professional English.</p>
+      </div>
+      <div class="svc">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></svg></div>
+        <h3>Social Media Management</h3>
+        <p>Day-to-day content, posting, and consistency across Instagram, Facebook, and TikTok, keeping the look and tone on brand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <p class="sec-label reveal">Selected Work</p>
+    <h2 class="sec-title reveal">A few things I'm proud of.</h2>
+    <div class="work-grid stagger">
+      <div class="work">
+        <p class="tag">Brand Build · Restaurant</p>
+        <h3>Rif Majan</h3>
+        <p>Came in with nothing and built the full brand identity and content operation for two restaurant branches: logo, menus, packaging, video, and every social channel.</p>
+      </div>
+      <div class="work">
+        <p class="tag">Paid Social · Growth</p>
+        <div class="big">368.2K</div>
+        <h3>Monthly views in 30 days</h3>
+        <p>Grew a managed Instagram account from 26.1K to 368.2K monthly views in a single month through a targeted paid campaign. A 14x jump.</p>
+      </div>
+      <div class="work">
+        <p class="tag">Meta Ads · Performance</p>
+        <div class="big">-35%</div>
+        <h3>Cost per click</h3>
+        <p>Redesigned the creatives and tightened audience targeting to a 15km radius, bringing cost per click down 35% while beating the reservation target on a smaller budget.</p>
+      </div>
+      <div class="work">
+        <p class="tag">Freelance · Web</p>
+        <h3>Client websites</h3>
+        <p>Business sites, landing pages, and portfolio sites built and deployed for clients in HTML, CSS, and JavaScript. Full visuals and case studies live on Behance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="sec-label reveal">Experience</p>
+    <h2 class="sec-title reveal">Where I have done the work.</h2>
+    <div class="exp reveal">
+      <div class="exp-row">
+        <div class="yr">2024 — Now</div>
+        <div><div class="role">Head of Advertising &amp; Marketing</div><div class="co">Rif Majan</div></div>
+        <div class="place">Sohar, Oman</div>
+      </div>
+      <div class="exp-row">
+        <div class="yr">2022 — Now</div>
+        <div><div class="role">Web Developer &amp; Designer</div><div class="co">Freelance</div></div>
+        <div class="place">Remote</div>
+      </div>
+      <div class="exp-row">
+        <div class="yr">2023 — 2024</div>
+        <div><div class="role">Marketing Manager</div><div class="co">Roaya Optical Center</div></div>
+        <div class="place">Egypt</div>
+      </div>
+      <div class="exp-row">
+        <div class="yr">2021 — 2023</div>
+        <div><div class="role">Social Media Specialist &amp; Content Creator</div><div class="co">ECHO Media Production Agency</div></div>
+        <div class="place">Egypt</div>
+      </div>
+      <div class="exp-row">
+        <div class="yr">2019</div>
+        <div><div class="role">Digital Marketing Assistant</div><div class="co">Arrow for Advertising</div></div>
+        <div class="place">Egypt</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- CONTACT -->
+<div class="wrap">
+  <section class="contact" id="contact">
+    <p class="sec-label reveal">Contact</p>
+    <h2 class="reveal">Let's make something.</h2>
+    <a class="mail reveal" href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a>
+    <div class="contact-meta reveal">
+      <span><b>Phone</b> +968 79384026</span>
+      <span><b>Location</b> Sohar, Oman</span>
+      <span><b>Languages</b> Arabic (native), English (DET 120)</span>
+    </div>
+    <div class="cta reveal" style="justify-content:center">
+      <a class="btn btn-primary" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">View Behance</a>
+      <a class="btn btn-ghost" href="Osama-Monir-CV.pdf" download>Download CV</a>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span>© 2026 Osama Monir. Built by hand in HTML, CSS &amp; JavaScript.</span>
+    <span><a href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a> &nbsp;·&nbsp; <a href="mailto:Monirosama6@gmail.com">Email</a></span>
+  </footer>
+</div>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal:not(.in), .stagger').forEach(el=>io.observe(el));
+
+  // active nav link
+  const navLinks=[...document.querySelectorAll('nav .links a')];
+  const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY+120;
+    sections.forEach((s,i)=>{
+      if(s&&s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y){
+        navLinks.forEach(l=>l.style.color='');
+        navLinks[i].style.color='var(--ink)';
+      }
+    });
+  },{passive:true});
+</script>
+</body>
+</html>
