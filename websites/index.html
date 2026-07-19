@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osama Monir — Web Development Portfolio</title>
+<meta name="description" content="Selected work: a full digital publishing platform with payments and a premium library, and a corporate identity site shipped live with full SEO. From first sketch to shipped site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14120d;
+    --ink-2:#1b1812;
+    --ink-3:#242019;
+    --bone:#efe9dc;
+    --bone-dim:#b5ad9c;
+    --gold:#c9a35c;
+    --gold-soft:rgba(201,163,92,.14);
+    --rust:#b4552d;
+    --line:rgba(239,233,220,.12);
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Archivo",Helvetica,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--gold);color:var(--ink)}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    border-bottom:1px solid transparent;
+    transition:background .35s,border-color .35s;
+  }
+  header.solid{background:rgba(20,18,13,.92);border-color:var(--line);backdrop-filter:blur(10px)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .mark{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.02em;color:var(--bone);text-decoration:none}
+  .mark span{color:var(--gold)}
+  nav a.lnk{
+    color:var(--bone-dim);text-decoration:none;font-size:13px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;margin-left:28px;transition:color .25s;
+  }
+  nav a.lnk:hover{color:var(--gold)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:clamp(140px,20vh,220px) 0 clamp(60px,8vh,90px)}
+  .hero::after{
+    content:"";position:absolute;top:-30%;right:-15%;width:60vw;height:60vw;
+    background:radial-gradient(circle,rgba(201,163,92,.10),transparent 60%);
+    pointer-events:none;
+  }
+  .overline{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+  }
+  .overline::before{content:"";width:34px;height:1px;background:var(--gold)}
+  h1{
+    font-family:var(--serif);font-weight:300;
+    font-size:clamp(42px,7.4vw,92px);
+    line-height:1.04;letter-spacing:-.01em;
+    margin:26px 0 30px;max-width:16ch;
+  }
+  h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+  .lede{max-width:52ch;color:var(--bone-dim);font-size:clamp(16px,1.6vw,19px)}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:clamp(48px,7vh,72px);
+  }
+  .stat{padding:26px 18px 26px 0}
+  .stat+.stat{border-left:1px solid var(--line);padding-left:26px}
+  .stat b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(28px,3.4vw,44px);color:var(--bone);line-height:1.1}
+  .stat span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+
+  /* ---------- ticker ---------- */
+  .ticker{border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;white-space:nowrap}
+  .ticker-track{display:inline-block;animation:tick 34s linear infinite}
+  .ticker span{
+    font-family:var(--serif);font-style:italic;font-size:17px;color:var(--bone-dim);margin:0 14px;
+  }
+  .ticker i{color:var(--gold);font-style:normal}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- sections ---------- */
+  section{padding:clamp(72px,11vh,130px) 0}
+  .sec-head{display:flex;align-items:baseline;gap:22px;margin-bottom:clamp(36px,6vh,64px)}
+  .sec-num{
+    font-family:var(--serif);font-size:clamp(52px,7vw,96px);font-weight:300;
+    color:transparent;-webkit-text-stroke:1px var(--gold);line-height:1;
+  }
+  .sec-title h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,48px);line-height:1.1}
+  .sec-title p{color:var(--gold);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-top:8px}
+
+  .case{border-top:1px solid var(--line)}
+  .brief{
+    display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,5vw,70px);
+    margin-bottom:clamp(44px,7vh,70px);
+  }
+  .brief h3{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .brief p{color:var(--bone-dim)}
+  .brief p strong{color:var(--bone);font-weight:600}
+  .meta{list-style:none;margin-top:22px}
+  .meta li{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;
+  }
+  .meta li span:first-child{color:var(--bone-dim)}
+  .meta li span:last-child{color:var(--bone);font-weight:600;text-align:right}
+  .meta a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-soft)}
+  .meta a:hover{border-color:var(--gold)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+  .cell{
+    background:var(--ink-2);padding:28px 26px;position:relative;overflow:hidden;
+    transition:background .3s;
+  }
+  .cell:hover{background:var(--ink-3)}
+  .cell::after{
+    content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);
+    transition:width .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .cell:hover::after{width:100%}
+  .cell h4{font-family:var(--serif);font-weight:600;font-size:19px;margin-bottom:10px}
+  .cell p{font-size:14px;color:var(--bone-dim);line-height:1.65}
+  .cell .glyph{font-size:20px;color:var(--gold);display:block;margin-bottom:14px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(36px,5vh,54px)}
+  .chips h5{width:100%;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .chip{
+    font-size:13px;font-weight:500;color:var(--bone);
+    border:1px solid var(--line);border-radius:100px;padding:7px 16px;
+    background:var(--ink-2);
+  }
+  .chip.hot{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+
+  .callouts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:clamp(36px,5vh,54px)}
+  .callout{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    padding:26px 28px;background:var(--ink-2);
+  }
+  .callout h4{font-family:var(--serif);font-style:italic;font-weight:400;font-size:21px;color:var(--gold);margin-bottom:10px}
+  .callout p{font-size:14.5px;color:var(--bone-dim)}
+
+  .check{list-style:none;columns:2;column-gap:44px;margin-top:clamp(30px,4vh,44px)}
+  .check li{
+    break-inside:avoid;display:flex;gap:12px;align-items:flex-start;
+    padding:11px 0;border-bottom:1px dashed var(--line);font-size:15px;color:var(--bone-dim);
+  }
+  .check li::before{content:"✓";color:var(--gold);font-weight:700;flex:0 0 auto}
+  .check li strong{color:var(--bone);font-weight:600}
+
+  /* ---------- capabilities ---------- */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .cap{background:var(--ink-2);padding:34px 30px;transition:background .3s}
+  .cap:hover{background:var(--ink-3)}
+  .cap b{font-family:var(--serif);font-size:15px;color:var(--gold);display:block;margin-bottom:16px}
+  .cap h4{font-family:var(--serif);font-weight:600;font-size:21px;margin-bottom:12px}
+  .cap p{font-size:14px;color:var(--bone-dim)}
+
+  /* ---------- process ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,34px)}
+  .step{border-top:2px solid var(--gold);padding-top:20px}
+  .step b{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);font-size:16px}
+  .step h4{font-family:var(--serif);font-weight:600;font-size:20px;margin:8px 0 10px}
+  .step p{font-size:14px;color:var(--bone-dim)}
+
+  /* ---------- contact ---------- */
+  .contact{border-top:1px solid var(--line);text-align:center;position:relative}
+  .contact::before{
+    content:"";position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);
+    width:70vw;height:50vh;background:radial-gradient(ellipse,rgba(201,163,92,.09),transparent 65%);
+    pointer-events:none;
+  }
+  .contact h2{
+    font-family:var(--serif);font-weight:300;font-size:clamp(36px,6vw,72px);
+    line-height:1.08;max-width:18ch;margin:0 auto 22px;
+  }
+  .contact h2 em{font-style:italic;color:var(--gold)}
+  .contact p{color:var(--bone-dim);max-width:46ch;margin:0 auto 40px}
+  .btn{
+    display:inline-block;font-family:var(--sans);font-weight:600;font-size:14px;
+    letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
+    color:var(--ink);background:var(--gold);padding:18px 42px;border-radius:100px;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,163,92,.28)}
+  .contact .alt{display:block;margin-top:22px;font-size:14px;color:var(--bone-dim)}
+  .contact .alt a{color:var(--gold);text-decoration:none}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--bone-dim)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .ticker-track{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    .stats{grid-template-columns:1fr 1fr}
+    .stat{padding:22px 14px 22px 0}
+    .stat:nth-child(3){border-left:none;padding-left:0}
+    .stat:nth-child(odd){border-left:none;padding-left:0}
+    .stat:nth-child(even){border-left:1px solid var(--line);padding-left:22px}
+    .stat:nth-child(n+3){border-top:1px solid var(--line)}
+    .brief{grid-template-columns:1fr}
+    .callouts{grid-template-columns:1fr}
+    .caps{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .check{columns:1}
+    nav a.lnk{margin-left:16px;font-size:12px}
+  }
+  @media (max-width:520px){
+    .steps{grid-template-columns:1fr}
+    nav a.lnk:first-child{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="mark" href="#top">Osama<span>&nbsp;Monir</span></a>
+    <nav>
+      <a class="lnk" href="#work">Work</a>
+      <a class="lnk" href="#capabilities">Capabilities</a>
+      <a class="lnk" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero" id="top">
+  <div class="wrap">
+    <span class="overline reveal">Web Development Portfolio</span>
+    <h1 class="reveal">From first sketch to <em>shipped&nbsp;site.</em></h1>
+    <p class="lede reveal">I design and build complete websites — from lightweight brand sites
+    that launch in days, to full platforms with payments, member areas and admin panels.
+    Below are two real projects, built end-to-end and delivered to their owners.</p>
+
+    <div class="stats">
+      <div class="stat reveal"><b>2</b><span>Websites shipped live</span></div>
+      <div class="stat reveal"><b>24k+</b><span>Lines of code written</span></div>
+      <div class="stat reveal"><b>27</b><span>Pages designed &amp; built</span></div>
+      <div class="stat reveal"><b>4</b><span>Payment methods integrated</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Design <i>·</i></span><span>Development <i>·</i></span><span>E-commerce <i>·</i></span><span>Payments <i>·</i></span><span>Membership platforms <i>·</i></span><span>Arabic &amp; RTL <i>·</i></span><span>SEO <i>·</i></span><span>Deployment <i>·</i></span><span>Security <i>·</i></span><span>Ongoing care <i>·</i></span>
+    <span>Design <i>·</i></span><span>Development <i>·</i></span><span>E-commerce <i>·</i></span><span>Payments <i>·</i></span><span>Membership platforms <i>·</i></span><span>Arabic &amp; RTL <i>·</i></span><span>SEO <i>·</i></span><span>Deployment <i>·</i></span><span>Security <i>·</i></span><span>Ongoing care <i>·</i></span>
+  </div>
+</div>
+
+<!-- ================= CASE 01 ================= -->
+<section class="case" id="work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01</div>
+      <div class="sec-title">
+        <h2>Dr. Monir Lotfy — Digital Publishing Platform</h2>
+        <p>Author platform · Online store · Membership library</p>
+      </div>
+    </div>
+
+    <div class="brief">
+      <div class="reveal">
+        <h3>The Brief</h3>
+        <p>An Arabic-language author needed one home for everything: his books, articles
+        and media, a way to <strong>sell books online</strong>, and a
+        <strong>premium members' library</strong> where readers pay once and read his
+        books directly in the browser — with a community built around it.</p>
+        <ul class="meta">
+          <li><span>Live at</span><span><a href="https://monirlotfy.com" target="_blank" rel="noopener">monirlotfy.com</a></span></li>
+          <li><span>Type</span><span>Full-stack web application</span></li>
+          <li><span>Language</span><span>Arabic-first, fully RTL</span></li>
+          <li><span>Scale</span><span>22 pages · 15 database tables · 12 APIs</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <h3>What We Built</h3>
+        <div class="grid">
+          <div class="cell"><span class="glyph">◈</span><h4>Online Book Store</h4><p>Public catalog of published books plus digital copies for sale — with physical orders supporting cash-on-delivery and bank transfer, and a full order workflow from pending to shipped.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Lifetime Membership</h4><p>A one-time "Lifetime Access" purchase unlocks the premium library — priced in USD via PayPal and in EGP via Vodafone Cash for Egyptian readers.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>In-Browser Book Reader</h4><p>Members read protected PDF books right inside the site — streamed securely, access-checked on every request, with controlled downloads.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Community Feed</h4><p>Members post, react with emojis, and hold threaded discussions — moderated from the admin panel.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Notification Center</h4><p>An in-app bell with announcements, new-book alerts and welcome messages — plus scheduled email reminders running automatically in the background.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Full Admin Panel</h4><p>The author manages everything himself: orders, books, users, payment approvals, subscriptions, moderation and broadcast announcements — no developer needed day-to-day.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Accounts &amp; Email Flows</h4><p>Registration, login, email verification, and password reset — all with Arabic transactional emails.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Articles &amp; Media</h4><p>A publishing space for articles alongside an audio media library, biography, services and testimonial pages.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout reveal">
+        <h4>Payments that fit the audience</h4>
+        <p>Four payment paths under one roof: PayPal checkout with server-side capture and
+        verified webhooks, a manual Vodafone Cash flow with admin approval for readers in Egypt,
+        plus cash-on-delivery and bank transfer for physical orders. Every path is validated,
+        logged and auditable.</p>
+      </div>
+      <div class="callout reveal">
+        <h4>Production-grade security</h4>
+        <p>Hardened like a commercial product: strict Content-Security-Policy, HSTS, rate
+        limiting on every sensitive action, hashed passwords, hardened sessions, webhook
+        signature verification, and access control that re-checks the database on every
+        request — so refunds and cancellations take effect instantly.</p>
+      </div>
+    </div>
+
+    <div class="chips reveal">
+      <h5>Under the Hood</h5>
+      <span class="chip hot">SvelteKit 2 + Svelte 5</span>
+      <span class="chip hot">TypeScript</span>
+      <span class="chip">Tailwind CSS</span>
+      <span class="chip">SQLite / Turso cloud DB</span>
+      <span class="chip">Drizzle ORM</span>
+      <span class="chip">PayPal API + webhooks</span>
+      <span class="chip">Vodafone Cash</span>
+      <span class="chip">Supabase Storage</span>
+      <span class="chip">Upstash Redis rate limiting</span>
+      <span class="chip">PDF.js reader</span>
+      <span class="chip">Transactional email</span>
+      <span class="chip">Scheduled jobs</span>
+      <span class="chip">Structured logging</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE 02 ================= -->
+<section class="case">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02</div>
+      <div class="sec-title">
+        <h2>RSD — Corporate Identity Site</h2>
+        <p>Brand website · Mining, investment &amp; industrial technology · Oman</p>
+      </div>
+    </div>
+
+    <div class="brief">
+      <div class="reveal">
+        <h3>The Brief</h3>
+        <p>RSD, an Omani venture company bridging natural resources with international
+        investors, needed a <strong>credible international-facing presence</strong> —
+        a site that looks like an established firm, loads instantly anywhere in the
+        world, and gets found on Google.</p>
+        <ul class="meta">
+          <li><span>Live at</span><span><a href="https://rsd.services" target="_blank" rel="noopener">rsd.services</a></span></li>
+          <li><span>Type</span><span>Corporate brand site</span></li>
+          <li><span>Approach</span><span>Zero-dependency, hand-crafted code</span></li>
+          <li><span>Scale</span><span>5 pages · custom design system</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <h3>What We Built</h3>
+        <div class="grid">
+          <div class="cell"><span class="glyph">◈</span><h4>Editorial Design System</h4><p>A distinctive serif-and-sans identity on a warm ivory palette — built around the brand story of <em>Rasad</em>, the Arabic astronomers' word for foresight. No template in sight.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Five-Page Architecture</h4><p>Home, About, What We Do, Projects and Contact — with sector storytelling across mining, investment and industrial technology.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Motion &amp; Interaction</h4><p>Staggered scroll reveals, a scrolling keyword ticker, filterable project grid, cursor-follow card spotlights and a sticky header — all respecting reduced-motion preferences.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Performance by Design</h4><p>Pure hand-written HTML, CSS and JavaScript. No frameworks, no build step, nothing to break — the whole production site is about 63&nbsp;KB of code.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Complete SEO Launch</h4><p>Clean extension-less URLs, sitemap, robots.txt, structured data, Open Graph and Twitter cards, branded WhatsApp link previews — then verified with Google and submitted for indexing.</p></div>
+          <div class="cell"><span class="glyph">◈</span><h4>Handled Hosting &amp; Delivery</h4><p>Deployed to the client's hosting with guided domain setup, versioned on GitHub as a permanent backup, and delivered as a ready-to-upload package.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="check reveal">
+      <li><strong>Live and indexed</strong> — domain connected, all 5 pages discovered by Google Search Console</li>
+      <li><strong>Responsive</strong> — mobile-first with a full-screen menu and accessibility built in</li>
+      <li><strong>Brand-true</strong> — designed from the company's own logo, story and sectors</li>
+      <li><strong>Iterated openly</strong> — five documented design evolutions before the final direction</li>
+      <li><strong>Owner-friendly</strong> — plain files the client can host anywhere, cheaply, forever</li>
+      <li><strong>Fully handed off</strong> — with launch checklist, Search Console access and update workflow</li>
+    </ul>
+
+    <div class="chips reveal">
+      <h5>Under the Hood</h5>
+      <span class="chip hot">Hand-written HTML / CSS / JS</span>
+      <span class="chip hot">Zero dependencies</span>
+      <span class="chip">Custom design system</span>
+      <span class="chip">IntersectionObserver animations</span>
+      <span class="chip">Apache clean URLs</span>
+      <span class="chip">JSON-LD structured data</span>
+      <span class="chip">Open Graph / social cards</span>
+      <span class="chip">Google Search Console</span>
+      <span class="chip">GitHub version control</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAPABILITIES ================= -->
+<section id="capabilities" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03</div>
+      <div class="sec-title">
+        <h2>What I Can Do for You</h2>
+        <p>Capabilities</p>
+      </div>
+    </div>
+    <div class="caps">
+      <div class="cap reveal"><b>i.</b><h4>Design &amp; Branding</h4><p>Custom design systems built from your brand — typography, color, motion — never a recycled template.</p></div>
+      <div class="cap reveal"><b>ii.</b><h4>Full-Stack Development</h4><p>From static brand sites to complete platforms with databases, user accounts, member areas and admin panels.</p></div>
+      <div class="cap reveal"><b>iii.</b><h4>Payments &amp; E-commerce</h4><p>PayPal, local payment methods like Vodafone Cash, cash-on-delivery and bank transfer — with secure, auditable order flows.</p></div>
+      <div class="cap reveal"><b>iv.</b><h4>Arabic &amp; Bilingual Sites</h4><p>Native right-to-left layouts, Arabic typography and Arabic content flows — done properly, not as an afterthought.</p></div>
+      <div class="cap reveal"><b>v.</b><h4>SEO &amp; Launch</h4><p>Domain setup, hosting, clean URLs, sitemaps, structured data and Google Search Console — your site found, not just online.</p></div>
+      <div class="cap reveal"><b>vi.</b><h4>Care &amp; Iteration</h4><p>Sites evolve after launch: new features, content updates, fixes and improvements based on real user feedback.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04</div>
+      <div class="sec-title">
+        <h2>How We'll Work</h2>
+        <p>Process</p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><b>Step 01</b><h4>Listen</h4><p>We talk about your goals, audience and content. You bring the vision; I translate it into a plan.</p></div>
+      <div class="step reveal"><b>Step 02</b><h4>Design</h4><p>I explore directions and iterate with you until the design feels unmistakably yours.</p></div>
+      <div class="step reveal"><b>Step 03</b><h4>Build</h4><p>Clean, secure, fast code — with you reviewing real progress, not mockups, along the way.</p></div>
+      <div class="step reveal"><b>Step 04</b><h4>Launch &amp; Care</h4><p>Domain, hosting, SEO and handoff — then ongoing updates whenever you need them.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="overline reveal" style="justify-content:center;display:inline-flex">Let's Talk</span>
+    <h2 class="reveal" style="margin-top:24px">Have a project in mind? <em>Let's build it.</em></h2>
+    <p class="reveal">Whether it's a brand site that launches in days or a full platform with
+    payments and members — tell me what you're imagining and I'll tell you how we get there.</p>
+    <a class="btn reveal" href="mailto:monirosama6@gmail.com">monirosama6@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Osama Monir — Web Development</span>
+    <span>Designed &amp; built by hand, like everything else here.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  // sticky header
+  var hdr=document.getElementById("hdr");
+  var onScroll=function(){hdr.classList.toggle("solid",window.scrollY>40)};
+  window.addEventListener("scroll",onScroll,{passive:true});
+  onScroll();
+
+  // year
+  document.getElementById("yr").textContent=new Date().getFullYear();
+
+  // scroll reveal
+  var els=document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    var seen=0;
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var d=(seen++ % 4)*90;
+          e.target.style.transitionDelay=d+"ms";
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+    els.forEach(function(el){io.observe(el)});
+  }else{
+    els.forEach(function(el){el.classList.add("in")});
+  }
+})();
+</script>
+</body>
+</html>
