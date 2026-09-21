@@ -3,22 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Osama Monir — Content Creator, Designer & Web Developer</title>
-<meta name="description" content="Osama Monir. Content creator, video editor, graphic designer, web developer and voice over artist based in Sohar, Oman. I build brands from scratch and make content that performs.">
+<title>Osama Monir — Business Development, Research & Brand Communications</title>
+<meta name="description" content="Osama Monir. Business development and research consultant with a creative background: feasibility studies, investor presentations, brand identity, graphic design and web development. Based in Sohar, Oman, open to remote work.">
+<meta name="theme-color" content="#FBF7F0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#100E0B;
-    --bg-soft:#16130F;
-    --card:#1B1712;
-    --line:rgba(244,239,230,.10);
-    --ink:#F4EFE6;
-    --ink-dim:#B7AE9F;
-    --ink-faint:#7C7464;
-    --ember:#E89B4B;
-    --ember-deep:#D9722E;
+    --bg:#FBF7F0;
+    --bg-soft:#F3EBDD;
+    --card:#FFFFFF;
+    --line:rgba(28,24,18,.10);
+    --line-strong:rgba(28,24,18,.18);
+    --ink:#1C1812;
+    --ink-dim:#5C5548;
+    --ink-faint:#948B7B;
+    --ember:#E0782A;
+    --ember-deep:#B85413;
+    --ember-soft:rgba(224,120,42,.13);
+    --ember-glow:rgba(240,150,80,.28);
+    --charcoal:#1C1812;
     --display:'Fraunces',Georgia,serif;
     --body:'Hanken Grotesk',-apple-system,sans-serif;
   }
@@ -33,123 +38,172 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  /* grain overlay */
+  ::selection{background:var(--ember);color:#fff}
+  /* paper grain */
   body::before{
     content:"";
     position:fixed;inset:0;z-index:1;pointer-events:none;
-    opacity:.05;mix-blend-mode:overlay;
+    opacity:.06;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  /* warm radial glow */
-  body::after{
-    content:"";position:fixed;top:-30vh;right:-20vw;width:80vw;height:80vw;z-index:0;pointer-events:none;
-    background:radial-gradient(circle, rgba(217,114,46,.16), transparent 60%);
-    filter:blur(20px);
-  }
+  /* warm sunlight wash */
+  body{position:relative}
+  .sky{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .sun{position:absolute;pointer-events:none;border-radius:50%;filter:blur(60px)}
+  .sun-a{top:-22vh;right:-14vw;width:70vw;height:70vw;max-width:900px;max-height:900px;background:radial-gradient(circle, var(--ember-glow), rgba(240,150,80,0) 62%)}
+  .sun-b{top:34vh;left:-26vw;width:56vw;height:56vw;max-width:720px;max-height:720px;background:radial-gradient(circle, rgba(255,214,160,.45), rgba(255,214,160,0) 64%)}
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative;z-index:2}
   a{color:inherit;text-decoration:none}
 
   /* ---------- NAV ---------- */
   nav{position:fixed;top:0;left:0;right:0;z-index:50;
     display:flex;justify-content:space-between;align-items:center;
-    padding:22px 32px;
-    backdrop-filter:blur(8px);
-    background:linear-gradient(to bottom, rgba(16,14,11,.85), transparent);
+    padding:20px 32px;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    background:linear-gradient(to bottom, rgba(251,247,240,.92), rgba(251,247,240,.55));
   }
-  nav .logo{font-family:var(--display);font-size:21px;font-weight:500;letter-spacing:.5px}
+  nav .logo{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:.3px}
   nav .logo span{color:var(--ember)}
-  nav .links{display:flex;gap:30px;font-size:14px;letter-spacing:.04em;color:var(--ink-dim)}
-  nav .links a{transition:color .25s}
-  nav .links a:hover{color:var(--ink)}
-  @media(max-width:720px){nav .links{display:none}}
+  nav .links{display:flex;gap:28px;font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--ink-dim)}
+  nav .links a{transition:color .25s;position:relative;padding-bottom:3px}
+  nav .links a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--ember);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+  nav .links a:hover,nav .links a.active{color:var(--ink)}
+  nav .links a.active::after{transform:scaleX(1)}
+  nav .links a.pill{border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;color:var(--ink)}
+  nav .links a.pill::after{display:none}
+  nav .links a.pill:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  @media(max-width:760px){nav .links{gap:18px;font-size:13px}nav .links a:not(.pill){display:none}}
 
   /* ---------- HERO ---------- */
-  header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 80px;position:relative}
-  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px}
-  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember);animation:pulse 2.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.4rem,11vw,8.2rem);line-height:.92;letter-spacing:-.02em}
+  header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 90px;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 4px var(--ember-soft);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--ember-soft)}50%{box-shadow:0 0 0 9px rgba(224,120,42,.05)}}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,11.5vw,8.6rem);line-height:.9;letter-spacing:-.025em}
   h1 em{font-style:italic;color:var(--ember)}
-  .hero-roles{margin:34px 0 30px;font-size:clamp(1rem,2.4vw,1.35rem);color:var(--ink-dim);font-weight:500}
-  .hero-roles .sep{color:var(--ember-deep);margin:0 12px}
-  .hero-statement{max-width:620px;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink);line-height:1.5}
+  .hero-roles{margin:34px 0 26px;display:flex;flex-wrap:wrap;gap:10px 0;font-size:clamp(.98rem,2.2vw,1.25rem);color:var(--ink-dim);font-weight:500;max-width:820px}
+  .hero-roles .sep{color:var(--ember);margin:0 12px;font-family:var(--display);font-style:italic}
+  .hero-statement{max-width:640px;font-size:clamp(1.05rem,2.2vw,1.28rem);color:var(--ink);line-height:1.55}
+  .hero-statement strong{font-weight:600}
   .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
-  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:100px;font-weight:600;font-size:15px;letter-spacing:.01em;transition:transform .2s, background .25s, color .25s, border-color .25s}
-  .btn-primary{background:var(--ember);color:#1a1208}
-  .btn-primary:hover{transform:translateY(-2px);background:#f2ab5e}
-  .btn-ghost{border:1px solid var(--line);color:var(--ink)}
-  .btn-ghost:hover{border-color:var(--ember);color:var(--ember);transform:translateY(-2px)}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:100px;font-weight:600;font-size:15px;letter-spacing:.01em;transition:transform .2s, background .25s, color .25s, border-color .25s, box-shadow .25s}
+  .btn-primary{background:var(--ink);color:var(--bg);box-shadow:0 8px 24px -10px rgba(28,24,18,.5)}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--ember-deep);box-shadow:0 12px 28px -10px rgba(184,84,19,.55)}
+  .btn-ember{background:var(--ember);color:#fff;box-shadow:0 8px 24px -10px rgba(224,120,42,.7)}
+  .btn-ember:hover{transform:translateY(-2px);background:var(--ember-deep)}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--ink);background:rgba(255,255,255,.4)}
+  .btn-ghost:hover{border-color:var(--ink);background:#fff;transform:translateY(-2px)}
   .btn svg{width:16px;height:16px}
+  .hero-note{margin-top:34px;font-size:.9rem;color:var(--ink-faint);display:flex;align-items:center;gap:10px}
+  .hero-note b{color:var(--ink-dim);font-weight:600}
 
   /* ---------- MARQUEE ---------- */
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0;margin-top:10px}
-  .marquee-track{display:inline-block;animation:scroll 26s linear infinite}
-  .marquee-track span{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--ink-faint);margin:0 28px}
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0;background:rgba(255,255,255,.35);position:relative;z-index:2}
+  .marquee-track{display:inline-block;animation:scroll 30s linear infinite}
+  .marquee-track span{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--ink-dim);margin:0 28px}
   .marquee-track span b{color:var(--ember);font-style:normal;font-weight:400}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   /* ---------- SECTIONS ---------- */
-  section{padding:110px 0;position:relative}
-  .sec-label{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-  .sec-label::before{content:"";width:30px;height:1px;background:var(--ember)}
-  .sec-title{font-family:var(--display);font-weight:400;font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;letter-spacing:-.01em;max-width:760px}
+  section{padding:120px 0;position:relative}
+  .sec-label{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .sec-label::before{content:"";width:30px;height:2px;background:var(--ember);border-radius:2px}
+  .sec-title{font-family:var(--display);font-weight:400;font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.04;letter-spacing:-.015em;max-width:800px}
+  .sec-title em{font-style:italic;color:var(--ember)}
 
   /* about */
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:30px}
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:start;margin-top:30px}
   @media(max-width:780px){.about-grid{grid-template-columns:1fr;gap:34px}}
-  .about-grid p{color:var(--ink-dim);font-size:1.1rem;margin-bottom:20px}
+  .about-grid p{color:var(--ink-dim);font-size:1.08rem;margin-bottom:20px}
   .about-grid p strong{color:var(--ink);font-weight:600}
+  .about-side{display:flex;flex-direction:column;gap:14px;padding-top:8px}
+  .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .pill-tag{font-size:.84rem;font-weight:500;padding:7px 13px;border-radius:100px;background:#fff;border:1px solid var(--line);color:var(--ink-dim)}
+  .pill-tag.hot{background:var(--ember-soft);border-color:transparent;color:var(--ember-deep)}
 
   /* impact strip */
-  .impact{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:40px}
+  .impact{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:56px;box-shadow:0 30px 60px -40px rgba(28,24,18,.25)}
   @media(max-width:780px){.impact{grid-template-columns:repeat(2,1fr)}}
-  .stat{background:var(--bg-soft);padding:34px 26px}
-  .stat .num{font-family:var(--display);font-size:clamp(2.4rem,5vw,3.4rem);color:var(--ember);line-height:1}
-  .stat .lab{margin-top:12px;font-size:.92rem;color:var(--ink-dim);line-height:1.4}
+  .stat{background:#fff;padding:36px 28px;position:relative}
+  .stat .num{font-family:var(--display);font-size:clamp(2.5rem,5vw,3.6rem);color:var(--ember);line-height:1;font-weight:500;letter-spacing:-.02em}
+  .stat .num small{font-size:.5em;color:var(--ink-faint);margin-left:2px;letter-spacing:0}
+  .stat .lab{margin-top:14px;font-size:.92rem;color:var(--ink-dim);line-height:1.45}
 
   /* services */
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}
   @media(max-width:880px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
-  .svc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s, border-color .3s}
-  .svc:hover{transform:translateY(-5px);border-color:rgba(232,155,75,.4)}
-  .svc .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:rgba(232,155,75,.12);margin-bottom:20px}
-  .svc .ic svg{width:21px;height:21px;stroke:var(--ember);fill:none;stroke-width:1.6}
-  .svc h3{font-family:var(--display);font-weight:500;font-size:1.32rem;margin-bottom:10px}
-  .svc p{font-size:.98rem;color:var(--ink-dim);line-height:1.55}
+  .svc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px;transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;position:relative;overflow:hidden}
+  .svc::after{content:"";position:absolute;inset:auto -40px -40px auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--ember-soft),transparent 70%);opacity:0;transition:opacity .4s}
+  .svc:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(28,24,18,.28);border-color:rgba(224,120,42,.35)}
+  .svc:hover::after{opacity:1}
+  .svc .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--ember-soft);margin-bottom:22px}
+  .svc .ic svg{width:22px;height:22px;stroke:var(--ember-deep);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .svc .n{position:absolute;top:26px;right:28px;font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem}
+  .svc h3{font-family:var(--display);font-weight:500;font-size:1.35rem;margin-bottom:10px;line-height:1.15}
+  .svc p{font-size:.97rem;color:var(--ink-dim);line-height:1.55}
+  .svc .tools{margin-top:16px;font-size:.8rem;color:var(--ink-faint);letter-spacing:.02em}
 
   /* work */
-  .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:46px}
-  @media(max-width:780px){.work-grid{grid-template-columns:1fr}}
-  .work{background:linear-gradient(160deg,var(--card),var(--bg-soft));border:1px solid var(--line);border-radius:18px;padding:38px;position:relative;overflow:hidden;transition:border-color .3s}
-  .work:hover{border-color:rgba(232,155,75,.45)}
-  .work .tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);margin-bottom:18px}
-  .work h3{font-family:var(--display);font-weight:500;font-size:1.7rem;line-height:1.1;margin-bottom:14px}
-  .work p{color:var(--ink-dim);font-size:1rem}
-  .work .big{font-family:var(--display);font-size:3rem;color:var(--ember);line-height:1;margin-bottom:6px}
+  .work-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:50px}
+  .work{grid-column:span 2;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:36px;position:relative;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s}
+  .work:hover{transform:translateY(-5px);box-shadow:0 30px 50px -30px rgba(28,24,18,.3);border-color:rgba(224,120,42,.4)}
+  .work.wide{grid-column:span 3}
+  .work.feature{grid-column:span 6;background:var(--charcoal);color:#F6F0E6;border-color:transparent;padding:48px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
+  .work.feature::before{content:"";position:absolute;top:-30%;right:-10%;width:60%;height:160%;background:radial-gradient(circle,rgba(224,120,42,.35),transparent 60%);filter:blur(30px);pointer-events:none}
+  .work.feature .tag{color:#F4A96B}
+  .work.feature h3{font-size:clamp(1.8rem,3.5vw,2.6rem);max-width:640px}
+  .work.feature p{color:rgba(246,240,230,.72)}
+  .work.feature .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;position:relative}
+  .work.feature .fact b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:500;color:#fff;line-height:1.1}
+  .work.feature .fact span{font-size:.82rem;color:rgba(246,240,230,.6);letter-spacing:.02em}
+  .work .tag{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);margin-bottom:18px}
+  .work h3{font-family:var(--display);font-weight:500;font-size:1.6rem;line-height:1.1;margin-bottom:12px}
+  .work p{color:var(--ink-dim);font-size:.98rem;flex:1}
+  .work .big{font-family:var(--display);font-size:3.2rem;color:var(--ember);line-height:1;margin-bottom:8px;font-weight:500;letter-spacing:-.02em}
+  .work .link{margin-top:22px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;color:var(--ember-deep)}
+  .work .link svg{width:15px;height:15px;transition:transform .25s}
+  .work .link:hover svg{transform:translate(2px,-2px)}
+  @media(max-width:900px){.work,.work.wide{grid-column:span 3}.work.feature{grid-template-columns:1fr;padding:38px}}
+  @media(max-width:620px){.work,.work.wide{grid-column:span 6}}
 
   /* experience */
-  .exp{margin-top:40px;border-top:1px solid var(--line)}
-  .exp-row{display:grid;grid-template-columns:130px 1fr auto;gap:24px;padding:26px 4px;border-bottom:1px solid var(--line);align-items:baseline;transition:background .25s,padding-left .25s}
-  .exp-row:hover{background:rgba(232,155,75,.04);padding-left:14px}
-  .exp-row .yr{color:var(--ink-faint);font-size:.9rem;font-variant-numeric:tabular-nums}
-  .exp-row .role{font-family:var(--display);font-size:1.25rem;font-weight:500}
-  .exp-row .co{color:var(--ember);font-size:.95rem;margin-top:3px}
-  .exp-row .place{color:var(--ink-faint);font-size:.85rem;text-align:right}
-  @media(max-width:680px){.exp-row{grid-template-columns:1fr;gap:4px}.exp-row .place,.exp-row .yr{text-align:left}}
+  .exp{margin-top:44px;border-top:1px solid var(--line-strong)}
+  .exp-row{display:grid;grid-template-columns:150px 1fr auto;gap:24px;padding:26px 6px;border-bottom:1px solid var(--line);align-items:start;transition:background .25s,padding-left .25s;border-radius:6px}
+  .exp-row:hover{background:rgba(255,255,255,.7);padding-left:16px}
+  .exp-row .yr{color:var(--ink-faint);font-size:.9rem;font-variant-numeric:tabular-nums;padding-top:5px}
+  .exp-row .role{font-family:var(--display);font-size:1.28rem;font-weight:500;line-height:1.2}
+  .exp-row .co{color:var(--ember-deep);font-size:.95rem;font-weight:500;margin-top:4px}
+  .exp-row .desc{color:var(--ink-dim);font-size:.93rem;margin-top:8px;max-width:640px}
+  .exp-row .place{color:var(--ink-faint);font-size:.85rem;text-align:right;padding-top:6px;white-space:nowrap}
+  .exp-row.now .yr{color:var(--ember-deep);font-weight:600}
+  @media(max-width:680px){.exp-row{grid-template-columns:1fr;gap:4px}.exp-row .place,.exp-row .yr{text-align:left;padding-top:0}}
+  .edu{margin-top:36px;display:flex;flex-wrap:wrap;gap:14px}
+  .edu-card{flex:1 1 260px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;display:flex;gap:16px;align-items:flex-start}
+  .edu-card .ic{width:38px;height:38px;border-radius:10px;background:var(--ember-soft);display:grid;place-items:center;flex-shrink:0}
+  .edu-card .ic svg{width:19px;height:19px;stroke:var(--ember-deep);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .edu-card b{display:block;font-weight:600;font-size:1rem}
+  .edu-card span{color:var(--ink-dim);font-size:.9rem}
 
   /* contact */
-  .contact{text-align:center;padding:120px 0 60px}
-  .contact .sec-label{justify-content:center}
+  .contact-wrap{padding:0 0 40px}
+  .contact{background:var(--charcoal);color:#F6F0E6;border-radius:28px;padding:96px 40px 80px;text-align:center;position:relative;overflow:hidden}
+  .contact::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:80%;height:120%;background:radial-gradient(ellipse,rgba(224,120,42,.4),transparent 60%);filter:blur(40px);pointer-events:none}
+  .contact>*{position:relative}
+  .contact .sec-label{justify-content:center;color:#F4A96B}
   .contact .sec-label::before{display:none}
-  .contact h2{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,7vw,5rem);line-height:1;margin:8px 0 14px}
-  .contact .mail{display:inline-block;font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,4vw,2.2rem);color:var(--ember);margin:20px 0 36px;border-bottom:1px solid transparent;transition:border-color .3s}
-  .contact .mail:hover{border-color:var(--ember)}
-  .contact-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 34px;color:var(--ink-dim);font-size:.98rem;margin-bottom:40px}
+  .contact h2{font-family:var(--display);font-weight:400;font-size:clamp(2.6rem,7vw,5.2rem);line-height:.98;margin:8px 0 14px;letter-spacing:-.02em}
+  .contact h2 em{font-style:italic;color:#F4A96B}
+  .contact .mail{display:inline-block;font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,4vw,2.2rem);color:#fff;margin:20px 0 36px;border-bottom:1px solid rgba(255,255,255,.25);transition:border-color .3s,color .3s}
+  .contact .mail:hover{border-color:#F4A96B;color:#F4A96B}
+  .contact-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 34px;color:rgba(246,240,230,.7);font-size:.96rem;margin-bottom:40px}
   .contact-meta span{display:inline-flex;align-items:center;gap:8px}
-  .contact-meta b{color:var(--ink);font-weight:600}
-  footer{border-top:1px solid var(--line);padding:30px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ink-faint);font-size:.85rem}
-  footer a:hover{color:var(--ember)}
+  .contact-meta b{color:#fff;font-weight:600}
+  .contact .btn-ghost{border-color:rgba(255,255,255,.3);color:#fff;background:transparent}
+  .contact .btn-ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
+  footer{padding:34px 0 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ink-faint);font-size:.85rem}
+  footer a{transition:color .25s}
+  footer a:hover{color:var(--ember-deep)}
 
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
@@ -162,10 +216,12 @@
   .stagger.in>*:nth-child(4){transition-delay:.26s}
   .stagger.in>*:nth-child(5){transition-delay:.33s}
   .stagger.in>*:nth-child(6){transition-delay:.40s}
-  @media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1;transform:none;transition:none}.marquee-track{animation:none}}
+  .stagger.in>*:nth-child(7){transition-delay:.47s}
+  @media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1;transform:none;transition:none}.marquee-track{animation:none}.eyebrow .dot{animation:none}}
 </style>
 </head>
 <body>
+<div class="sky"><div class="sun sun-a"></div><div class="sun sun-b"></div></div>
 
 <nav>
   <a class="logo" href="#top">Osama<span>.</span></a>
@@ -175,6 +231,7 @@
     <a href="#work">Work</a>
     <a href="#experience">Experience</a>
     <a href="#contact">Contact</a>
+    <a class="pill" href="websites/">Web Portfolio</a>
   </div>
 </nav>
 
@@ -185,87 +242,107 @@
     </div>
     <h1 class="reveal in" style="transition-delay:.08s">Osama <em>Monir</em></h1>
     <p class="hero-roles reveal in" style="transition-delay:.16s">
-      Content Creator &amp; Video Editor<span class="sep">/</span>Graphic Designer<span class="sep">/</span>Web Developer<span class="sep">/</span>Voice Over Artist
+      <span>Business Development &amp; Research</span><span class="sep">/</span><span>Brand &amp; Investor Communications</span><span class="sep">/</span><span>Graphic Designer</span><span class="sep">/</span><span>Web Developer</span>
     </p>
     <p class="hero-statement reveal in" style="transition-delay:.24s">
-      I build brands from scratch and make content that actually performs, not content that just looks good. Five plus years across video, design, paid social, and the web.
+      I research the opportunity, write the study, design the deck, and build the website it all points to. <strong>Consultant on retainer</strong> for an Omani holding and venture company, with five plus years of brand, design, paid social and web work underneath.
     </p>
     <div class="cta reveal in" style="transition-delay:.32s">
-      <a class="btn btn-primary" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">
-        View Behance
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      <a class="btn btn-primary" href="#work">
+        See the work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m0 0 5-5m-5 5-5-5"/></svg>
       </a>
       <a class="btn btn-ghost" href="Osama-Monir-CV.pdf" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
         Download CV
       </a>
-      <a class="btn btn-ghost" href="mailto:Monirosama6@gmail.com">Email me</a>
+      <a class="btn btn-ghost" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a>
     </div>
+    <p class="hero-note reveal in" style="transition-delay:.4s"><b>Arabic</b> native &nbsp;·&nbsp; <b>English</b> professional, DET 120 &nbsp;·&nbsp; BSc Computer Science</p>
   </header>
 </div>
 
 <div class="marquee reveal in">
   <div class="marquee-track">
-    <span>Brand Identity</span><span><b>·</b></span><span>Short-Form Video</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>Reels &amp; TikTok</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
-    <span>Brand Identity</span><span><b>·</b></span><span>Short-Form Video</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>Reels &amp; TikTok</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
+    <span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
+    <span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
   </div>
 </div>
 
 <div class="wrap">
-
   <!-- ABOUT -->
   <section id="about">
     <p class="sec-label reveal">About</p>
     <div class="about-grid">
-      <h2 class="sec-title reveal">A creative who can take a brand from blank page to content that ships and performs.</h2>
-      <div class="reveal">
-        <p>I'm a content creator and video editor based in Oman with just over five years of experience. Most of that time I have spent either <strong>building brand identities from the ground up</strong> or producing content that performs, not just content that looks good.</p>
-        <p>I work fast, I work independently, and I am comfortable running several projects at the same time. On top of design and video, I build <strong>websites for clients</strong> in HTML, CSS, and JavaScript, and I do freelance <strong>voice over</strong> in Arabic and English.</p>
-        <p>The combination is what makes me useful: one person who can handle the design, the video, the paid campaign, and the landing page it all points to.</p>
+      <h2 class="sec-title reveal">One person who can do the research, <em>and</em> make it look like it came from a firm.</h2>
+      <div class="reveal about-side">
+        <p>I'm a business development and research consultant with a creative background. On retainer for <strong>RSD</strong>, an Omani holding and venture company, I produce feasibility studies, verified research notes, investor presentations and partnership proposals, and I built the brand and document system that carries them.</p>
+        <p>The same skill set serves industrial clients directly: <strong>partner-facing investment presentations, company profiles and rebrands</strong>. Underneath it sit five plus years in brand identity, graphic design, paid social and web development, plus a Computer Science degree.</p>
+        <p>Based in Sohar, Oman. Arabic native, English professional, and fully open to remote work.</p>
+        <div class="pillrow">
+          <span class="pill-tag hot">Feasibility &amp; market research</span>
+          <span class="pill-tag hot">Investor decks</span>
+          <span class="pill-tag">Brand guidelines</span>
+          <span class="pill-tag">Bilingual AR / EN</span>
+          <span class="pill-tag">NDA &amp; scope drafting</span>
+          <span class="pill-tag">Websites &amp; tools</span>
+        </div>
       </div>
     </div>
     <div class="impact stagger">
-      <div class="stat"><div class="num">14x</div><div class="lab">Instagram monthly views grown in 30 days, 26.1K to 368.2K on a paid campaign</div></div>
-      <div class="stat"><div class="num">35%</div><div class="lab">Drop in cost per click after redesigning a Meta ad campaign</div></div>
-      <div class="stat"><div class="num">2</div><div class="lab">Restaurant brands built and run from scratch across multiple locations</div></div>
-      <div class="stat"><div class="num">5+</div><div class="lab">Years across design, video, paid social, and web</div></div>
+      <div class="stat"><div class="num">14<small>x</small></div><div class="lab">Instagram monthly views grown in 30 days, 26.1K to 368.2K, on a targeted paid campaign</div></div>
+      <div class="stat"><div class="num">35<small>%</small></div><div class="lab">Lower cost per click after redesigning creatives and tightening Meta ad targeting</div></div>
+      <div class="stat"><div class="num">20<small>K</small></div><div class="lab">Patient records migrated from a DOS-era program into a clinic system I built</div></div>
+      <div class="stat"><div class="num">11</div><div class="lab">European buyers identified, profiled and contacted for a gypsum export workstream</div></div>
     </div>
   </section>
 
   <!-- SERVICES -->
   <section id="services">
     <p class="sec-label reveal">What I Do</p>
-    <h2 class="sec-title reveal">Six disciplines, one workflow.</h2>
+    <h2 class="sec-title reveal">Six disciplines, one person, <em>one workflow.</em></h2>
     <div class="svc-grid stagger">
       <div class="svc">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <h3>Video &amp; Editing</h3>
-        <p>Shooting, editing, and producing short-form video for Reels, TikTok, and YouTube Shorts. Premiere Pro and the full Adobe suite, from script to final cut.</p>
+        <span class="n">01</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8 11h6M11 8v6"/></svg></div>
+        <h3>Business Development &amp; Research</h3>
+        <p>Market and feasibility research, source verification, financial and technical document review, partnership proposals, scope-of-work and NDA drafting, counterparty coordination.</p>
+        <p class="tools">Verified research notes · Excel models · Buyer matching</p>
       </div>
       <div class="svc">
+        <span class="n">02</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 12l3-3 3 2 4-4"/></svg></div>
+        <h3>Brand &amp; Investor Communications</h3>
+        <p>Pitch decks, company profiles, investor presentations and speaker notes, brand guidelines and document house styles. Bilingual Arabic and English throughout.</p>
+        <p class="tools">Decks · Profiles · Guidelines · Report pipelines</p>
+      </div>
+      <div class="svc">
+        <span class="n">03</span>
         <div class="ic"><svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><path d="M11 18a6 6 0 0 0 8-8"/></svg></div>
         <h3>Design &amp; Brand Identity</h3>
-        <p>Logos, menus, packaging, and complete visual systems built from scratch and applied consistently across every touchpoint.</p>
+        <p>Logo systems, naming, palettes, type, packaging, menus, social graphics and infographics. Built from scratch and applied consistently across every touchpoint.</p>
+        <p class="tools">Photoshop · Illustrator · Canva</p>
       </div>
       <div class="svc">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 14 3-4 4 3 5-7"/></svg></div>
-        <h3>Paid Social &amp; Strategy</h3>
-        <p>Meta and Google Ads, content strategy, and campaigns judged by the numbers: cost per click, reach, and conversions, not just aesthetics.</p>
-      </div>
-      <div class="svc">
+        <span class="n">04</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="m8 9-3 3 3 3M16 9l3 3-3 3M13 6l-2 12"/></svg></div>
-        <h3>Web Development</h3>
-        <p>Business sites, landing pages, and portfolio sites in HTML, CSS, and JavaScript. Designed, built, and deployed. This page is one of them.</p>
+        <h3>Web &amp; Software</h3>
+        <p>Business websites, landing pages, portfolio sites and desktop tools. Design, code, hosting, domain and deployment handled end to end. This page is one of them.</p>
+        <p class="tools">HTML · CSS · JavaScript · Python · SQLite · Git</p>
       </div>
       <div class="svc">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
-        <h3>Voice Over</h3>
-        <p>Commercial narration in Arabic and English for ads, explainers, and brand video. Native Arabic, professional English.</p>
+        <span class="n">05</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 14 3-4 4 3 5-7"/></svg></div>
+        <h3>Marketing &amp; Paid Social</h3>
+        <p>Social media management, Meta and Google Ads, content strategy and campaign management. Judged by cost per click, reach and reservations, not just aesthetics.</p>
+        <p class="tools">Meta Ads · Google Ads · Instagram · Facebook</p>
       </div>
       <div class="svc">
-        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></svg></div>
-        <h3>Social Media Management</h3>
-        <p>Day-to-day content, posting, and consistency across Instagram, Facebook, and TikTok, keeping the look and tone on brand.</p>
+        <span class="n">06</span>
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Video &amp; AI Content</h3>
+        <p>Short-form editing for Reels and TikTok, commercial reels that blend live footage with generated video, and Arabic and English voice over for narration and ads.</p>
+        <p class="tools">Premiere Pro · Kling · Veo 3 · Seedance · Nano Banana</p>
       </div>
     </div>
   </section>
@@ -273,29 +350,67 @@
   <!-- WORK -->
   <section id="work">
     <p class="sec-label reveal">Selected Work</p>
-    <h2 class="sec-title reveal">A few things I'm proud of.</h2>
+    <h2 class="sec-title reveal">A few things I'm <em>proud of.</em></h2>
     <div class="work-grid stagger">
-      <div class="work">
-        <p class="tag">Brand Build · Restaurant</p>
-        <h3>Rif Majan</h3>
-        <p>Came in with nothing and built the full brand identity and content operation for two restaurant branches: logo, menus, packaging, video, and every social channel.</p>
+      <div class="work feature">
+        <div>
+          <p class="tag">Feasibility Study · RSD · Duqm, Oman</p>
+          <h3>A Level 2 feasibility study for a greenfield urea and ammonia project.</h3>
+          <p>Co-produced the study with investor presentations, a port and logistics note, and a technical response to an external reviewer. Helped coordinate the international investor meeting that followed.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>Level 2</b><span>Feasibility study</span></div>
+          <div class="fact"><b>Investors</b><span>Presentations &amp; meeting</span></div>
+          <div class="fact"><b>Logistics</b><span>Port &amp; shipping note</span></div>
+          <div class="fact"><b>Reviewer</b><span>Technical response</span></div>
+        </div>
       </div>
+
+      <div class="work wide">
+        <p class="tag">Brand Build · Corporate Site</p>
+        <h3>RSD, from the name up</h3>
+        <p>Naming, brand guidelines, a document house style, a research report pipeline, and the company website, designed and built by me. Plus research notes on gas monetisation, industrial minerals, an AI and data hub, and agriculture in southern Oman.</p>
+        <a class="link" href="https://rsd.services" target="_blank" rel="noopener">rsd.services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+
+      <div class="work wide">
+        <p class="tag">Investor Communications · Rebrand</p>
+        <h3>Nusail Trading &amp; Contracting</h3>
+        <p>Partner-facing investment presentation, company profile, speaker notes and a growth roadmap built from a 39-contract register, ahead of a strategic partnership pitch. Now developing the rebrand: logo directions, bilingual lockups, palette, type and mockups.</p>
+      </div>
+
+      <div class="work">
+        <p class="tag">Software · Healthcare</p>
+        <div class="big">20K</div>
+        <h3>Clinic management system</h3>
+        <p>Migrated about 20,000 patients and 40,000 visits from a DOS-era program into a modern desktop app with registration, consultation, prescribing, audit logging and networked printing.</p>
+      </div>
+
       <div class="work">
         <p class="tag">Paid Social · Growth</p>
-        <div class="big">368.2K</div>
+        <div class="big">368K</div>
         <h3>Monthly views in 30 days</h3>
-        <p>Grew a managed Instagram account from 26.1K to 368.2K monthly views in a single month through a targeted paid campaign. A 14x jump.</p>
+        <p>Grew a managed Instagram account from 26.1K to 368.2K monthly views in a single month through a targeted paid campaign. A 14x jump for Rif Majan.</p>
       </div>
+
       <div class="work">
         <p class="tag">Meta Ads · Performance</p>
         <div class="big">-35%</div>
         <h3>Cost per click</h3>
-        <p>Redesigned the creatives and tightened audience targeting to a 15km radius, bringing cost per click down 35% while beating the reservation target on a smaller budget.</p>
+        <p>Redesigned the creatives and tightened targeting to a 15km radius, bringing cost per click down 35% while beating the reservation target on a smaller budget.</p>
       </div>
-      <div class="work">
-        <p class="tag">Freelance · Web</p>
+
+      <div class="work wide">
+        <p class="tag">Agency · Brand &amp; Content</p>
+        <h3>Al-Muneer Agency</h3>
+        <p>My own boutique digital marketing agency. Built its brand and portfolio site, then client identities and content for Hungr Station and Al Saaj Breakfast, plus AI-enhanced commercial reels for a date gelato brand and a luxury real estate project.</p>
+      </div>
+
+      <div class="work wide">
+        <p class="tag">Web Development · Case Studies</p>
         <h3>Client websites</h3>
-        <p>Business sites, landing pages, and portfolio sites built and deployed for clients in HTML, CSS, and JavaScript. Full visuals and case studies live on Behance.</p>
+        <p>A full publishing platform with payments and a members' library, and a corporate identity site. Design, code, hosting, domain and SEO handled end to end. Full case studies on the web portfolio page.</p>
+        <a class="link" href="websites/">View web portfolio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0-5-5m5 5-5 5"/></svg></a>
       </div>
     </div>
   </section>
@@ -303,52 +418,113 @@
   <!-- EXPERIENCE -->
   <section id="experience">
     <p class="sec-label reveal">Experience</p>
-    <h2 class="sec-title reveal">Where I have done the work.</h2>
+    <h2 class="sec-title reveal">Where I have done <em>the work.</em></h2>
     <div class="exp reveal">
-      <div class="exp-row">
-        <div class="yr">2024 — Now</div>
-        <div><div class="role">Head of Advertising &amp; Marketing</div><div class="co">Rif Majan</div></div>
+      <div class="exp-row now">
+        <div class="yr">2026 — Now</div>
+        <div>
+          <div class="role">Business Development &amp; Research Consultant</div>
+          <div class="co">RSD</div>
+          <div class="desc">Part-time retainer for an Omani holding and venture company active in mining, investment and industrial technology. Business development, research and analysis, branding and communications.</div>
+        </div>
+        <div class="place">Oman / Remote</div>
+      </div>
+      <div class="exp-row now">
+        <div class="yr">2026 — Now</div>
+        <div>
+          <div class="role">Founder &amp; Creative Lead</div>
+          <div class="co">Al-Muneer Agency</div>
+          <div class="desc">Boutique digital marketing agency for food and beverage, hospitality and real estate clients in Oman, with web design work reaching Germany.</div>
+        </div>
         <div class="place">Sohar, Oman</div>
       </div>
       <div class="exp-row">
+        <div class="yr">2026</div>
+        <div>
+          <div class="role">Brand &amp; Investor Communications</div>
+          <div class="co">Nusail Trading &amp; Contracting · Freelance</div>
+          <div class="desc">Investment presentation, company profile and growth roadmap for a Sohar industrial waste management and logistics contractor serving OQ and Sohar Aluminium. Rebrand in progress.</div>
+        </div>
+        <div class="place">Sohar, Oman</div>
+      </div>
+      <div class="exp-row now">
         <div class="yr">2022 — Now</div>
-        <div><div class="role">Web Developer &amp; Designer</div><div class="co">Freelance</div></div>
+        <div>
+          <div class="role">Web Developer &amp; Designer</div>
+          <div class="co">Freelance</div>
+          <div class="desc">Business websites, landing pages, portfolio sites and small software tools, handling design, code and deployment end to end.</div>
+        </div>
         <div class="place">Remote</div>
       </div>
       <div class="exp-row">
+        <div class="yr">2024 — 2026</div>
+        <div>
+          <div class="role">Head of Advertising &amp; Marketing</div>
+          <div class="co">Rif Majan</div>
+          <div class="desc">In-house creative lead for two restaurant branches. Built the full brand identity and content operation from nothing: logo, menus, packaging, video, social and paid campaigns.</div>
+        </div>
+        <div class="place">Sohar, Oman</div>
+      </div>
+      <div class="exp-row">
         <div class="yr">2023 — 2024</div>
-        <div><div class="role">Marketing Manager</div><div class="co">Roaya Optical Center</div></div>
+        <div>
+          <div class="role">Marketing Manager</div>
+          <div class="co">Roaya Optical Center</div>
+          <div class="desc">Promotional materials, visual assets, events and outreach campaigns across multiple locations.</div>
+        </div>
         <div class="place">Egypt</div>
       </div>
       <div class="exp-row">
         <div class="yr">2021 — 2023</div>
-        <div><div class="role">Social Media Specialist &amp; Content Creator</div><div class="co">ECHO Media Production Agency</div></div>
+        <div>
+          <div class="role">Social Media Specialist &amp; Content Creator</div>
+          <div class="co">ECHO Media Production Agency</div>
+          <div class="desc">Projects from brief to delivery: scriptwriting, pre-production, shooting and editing across several client accounts.</div>
+        </div>
         <div class="place">Egypt</div>
       </div>
       <div class="exp-row">
         <div class="yr">2019</div>
-        <div><div class="role">Digital Marketing Assistant</div><div class="co">Arrow for Advertising</div></div>
+        <div>
+          <div class="role">Digital Marketing Assistant</div>
+          <div class="co">Arrow for Advertising</div>
+          <div class="desc">Digital campaigns across social media and paid platforms, plus account management support.</div>
+        </div>
         <div class="place">Egypt</div>
       </div>
     </div>
+    <div class="edu stagger">
+      <div class="edu-card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="m3 9 9-5 9 5-9 5-9-5z"/><path d="M7 11.5V17c0 1 2.5 2.5 5 2.5s5-1.5 5-2.5v-5.5M21 9v6"/></svg></div>
+        <div><b>BSc Computer Science</b><span>M.E.T Academy, Egypt · 2022</span></div>
+      </div>
+      <div class="edu-card">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></svg></div>
+        <div><b>Duolingo English Test, score 120</b><span>Arabic native · English professional</span></div>
+      </div>
+      <div class="edu-card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <div><b>Voice Over, Arabic &amp; English</b><span>Narration, commercial scripts, creative content</span></div>
+      </div>
+    </div>
   </section>
-
 </div>
 
 <!-- CONTACT -->
-<div class="wrap">
-  <section class="contact" id="contact">
-    <p class="sec-label reveal">Contact</p>
-    <h2 class="reveal">Let's make something.</h2>
-    <a class="mail reveal" href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a>
-    <div class="contact-meta reveal">
+<div class="wrap contact-wrap">
+  <section class="contact reveal" id="contact">
+    <p class="sec-label">Contact</p>
+    <h2>Let's make <em>something.</em></h2>
+    <a class="mail" href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a>
+    <div class="contact-meta">
       <span><b>Phone</b> +968 79384026</span>
       <span><b>Location</b> Sohar, Oman</span>
-      <span><b>Languages</b> Arabic (native), English (DET 120)</span>
+      <span><b>Remote</b> Worldwide</span>
     </div>
-    <div class="cta reveal" style="justify-content:center">
-      <a class="btn btn-primary" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">View Behance</a>
+    <div class="cta" style="justify-content:center">
+      <a class="btn btn-ember" href="mailto:Monirosama6@gmail.com">Email me</a>
       <a class="btn btn-ghost" href="Osama-Monir-CV.pdf" download>Download CV</a>
+      <a class="btn btn-ghost" href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a>
     </div>
   </section>
 </div>
@@ -356,27 +532,22 @@
 <div class="wrap">
   <footer>
     <span>© 2026 Osama Monir. Built by hand in HTML, CSS &amp; JavaScript.</span>
-    <span><a href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a> &nbsp;·&nbsp; <a href="mailto:Monirosama6@gmail.com">Email</a></span>
+    <span><a href="websites/">Web Portfolio</a> &nbsp;·&nbsp; <a href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a> &nbsp;·&nbsp; <a href="mailto:Monirosama6@gmail.com">Email</a></span>
   </footer>
 </div>
 
 <script>
   const io=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal:not(.in), .stagger').forEach(el=>io.observe(el));
-
   // active nav link
-  const navLinks=[...document.querySelectorAll('nav .links a')];
+  const navLinks=[...document.querySelectorAll('nav .links a[href^="#"]')];
   const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
   window.addEventListener('scroll',()=>{
-    const y=window.scrollY+120;
-    sections.forEach((s,i)=>{
-      if(s&&s.offsetTop<=y&&s.offsetTop+s.offsetHeight>y){
-        navLinks.forEach(l=>l.style.color='');
-        navLinks[i].style.color='var(--ink)';
-      }
-    });
+    let current=-1;
+    sections.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<=140)current=i;});
+    navLinks.forEach((l,i)=>l.classList.toggle('active',i===current));
   },{passive:true});
 </script>
 </body>
