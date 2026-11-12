@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osama Monir — Video &amp; AI Ad Portfolio</title>
+<meta name="description" content="Short-form video ads and an AI video workflow: spec ads for skincare, wellness, café and app brands, plus a 3D product promo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14120d;
+    --ink-2:#1b1812;
+    --ink-3:#242019;
+    --bone:#efe9dc;
+    --bone-dim:#b5ad9c;
+    --gold:#c9a35c;
+    --gold-soft:rgba(201,163,92,.14);
+    --rust:#b4552d;
+    --line:rgba(239,233,220,.12);
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Archivo",Helvetica,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--gold);color:var(--ink)}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    border-bottom:1px solid transparent;
+    transition:background .35s,border-color .35s;
+  }
+  header.solid{background:rgba(20,18,13,.92);border-color:var(--line);backdrop-filter:blur(10px)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .mark{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.02em;color:var(--bone);text-decoration:none}
+  .mark span{color:var(--gold)}
+  nav a.lnk{
+    color:var(--bone-dim);text-decoration:none;font-size:13px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;margin-left:28px;transition:color .25s;
+  }
+  nav a.lnk:hover{color:var(--gold)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:clamp(140px,20vh,220px) 0 clamp(60px,8vh,90px)}
+  .hero::after{
+    content:"";position:absolute;top:-30%;right:-15%;width:60vw;height:60vw;
+    background:radial-gradient(circle,rgba(201,163,92,.10),transparent 60%);
+    pointer-events:none;
+  }
+  .overline{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+  }
+  .overline::before{content:"";width:34px;height:1px;background:var(--gold)}
+  h1{
+    font-family:var(--serif);font-weight:300;
+    font-size:clamp(42px,7.4vw,92px);
+    line-height:1.04;letter-spacing:-.01em;
+    margin:26px 0 30px;max-width:16ch;
+  }
+  h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+  .lede{max-width:52ch;color:var(--bone-dim);font-size:clamp(16px,1.6vw,19px)}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:clamp(48px,7vh,72px);
+  }
+  .stat{padding:26px 18px 26px 0}
+  .stat+.stat{border-left:1px solid var(--line);padding-left:26px}
+  .stat b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(28px,3.4vw,44px);color:var(--bone);line-height:1.1}
+  .stat span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
+
+  /* ---------- ticker ---------- */
+  .ticker{border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;white-space:nowrap}
+  .ticker-track{display:inline-block;animation:tick 34s linear infinite}
+  .ticker span{
+    font-family:var(--serif);font-style:italic;font-size:17px;color:var(--bone-dim);margin:0 14px;
+  }
+  .ticker i{color:var(--gold);font-style:normal}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- sections ---------- */
+  section{padding:clamp(72px,11vh,130px) 0}
+  .sec-head{display:flex;align-items:baseline;gap:22px;margin-bottom:clamp(36px,6vh,64px)}
+  .sec-num{
+    font-family:var(--serif);font-size:clamp(52px,7vw,96px);font-weight:300;
+    color:transparent;-webkit-text-stroke:1px var(--gold);line-height:1;
+  }
+  .sec-title h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,48px);line-height:1.1}
+  .sec-title p{color:var(--gold);font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-top:8px}
+
+  .case{border-top:1px solid var(--line)}
+  .brief{
+    display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,5vw,70px);
+    margin-bottom:clamp(44px,7vh,70px);
+  }
+  .brief h3{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+  .brief p{color:var(--bone-dim)}
+  .brief p strong{color:var(--bone);font-weight:600}
+  .meta{list-style:none;margin-top:22px}
+  .meta li{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;
+  }
+  .meta li span:first-child{color:var(--bone-dim)}
+  .meta li span:last-child{color:var(--bone);font-weight:600;text-align:right}
+  .meta a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-soft)}
+  .meta a:hover{border-color:var(--gold)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+  .cell{
+    background:var(--ink-2);padding:28px 26px;position:relative;overflow:hidden;
+    transition:background .3s;
+  }
+  .cell:hover{background:var(--ink-3)}
+  .cell::after{
+    content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);
+    transition:width .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .cell:hover::after{width:100%}
+  .cell h4{font-family:var(--serif);font-weight:600;font-size:19px;margin-bottom:10px}
+  .cell p{font-size:14px;color:var(--bone-dim);line-height:1.65}
+  .cell .glyph{font-size:20px;color:var(--gold);display:block;margin-bottom:14px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(36px,5vh,54px)}
+  .chips h5{width:100%;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .chip{
+    font-size:13px;font-weight:500;color:var(--bone);
+    border:1px solid var(--line);border-radius:100px;padding:7px 16px;
+    background:var(--ink-2);
+  }
+  .chip.hot{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+
+  .callouts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:clamp(36px,5vh,54px)}
+  .callout{
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    padding:26px 28px;background:var(--ink-2);
+  }
+  .callout h4{font-family:var(--serif);font-style:italic;font-weight:400;font-size:21px;color:var(--gold);margin-bottom:10px}
+  .callout p{font-size:14.5px;color:var(--bone-dim)}
+
+  .check{list-style:none;columns:2;column-gap:44px;margin-top:clamp(30px,4vh,44px)}
+  .check li{
+    break-inside:avoid;display:flex;gap:12px;align-items:flex-start;
+    padding:11px 0;border-bottom:1px dashed var(--line);font-size:15px;color:var(--bone-dim);
+  }
+  .check li::before{content:"✓";color:var(--gold);font-weight:700;flex:0 0 auto}
+  .check li strong{color:var(--bone);font-weight:600}
+
+  /* ---------- capabilities ---------- */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .cap{background:var(--ink-2);padding:34px 30px;transition:background .3s}
+  .cap:hover{background:var(--ink-3)}
+  .cap b{font-family:var(--serif);font-size:15px;color:var(--gold);display:block;margin-bottom:16px}
+  .cap h4{font-family:var(--serif);font-weight:600;font-size:21px;margin-bottom:12px}
+  .cap p{font-size:14px;color:var(--bone-dim)}
+
+  /* ---------- process ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,34px)}
+  .step{border-top:2px solid var(--gold);padding-top:20px}
+  .step b{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);font-size:16px}
+  .step h4{font-family:var(--serif);font-weight:600;font-size:20px;margin:8px 0 10px}
+  .step p{font-size:14px;color:var(--bone-dim)}
+
+  /* ---------- contact ---------- */
+  .contact{border-top:1px solid var(--line);text-align:center;position:relative}
+  .contact::before{
+    content:"";position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);
+    width:70vw;height:50vh;background:radial-gradient(ellipse,rgba(201,163,92,.09),transparent 65%);
+    pointer-events:none;
+  }
+  .contact h2{
+    font-family:var(--serif);font-weight:300;font-size:clamp(36px,6vw,72px);
+    line-height:1.08;max-width:18ch;margin:0 auto 22px;
+  }
+  .contact h2 em{font-style:italic;color:var(--gold)}
+  .contact p{color:var(--bone-dim);max-width:46ch;margin:0 auto 40px}
+  .btn{
+    display:inline-block;font-family:var(--sans);font-weight:600;font-size:14px;
+    letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
+    color:var(--ink);background:var(--gold);padding:18px 42px;border-radius:100px;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,163,92,.28)}
+  .contact .alt{display:block;margin-top:22px;font-size:14px;color:var(--bone-dim)}
+  .contact .alt a{color:var(--gold);text-decoration:none}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--bone-dim)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .ticker-track{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    .stats{grid-template-columns:1fr 1fr}
+    .stat{padding:22px 14px 22px 0}
+    .stat:nth-child(3){border-left:none;padding-left:0}
+    .stat:nth-child(odd){border-left:none;padding-left:0}
+    .stat:nth-child(even){border-left:1px solid var(--line);padding-left:22px}
+    .stat:nth-child(n+3){border-top:1px solid var(--line)}
+    .brief{grid-template-columns:1fr}
+    .callouts{grid-template-columns:1fr}
+    .caps{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .check{columns:1}
+    nav a.lnk{margin-left:16px;font-size:12px}
+  }
+  @media (max-width:520px){
+    .steps{grid-template-columns:1fr}
+    nav a.lnk:first-child{display:none}
+  }
+</style>
+<style>
+  .reel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px;margin-top:40px}
+  .reel{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .reel video{width:100%;aspect-ratio:9/16;background:#000;display:block;object-fit:cover}
+  .reel.wide video{aspect-ratio:16/9}
+  .reel .meta{padding:18px 18px 22px}
+  .reel h3{font-family:var(--serif);font-weight:600;font-size:22px;margin-bottom:6px}
+  .reel .kind{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+  .reel p{color:var(--bone-dim);font-size:14px;margin-top:10px}
+  .reel .tools{font-size:12.5px;color:var(--bone);margin-top:10px;opacity:.85}
+  .note{color:var(--bone-dim);font-size:14px;margin-top:28px;max-width:70ch}
+  .wide-row{margin-top:28px}
+  @media (max-width:600px){nav a.lnk{margin-left:14px}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="mark" href="../">Osama<span>&nbsp;Monir</span></a>
+    <nav>
+      <a class="lnk" href="#ads">Ads</a>
+      <a class="lnk" href="#promo">Promo</a>
+      <a class="lnk" href="../#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <span class="overline reveal">Video &amp; AI Ad Portfolio</span>
+    <h1 class="reveal">Short ads that <em>hook fast.</em></h1>
+    <p class="lede reveal">Vertical ads for Instagram, TikTok and Meta: hooks in the first two seconds,
+    captions timed to the voice, and a clear end card. I build the edits in code with an AI workflow
+    (Claude Code and HyperFrames), with AI voiceover, so variations are quick to make and test.
+    The four ads below are spec ads for made-up brands, made to show the craft.</p>
+  </div>
+</div>
+
+<section id="ads">
+  <div class="wrap">
+    <span class="overline">Spec ads · 9:16</span>
+    <div class="reel-grid">
+      <div class="reel">
+        <video src="qahwa-date.mp4" poster="qahwa-date.jpg" controls playsinline preload="none"></video>
+        <div class="meta"><span class="kind">Café · food ASMR</span><h3>QAHWA &amp; DATE</h3>
+        <p>A date-caramel iced latte for a Sohar café. The hook is visual (dates falling, then caramel), with one voice line at the end.</p><p class="tools">Concept, cut, captions and end card by me · AI voiceover · Claude Code + HyperFrames</p></div>
+      </div>
+      <div class="reel">
+        <video src="aurea.mp4" poster="aurea.jpg" controls playsinline preload="none"></video>
+        <div class="meta"><span class="kind">Skincare · DTC</span><h3>AUREA Glow Serum</h3>
+        <p>A calm morning-routine ad for a vitamin C serum, built around a 30-second promise.</p><p class="tools">Script, cut, captions and end card by me · AI voiceover · Claude Code + HyperFrames</p></div>
+      </div>
+      <div class="reel">
+        <video src="hush.mp4" poster="hush.jpg" controls playsinline preload="none"></video>
+        <div class="meta"><span class="kind">Wellness · supplements</span><h3>HUSH Night Gummies</h3>
+        <p>The 3am problem hook, then a wind-down ritual. Compliant copy with no sleep claims.</p><p class="tools">Script, cut, captions and end card by me · AI voiceover · Claude Code + HyperFrames</p></div>
+      </div>
+      <div class="reel">
+        <video src="splitt.mp4" poster="splitt.jpg" controls playsinline preload="none"></video>
+        <div class="meta"><span class="kind">App install · UGC skit</span><h3>SPLITT</h3>
+        <p>A flatmate skit as the hook, then an animated app demo I built in code, then the payoff.</p><p class="tools">Script, cut, app UI animation and end card by me · AI voiceover · Claude Code + HyperFrames</p></div>
+      </div>
+    </div>
+    <p class="note">Spec ads: the brands are fictional and these ads ran for no client. The footage is free Pexels stock,
+    the music is CC0 and the voiceover is AI text-to-speech. I wrote the concept, scripts, cut, captions, motion graphics and end cards.</p>
+  </div>
+</section>
+
+<section id="promo" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <span class="overline">Client work · 16:9</span>
+    <div class="reel-grid wide-row" style="grid-template-columns:1fr">
+      <div class="reel wide">
+        <video src="nusail-hub-promo.mp4" poster="nusail-hub-promo.jpg" controls playsinline preload="none"></video>
+        <div class="meta">
+          <span class="kind">3D product promo · Nusail Trading &amp; Contracting</span>
+          <h3>Nusail Hub: the operations briefing</h3>
+          <p>A 2-minute pitch to management for the company's new document app. It uses real screen recordings, and the brand's mark is animated in 3D as the through-line.</p>
+          <p class="tools">Brief, storyboard, 3D motion and edit by me, built with Claude Code and HyperFrames (Three.js).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; Osama Monir</span>
+    <span><a href="../">Home</a> &nbsp;·&nbsp; <a href="../websites/">Web Portfolio</a> &nbsp;·&nbsp; <a href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Behance</a> &nbsp;·&nbsp; <a href="mailto:Monirosama6@gmail.com">Email</a></span>
+  </div>
+</footer>
+<script>
+(function(){
+  var hdr=document.getElementById("hdr");
+  var onScroll=function(){hdr.classList.toggle("solid",window.scrollY>40)};
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+  var els=document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
+    els.forEach(function(el){io.observe(el)});
+  }else{els.forEach(function(el){el.classList.add("in")})}
+})();
+</script>
+</body>
+</html>
