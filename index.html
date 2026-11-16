@@ -6,6 +6,13 @@
 <title>Osama Monir | Business Development, Research and Brand Communications</title>
 <meta name="description" content="Osama Monir. I do business development and research for an Omani venture company, and I design and build the brand, decks and websites that go with it. Based in Sohar, Oman. Happy to work remotely.">
 <meta name="theme-color" content="#FBF7F0">
+<link rel="canonical" href="https://dmov1403.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1812'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23E0782A'%3EO%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dmov1403.github.io/">
+<meta property="og:title" content="Osama Monir | Business Development, Research and Brand Communications">
+<meta property="og:description" content="Osama Monir. I do business development and research for an Omani venture company, and I design and build the brand, decks and websites that go with it. Based in Sohar, Oman. Happy to work remotely.">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +25,7 @@
     --line-strong:rgba(28,24,18,.18);
     --ink:#1C1812;
     --ink-dim:#5C5548;
-    --ink-faint:#948B7B;
+    --ink-faint:#766E60;
     --ember:#E0782A;
     --ember-deep:#B85413;
     --ember-soft:rgba(224,120,42,.13);
@@ -33,7 +40,7 @@
     background:var(--bg);
     color:var(--ink);
     font-family:var(--body);
-    font-size:18px;
+    font-size:1.125rem;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
@@ -62,35 +69,44 @@
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     background:linear-gradient(to bottom, rgba(251,247,240,.92), rgba(251,247,240,.55));
   }
-  nav .logo{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:.3px}
+  nav .logo{font-family:var(--display);font-size:1.375rem;font-weight:500;letter-spacing:.3px}
   nav .logo span{color:var(--ember)}
-  nav .links{display:flex;gap:28px;font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--ink-dim)}
+  nav .links{display:flex;gap:28px;font-size:.875rem;font-weight:500;letter-spacing:.03em;color:var(--ink-dim);list-style:none;scroll-target-group:auto}
   nav .links a{transition:color .25s;position:relative;padding-bottom:3px}
   nav .links a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--ember);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
-  nav .links a:hover,nav .links a.active{color:var(--ink)}
-  nav .links a.active::after{transform:scaleX(1)}
+  nav .links a:is(:hover,[aria-current="true"],:target-current){color:var(--ink)}
+  nav .links a:is([aria-current="true"],:target-current)::after{transform:scaleX(1)}
   nav .links a.pill{border:1px solid var(--line-strong);border-radius:100px;padding:7px 14px;color:var(--ink)}
   nav .links a.pill::after{display:none}
   nav .links a.pill:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-  @media(max-width:760px){nav .links{gap:18px;font-size:13px}nav .links a:not(.pill){display:none}}
+  /* narrow: the same list becomes a popover opened by the Menu button (JS removes popover + adds .is-wide when wide) */
+  .menu-btn{font:inherit;font-size:.8125rem;font-weight:500;letter-spacing:.03em;color:var(--ink);background:transparent;border:1px solid var(--line-strong);border-radius:100px;padding:7px 16px;cursor:pointer;anchor-name:--menu-btn;transition:background .25s,color .25s,border-color .25s}
+  .menu-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  nav.is-wide .menu-btn{display:none}
+  nav .links[popover]{position:fixed;inset:auto;inset-block-start:4.25rem;inset-block-start:anchor(--menu-btn bottom);inset-inline-end:1rem;margin:0;margin-block-start:.5rem;flex-direction:column;align-items:stretch;gap:2px;inline-size:min(80dvw,16rem);max-block-size:calc(100dvh - 6rem);overflow:auto;padding:10px;font-size:.9375rem;color:var(--ink-dim);background:var(--bg);border:1px solid var(--line-strong);border-radius:16px;box-shadow:0 24px 48px -24px rgba(28,24,18,.35)}
+  nav .links[popover]:not(:is(:popover-open,.\:popover-open)){display:none}
+  nav .links[popover] a{display:block;padding:10px 14px;border-radius:10px}
+  nav .links[popover] a::after{display:none}
+  nav .links[popover] a[aria-current="true"]{background:var(--ember-soft);color:var(--ink)}
+  nav .links[popover] a.pill{margin-top:6px;text-align:center}
 
   /* ---------- HERO ---------- */
   header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 90px;position:relative}
-  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.8125rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:34px}
   .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 4px var(--ember-soft);animation:pulse 2.4s infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--ember-soft)}50%{box-shadow:0 0 0 9px rgba(224,120,42,.05)}}
-  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,11.5vw,8.6rem);line-height:.9;letter-spacing:-.025em}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,11.5vw,8.6rem);font-size-adjust:from-font;line-height:.9;letter-spacing:-.025em}
   h1 em{font-style:italic;color:var(--ember)}
   .hero-roles{margin:34px 0 26px;display:flex;flex-wrap:wrap;gap:10px 0;font-size:clamp(.98rem,2.2vw,1.25rem);color:var(--ink-dim);font-weight:500;max-width:820px}
   .hero-roles .sep{color:var(--ember);margin:0 12px;font-family:var(--display);font-style:italic}
   .hero-statement{max-width:640px;font-size:clamp(1.05rem,2.2vw,1.28rem);color:var(--ink);line-height:1.55}
   .hero-statement strong{font-weight:600}
   .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
-  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:100px;font-weight:600;font-size:15px;letter-spacing:.01em;transition:transform .2s, background .25s, color .25s, border-color .25s, box-shadow .25s}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:100px;font-weight:600;font-size:.9375rem;letter-spacing:.01em;transition:transform .2s, background .25s, color .25s, border-color .25s, box-shadow .25s}
   .btn-primary{background:var(--ink);color:var(--bg);box-shadow:0 8px 24px -10px rgba(28,24,18,.5)}
   .btn-primary:hover{transform:translateY(-2px);background:var(--ember-deep);box-shadow:0 12px 28px -10px rgba(184,84,19,.55)}
-  .btn-ember{background:var(--ember);color:#fff;box-shadow:0 8px 24px -10px rgba(224,120,42,.7)}
-  .btn-ember:hover{transform:translateY(-2px);background:var(--ember-deep)}
+  .btn-ember{background:var(--ember-deep);color:#fff;box-shadow:0 8px 24px -10px rgba(224,120,42,.7)}
+  .btn-ember:hover{transform:translateY(-2px);background:#9A4510}
   .btn-ghost{border:1px solid var(--line-strong);color:var(--ink);background:rgba(255,255,255,.4)}
   .btn-ghost:hover{border-color:var(--ink);background:#fff;transform:translateY(-2px)}
   .btn svg{width:16px;height:16px}
@@ -100,13 +116,16 @@
   /* ---------- MARQUEE ---------- */
   .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0;background:rgba(255,255,255,.35);position:relative;z-index:2}
   .marquee-track{display:inline-block;animation:scroll 30s linear infinite}
-  .marquee-track span{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--ink-dim);margin:0 28px}
-  .marquee-track span b{color:var(--ember);font-style:normal;font-weight:400}
+  .marquee-set span{font-family:var(--display);font-style:italic;font-size:1.5rem;color:var(--ink-dim);margin:0 28px}
+  .marquee-set span b{color:var(--ember);font-style:normal;font-weight:400}
+  .marquee.paused .marquee-track{animation-play-state:paused}
+  .marquee-toggle{position:absolute;right:12px;top:50%;translate:0 -50%;z-index:1;font:inherit;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:100px;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink-dim);cursor:pointer}
+  .marquee-toggle:hover{color:var(--ink);border-color:var(--ink)}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   /* ---------- SECTIONS ---------- */
   section{padding:120px 0;position:relative}
-  .sec-label{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .sec-label{font-size:.8125rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ember-deep);margin-bottom:20px;display:flex;align-items:center;gap:12px}
   .sec-label::before{content:"";width:30px;height:2px;background:var(--ember);border-radius:2px}
   .sec-title{font-family:var(--display);font-weight:400;font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.04;letter-spacing:-.015em;max-width:800px}
   .sec-title em{font-style:italic;color:var(--ember)}
@@ -119,7 +138,7 @@
   .about-side{display:flex;flex-direction:column;gap:14px;padding-top:8px}
   .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .pill-tag{font-size:.84rem;font-weight:500;padding:7px 13px;border-radius:100px;background:#fff;border:1px solid var(--line);color:var(--ink-dim)}
-  .pill-tag.hot{background:var(--ember-soft);border-color:transparent;color:var(--ember-deep)}
+  .pill-tag.hot{background:var(--ember-soft);border-color:transparent;color:#A34A10}
 
   /* impact strip */
   .impact{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:56px;box-shadow:0 30px 60px -40px rgba(28,24,18,.25)}
@@ -158,7 +177,7 @@
   .work.feature .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;position:relative}
   .work.feature .fact b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:500;color:#fff;line-height:1.1}
   .work.feature .fact span{font-size:.82rem;color:rgba(246,240,230,.6);letter-spacing:.02em}
-  .work .tag{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);margin-bottom:18px}
+  .work .tag{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ember-deep);margin-bottom:18px}
   .work h3{font-family:var(--display);font-weight:500;font-size:1.6rem;line-height:1.1;margin-bottom:12px}
   .work p{color:var(--ink-dim);font-size:.98rem;flex:1}
   .work .big{font-family:var(--display);font-size:3.2rem;color:var(--ember);line-height:1;margin-bottom:8px;font-weight:500;letter-spacing:-.02em}
@@ -209,28 +228,47 @@
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
-  .stagger>*{opacity:0;transform:translateY(24px)}
-  .stagger.in>*{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
-  .stagger.in>*{--stagger-step:.07s;transition-delay:calc(min(var(--sibling-index,1),7) * var(--stagger-step) - .02s);transition-delay:calc(min(sibling-index(),7) * var(--stagger-step) - .02s)}
-  @media(prefers-reduced-motion:reduce){.reveal,.stagger>*{opacity:1;transform:none;transition:none}.marquee-track{animation:none}.eyebrow .dot{animation:none}}
+  /* entrance uses the individual `translate` property + a one-shot animation, so card hover
+     transitions (on `transform`) never inherit the stagger delay */
+  .stagger>*{opacity:0;translate:0 24px}
+  .stagger.in>*{opacity:1;translate:none}
+  @media(prefers-reduced-motion:no-preference){
+    .stagger.in>*{--stagger-step:.07s;animation:stagger-in .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(min(var(--sibling-index,1),7) * var(--stagger-step) - .02s);animation-delay:calc(min(sibling-index(),7) * var(--stagger-step) - .02s)}
+  }
+  @keyframes stagger-in{from{opacity:0;translate:0 24px}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.stagger>*{opacity:1;transform:none;translate:none;transition:none}.marquee-track{animation:none}.marquee-toggle{display:none}.eyebrow .dot{animation:none}}
 </style>
 </head>
 <body>
 <div class="sky"><div class="sun sun-a"></div><div class="sun sun-b"></div></div>
 
-<nav>
+<nav aria-label="Primary">
   <a class="logo" href="#top">Osama<span>.</span></a>
-  <div class="links">
-    <a href="#about">About</a>
-    <a href="#services">What I Do</a>
-    <a href="#work">Work</a>
-    <a href="#experience">Experience</a>
-    <a href="#contact">Contact</a>
-    <a class="pill" href="video/">Video Ads</a>
-    <a class="pill" href="websites/">Web Portfolio</a>
-  </div>
+  <button class="menu-btn" type="button" popovertarget="site-menu" aria-controls="site-menu">Menu</button>
+  <ul class="links" id="site-menu" popover="auto">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">What I Do</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a class="pill" href="video/">Video Ads</a></li>
+    <li><a class="pill" href="websites/">Web Portfolio</a></li>
+  </ul>
 </nav>
+<script>
+  // Popover is Baseline "newly available": load the polyfill only where it is missing.
+  if(!Object.hasOwn(HTMLElement.prototype,'popover')){const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@oddbird/popover-polyfill@0.7.3/dist/popover.iife.min.js';s.integrity='sha384-INwTyeGJ4Bk/YHI/urvNEearyioRlcY0f49uACR8MxYAtulvd/xSYR4b3746TPPL';s.crossOrigin='anonymous';s.referrerPolicy='no-referrer';document.head.append(s);}
+  // One nav list: inline when wide, a popover behind the Menu button when narrow.
+  (()=>{
+    const nav=document.querySelector('nav'),menu=document.getElementById('site-menu');
+    const wide=matchMedia('(min-width: 761px)');
+    const sync=()=>{if(wide.matches){menu.removeAttribute('popover');nav.classList.add('is-wide');}else{menu.setAttribute('popover','auto');nav.classList.remove('is-wide');}};
+    wide.addEventListener('change',sync);sync();
+    menu.addEventListener('click',e=>{if(e.target.closest('a')&&menu.hasAttribute('popover')){try{menu.hidePopover();}catch(_){}}});
+  })();
+</script>
 
+<main>
 <div class="wrap" id="top">
   <header>
     <div class="reveal in">
@@ -259,15 +297,16 @@
 </div>
 
 <div class="marquee reveal in">
+  <button class="marquee-toggle" type="button" aria-label="Pause scrolling banner">Pause</button>
   <div class="marquee-track">
-    <span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
-    <span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span>
+    <span class="marquee-set"><span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span></span>
+    <span class="marquee-set" aria-hidden="true"><span>Feasibility Studies</span><span><b>·</b></span><span>Investor Presentations</span><span><b>·</b></span><span>Brand Identity</span><span><b>·</b></span><span>Web Development</span><span><b>·</b></span><span>Meta Ads</span><span><b>·</b></span><span>AI Video</span><span><b>·</b></span><span>Voice Over</span><span><b>·</b></span></span>
   </div>
 </div>
 
 <div class="wrap">
   <!-- ABOUT -->
-  <section id="about">
+  <section id="about" tabindex="-1">
     <p class="sec-label reveal">About</p>
     <div class="about-grid">
       <h2 class="sec-title reveal">I do the research myself, <em>and</em> I make it look good.</h2>
@@ -294,7 +333,7 @@
   </section>
 
   <!-- SERVICES -->
-  <section id="services">
+  <section id="services" tabindex="-1">
     <p class="sec-label reveal">What I Do</p>
     <h2 class="sec-title reveal">Six things I do, and they <em>feed each other.</em></h2>
     <div class="svc-grid stagger">
@@ -345,7 +384,7 @@
   </section>
 
   <!-- WORK -->
-  <section id="work">
+  <section id="work" tabindex="-1">
     <p class="sec-label reveal">Selected Work</p>
     <h2 class="sec-title reveal">Some work I'm <em>proud of.</em></h2>
     <div class="work-grid stagger">
@@ -413,7 +452,7 @@
   </section>
 
   <!-- EXPERIENCE -->
-  <section id="experience">
+  <section id="experience" tabindex="-1">
     <p class="sec-label reveal">Experience</p>
     <h2 class="sec-title reveal">Where I've <em>worked.</em></h2>
     <div class="exp reveal">
@@ -509,7 +548,7 @@
 
 <!-- CONTACT -->
 <div class="wrap contact-wrap">
-  <section class="contact reveal" id="contact">
+  <section class="contact reveal" id="contact" tabindex="-1">
     <p class="sec-label">Contact</p>
     <h2>Let's make <em>something.</em></h2>
     <a class="mail" href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a>
@@ -525,6 +564,7 @@
     </div>
   </section>
 </div>
+</main>
 
 <div class="wrap">
   <footer>
@@ -537,18 +577,27 @@
   const io=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
   },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-  if(!CSS.supports('transition-delay: calc(sibling-index() * 0.1s)')){
+  if(!CSS.supports('animation-delay: calc(sibling-index() * 0.1s)')){
     document.querySelectorAll('.stagger').forEach(g=>[...g.children].forEach((el,i)=>el.style.setProperty('--sibling-index',i+1)));
   }
   document.querySelectorAll('.reveal:not(.in), .stagger').forEach(el=>io.observe(el));
-  // active nav link
-  const navLinks=[...document.querySelectorAll('nav .links a[href^="#"]')];
-  const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
-  window.addEventListener('scroll',()=>{
-    let current=-1;
-    sections.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<=140)current=i;});
-    navLinks.forEach((l,i)=>l.classList.toggle('active',i===current));
-  },{passive:true});
+  // scrollspy: native scroll-target-group where supported, IntersectionObserver otherwise; aria-current mirrors it
+  const spyLinks=[...document.querySelectorAll('nav .links a[href^="#"]')];
+  const setCurrent=l=>spyLinks.forEach(a=>a===l?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current'));
+  if(CSS.supports('scroll-target-group: auto')){
+    const sync=()=>setCurrent(document.querySelector('nav .links a:target-current'));
+    sync();document.addEventListener('scrollend',sync);
+  }else{
+    const byId=new Map(spyLinks.map(a=>[a.hash.slice(1),a]));
+    const spy=new IntersectionObserver(es=>{
+      es.filter(e=>!e.isIntersecting).forEach(e=>{const l=byId.get(e.target.id);if(l&&l.hasAttribute('aria-current'))setCurrent(null);});
+      es.filter(e=>e.isIntersecting).forEach(e=>setCurrent(byId.get(e.target.id)));
+    },{rootMargin:'-50% 0px -50% 0px'});
+    byId.forEach((a,id)=>{const s=document.getElementById(id);if(s)spy.observe(s);});
+  }
+  // marquee pause / play (WCAG 2.2.2)
+  const marquee=document.querySelector('.marquee'),mqBtn=marquee.querySelector('.marquee-toggle');
+  mqBtn.addEventListener('click',()=>{const p=marquee.classList.toggle('paused');mqBtn.textContent=p?'Play':'Pause';mqBtn.setAttribute('aria-label',(p?'Play':'Pause')+' scrolling banner');});
 </script>
 </body>
 </html>
