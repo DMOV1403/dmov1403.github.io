@@ -135,7 +135,8 @@
   @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
   .svc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px;transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;position:relative;overflow:hidden}
   .svc::after{content:"";position:absolute;inset:auto -40px -40px auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--ember-soft),transparent 70%);opacity:0;transition:opacity .4s}
-  .svc:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(28,24,18,.28);border-color:rgba(224,120,42,.35)}
+  /* the cards aren't links, so no lift on hover: only a quiet border tint */
+  .svc:hover{border-color:rgba(224,120,42,.35)}
   .svc:hover::after{opacity:1}
   .svc .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--ember-soft);margin-bottom:22px}
   .svc .ic svg{width:22px;height:22px;stroke:var(--ember-deep);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -513,7 +514,7 @@
     <h2>Let's make <em>something.</em></h2>
     <a class="mail" href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a>
     <div class="contact-meta">
-      <span><b>Phone</b> +968 79384026</span>
+      <span><b>Phone</b> <a href="tel:+96879384026">+968 79384026</a></span>
       <span><b>Location</b> Sohar, Oman</span>
       <span><b>Remote</b> Worldwide</span>
     </div>
