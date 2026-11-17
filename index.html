@@ -12,7 +12,7 @@
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://dmov1403.github.io/">
 <meta property="og:title" content="Osama Monir | CV">
-<meta property="og:description" content="Business development, research and brand communications. Sohar, Oman. Happy to work remotely.">
+<meta property="og:description" content="Business development, research and brand communications.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -90,113 +90,83 @@
   footer{position:relative;z-index:10;padding:0 clamp(1rem,5vw,4rem) 2rem;color:var(--ink-dim);font-size:.95rem}
 
   /* ---------- the night scene (decorative) ---------- */
-  .stage,.runway,.labels{display:none}
+  .stage,.labels,.listc,.twigs,.leaf,.pill{display:none}
 
   /* ===== TREE MODE: only switched on by the script once the drawing works ===== */
-  html.tree .stage{display:block;position:fixed;inset:0;z-index:1;pointer-events:none;transition:opacity .5s}
-  html.tree .stage canvas{position:absolute;inset:0;width:100%;height:100%}
-  html.tree .runway{display:block;height:170vh}
+  html.tree .stage{display:block;position:fixed;inset:0;z-index:1;pointer-events:none}
+  html.tree .stage :is(#sky,#tree,#roots){position:absolute;inset:0;width:100%;height:100%}
+  html.tree #dunes{position:absolute}
+  html.tree .treebox{position:absolute;inset:0}
   html.tree .intro{position:fixed;top:0;left:0;transition:opacity .3s}
-  html.tree .cue{display:block}
+  /* the tree grows by itself on load; the cue shows once it has */
+  html.tree .cue{display:block;opacity:0;transition:opacity .6s}
+  html.tree.grown .cue{opacity:1}
   html.tree footer{display:none}
   html.tree .panels{position:static;padding:0;max-width:none}
+  html.tree .panel{display:none} /* the sections stay in the page as the source; the tree shows them as branches */
+  html.tree.panel-open :is(.intro,.corner){opacity:0;visibility:hidden} /* nothing floats over the twigs; both are back one step away */
+
+  /* one camera for the whole scene: opening a branch slides everything (tree, dunes, labels, twigs, text) together.
+     The stars and the moon stay put, far away. */
+  .cam{translate:var(--cx,0px) var(--cy,0px)}
+  @media(prefers-reduced-motion:no-preference){
+    .cam{transition:translate .9s cubic-bezier(.3,.7,.2,1)}
+    html.instant .cam{transition:none}
+  }
 
   /* branch labels: hand-written, at the ends of stippled leader lines */
   html.tree .labels{display:block;list-style:none;position:fixed;inset:0;z-index:5;pointer-events:none}
   .labels button{position:absolute;pointer-events:auto;font-family:var(--hand);font-size:1.6rem;font-weight:600;line-height:1;color:var(--ink);
-    padding:.4rem .55rem;min-height:44px;display:flex;align-items:center;border-radius:10px;white-space:nowrap;opacity:0;transition:opacity .6s,background .2s}
-  .labels button:hover,.labels button:focus-visible{background:rgba(216,207,189,.14)}
+    padding:.4rem .55rem;min-height:44px;display:flex;align-items:center;border-radius:10px;white-space:nowrap;opacity:0;transition:opacity .6s,background .2s;
+    text-decoration-thickness:2px;text-underline-offset:.2em}
+  .labels button:hover,.labels button:focus-visible{background:rgba(216,207,189,.14);text-decoration-line:underline}
   html.grown .labels button{opacity:1;visibility:visible}
-  .hint{opacity:0;transition:opacity .6s}
-  html.grown .hint{opacity:1}
-  .hint{position:absolute;left:clamp(1rem,5vw,4rem);bottom:clamp(1rem,4vh,2.5rem);font-family:var(--hand);font-size:1.5rem;line-height:1.2;color:var(--ink);max-width:calc(100% - 2rem);text-shadow:0 0 6px var(--sky),0 0 12px var(--sky)}
+  /* the open branch: bold, underlined, with a full stop; the others stay on the tree, a little quieter */
+  .labels button[aria-expanded="true"]{font-weight:700;text-decoration-line:underline}
+  :is(.labels button[aria-expanded="true"],.twig[aria-pressed="true"])::after{content:"."}
+  html.tree.panel-open .labels button[aria-expanded="false"]{opacity:.55}
 
-  /* opening a section, natochi-style: the tree shrinks and steps left, its roots show in a
-     cut-away of the dune, and the section text takes the middle */
-  html.tree .treebox{position:absolute;inset:0;transform-origin:var(--bx,60%) var(--by,86%);transition:translate .8s cubic-bezier(.3,.7,.2,1),scale .8s cubic-bezier(.3,.7,.2,1)}
-  html.tree.panel-open .treebox{translate:var(--tx,0) var(--ty,0);scale:var(--ts,.72)}
-  html.tree.panel-open :is(.hint,.labels button){opacity:0;visibility:hidden;transition:none}
-  /* the clicked branch keeps its label on the shrunk tree */
-  html.tree .labels{transform-origin:var(--bx,60%) var(--by,86%);transition:translate .8s cubic-bezier(.3,.7,.2,1),scale .8s cubic-bezier(.3,.7,.2,1)}
-  html.tree.panel-open .labels{translate:var(--tx,0) var(--ty,0);scale:var(--ts,.72)}
-  @media(min-width:761px){html.tree.panel-open .labels button[aria-expanded="true"]{opacity:1;visibility:visible;transition:opacity .4s .5s}}
-
-  /* list branches: 'work' and 'the path' grow a branch with a twig per item (wide screens) */
-  .listc,.twigs{display:none}
-  html.tree .listc{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:21;pointer-events:none}
-  html.tree .twigs{display:block;position:fixed;inset:0;z-index:22;pointer-events:none}
-  .twig{position:absolute;pointer-events:auto;font-family:var(--hand);font-size:1.3rem;font-weight:600;line-height:1;color:var(--ink-dim);padding:.3rem .4rem;min-height:44px;display:flex;align-items:center;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .4s,color .2s,background .2s}
+  /* a section's branch grows out of its label, up and away from the trunk, with a twig per item */
+  html.tree .listc{display:block;position:fixed;left:0;top:0;z-index:4;pointer-events:none}
+  html.tree .twigs{display:block;position:fixed;inset:0;z-index:22;pointer-events:none;outline:none}
+  .twig{position:absolute;pointer-events:auto;font-family:var(--hand);font-size:1.3rem;font-weight:600;line-height:1;color:var(--ink-dim);padding:.3rem .4rem;min-height:44px;display:flex;align-items:center;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .4s,color .2s,background .2s;
+    text-decoration-thickness:1.5px;text-underline-offset:.22em}
   .twig.on{opacity:1}
-  .twig:hover{color:var(--ink);background:rgba(216,207,189,.1)}
-  .twig[aria-pressed="true"]{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
-  /* in branch mode a section shows only its name; the twigs and the note carry the content */
-  html.branch-mode .panel.open > :not(.back,h2){display:none}
-  html.tree.branch-mode .panel.open{background:none;padding-top:clamp(2.5rem,8vh,5rem)}
-  /* a left-hand branch (work, say hi): the tree steps right instead, so the section name sits beside it on the left */
-  html.side-l.branch-mode .panel.open{padding-left:clamp(1.5rem,6vw,6rem);padding-right:clamp(.5rem,2vw,1.5rem);text-align:right}
-  html.side-l.branch-mode .panel.open > *{margin-left:auto}
-  html.side-l.branch-mode .panel.open .back{display:flex;width:fit-content;margin-left:auto}
-  .note-card{position:fixed;z-index:23;max-width:min(27rem,calc(100vw - 2rem));overflow:auto;overscroll-behavior:contain;
-    background:rgba(31,28,37,.94);border:1px solid rgba(216,207,189,.22);border-radius:6px;padding:1rem 1.2rem 1.1rem;box-shadow:0 18px 40px -20px rgba(0,0,0,.9);
-    animation:panel-in .3s ease-out;font-size:1rem}
-  .note-card[hidden]{display:none}
-  .note-card::before{content:"";position:absolute;top:-7px;left:var(--ax,2rem);width:12px;height:12px;rotate:45deg;background:inherit;border-left:1px solid rgba(216,207,189,.22);border-top:1px solid rgba(216,207,189,.22)}
-  .note-card .yr,.note-card .what{display:block;color:var(--ink-dim);font-size:.95rem}
-  .note-card .co{display:block;color:var(--sand);font-style:italic}
-  .note-card p{margin:.4rem 0 0}
-  .note-card > p:first-child{margin-top:0}
-  .note-card .facts{margin-top:0}
-  .note-card .notes{margin:.6rem 0 .2rem;grid-template-columns:repeat(2,minmax(0,1fr))}
-  html.tree.panel-open .intro{opacity:0;visibility:hidden}
-  html.tree .panel{display:none}
-  html.tree .panel.open{display:block;position:fixed;z-index:20;top:0;bottom:0;right:var(--pr,0);left:var(--pl,36vw);overflow:auto;overscroll-behavior:contain;
-    padding:clamp(5rem,16vh,9rem) clamp(1.5rem,6vw,6rem) 5rem clamp(.5rem,2vw,1.5rem);animation:panel-in .5s cubic-bezier(.3,.7,.2,1);
-    /* hush the bright dune behind the lower lines of text */
-    background:linear-gradient(to bottom, rgba(31,28,37,0) 62%, rgba(31,28,37,.9) 80%)}
-  html.tree .panel.open > *{max-width:34rem}
-  @keyframes panel-in{from{opacity:0;translate:1rem 0}}
-  html.tree .panel.open .back{display:inline-flex;align-items:center;min-height:44px;font-family:var(--hand);font-size:1.45rem;color:var(--ink-dim);margin:-.5rem 0 .6rem}
-  html.tree .panel.open .back:hover{color:var(--ink)}
-  html.instant :is(.treebox,.labels,#roots,.panel){transition:none!important;animation:none!important}
-  /* phones and narrow windows: the section is a vertical branch with a twig per item */
-  html.stem-mode .panel.open > :not(.back,h2,.stem){display:none}
-  .stem{position:relative;margin:.4rem 0 0 .35rem;padding-left:1.5rem}
-  .stem::before{content:"";position:absolute;left:0;top:.2rem;bottom:1.2rem;width:3px;border-radius:2px;
-    background:radial-gradient(circle,var(--sand) 0 42%,transparent 48%) 0 0/3px 5px repeat-y;transform-origin:top;animation:stem-grow .9s cubic-bezier(.3,.7,.2,1) both}
-  .sprig{position:relative;animation:sprig-in .45s ease-out both;animation-delay:calc(.25s + var(--i) * 70ms)}
-  .sprig::before{content:"";position:absolute;left:-1.5rem;top:21px;width:1.2rem;height:3px;rotate:-14deg;transform-origin:left;
-    background:radial-gradient(circle,var(--sand) 0 42%,transparent 48%) 0 0/5px 3px repeat-x}
-  .sprig-t{display:flex;align-items:center;width:100%;min-height:44px;padding:.2rem .4rem;border-radius:8px;text-align:left;
-    font-family:var(--hand);font-size:1.5rem;font-weight:600;line-height:1.1;color:var(--ink-dim);transition:color .2s,background .2s}
-  .sprig-t:hover,.sprig-t:focus-visible{color:var(--ink);background:rgba(216,207,189,.1)}
-  .sprig-t[aria-expanded="true"]{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
-  .sprig-b{margin:.2rem 0 .9rem .4rem;padding:.85rem 1rem 1rem;font-size:1rem;background:rgba(31,28,37,.9);
-    border:1px solid rgba(216,207,189,.22);border-radius:6px;animation:panel-in .3s ease-out}
-  .sprig-b[hidden]{display:none}
-  :is(.note-card,.sprig-b) .yr,:is(.note-card,.sprig-b) .what{display:block;color:var(--ink-dim);font-size:.95rem}
-  :is(.note-card,.sprig-b) .co{display:block;color:var(--sand);font-style:italic}
-  .sprig-b p{margin:.4rem 0 0}
-  .sprig-b > p:first-child,.sprig-b .facts{margin-top:0}
-  .sprig-b .notes{margin:.6rem 0 .2rem;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .stem.still::before,.stem.still .sprig{animation:none}
-  @keyframes stem-grow{from{scale:1 0}}
-  @keyframes sprig-in{from{opacity:0;translate:-.5rem 0}}
-  @media(max-width:760px){
-    html.tree .panel.open{left:0;padding:4.5rem 1.25rem 4rem;background:rgba(31,28,37,.93)}
-    html.stem-mode.tree .panel.open{background:rgba(31,28,37,.8)}
-    html.tree .hint{bottom:auto;top:4rem}
-    html.tree.panel-open :is(.treebox,.labels){translate:0 0;scale:1}
-    html.tree.panel-open .stage{opacity:.3}
+  .twig:hover,.twig:focus-visible{color:var(--ink);background:rgba(216,207,189,.1);text-decoration-line:underline}
+  .twig[aria-pressed="true"]{color:var(--ink);font-weight:700;text-decoration-line:underline}
+  /* a twig's contents: plain text on the sky at the end of its own little branch */
+  html.tree .leaf{display:block;position:fixed;left:0;top:0;z-index:23;overflow:auto;overscroll-behavior:contain;outline:none;
+    font-size:1rem;line-height:1.6;padding:.35rem .5rem .7rem;border-radius:10px;
+    background:rgba(31,28,37,.6);box-shadow:0 0 34px 26px rgba(31,28,37,.6);text-shadow:0 0 3px var(--sky),0 0 8px var(--sky)} /* a soft shade, so the lines stay readable where they cross the dune */
+  html.tree .leaf[hidden]{display:none}
+  .leaf .yr,.leaf .what{display:block;color:var(--ink-dim);font-size:.95rem}
+  .leaf .co{display:block;color:var(--sand);font-style:italic}
+  .leaf h3{font-weight:600;font-size:1.15rem;line-height:1.3}
+  .leaf p{margin:.45rem 0 0}
+  .leaf > p:first-child,.leaf > .facts:first-child{margin-top:0}
+  .leaf .facts{margin-top:.9rem}
+  .leaf .notes{margin:.6rem 0 .2rem;grid-template-columns:repeat(2,minmax(0,1fr));text-shadow:none}
+  .leaf .note .w{display:inline;margin:0;font-size:inherit}
+  @media(prefers-reduced-motion:no-preference){ /* written out word by word once its branch has grown */
+    .leaf.typing .w{animation:w-in .16s both;animation-delay:calc(var(--d0,0ms) + var(--w) * var(--ws,24ms))}
+  }
+  @keyframes w-in{from{opacity:0}}
+  /* one step back: bottom left, like a pebble at the foot of the tree */
+  html.tree .pill{display:inline-flex;position:fixed;z-index:30;left:max(1rem,env(safe-area-inset-left));bottom:max(1rem,env(safe-area-inset-bottom));
+    align-items:center;justify-content:center;width:56px;height:44px;border-radius:999px;color:var(--ink);
+    background:rgba(31,28,37,.88);border:1.5px solid rgba(216,207,189,.55);transition:background .2s,border-color .2s}
+  html.tree .pill[hidden]{display:none}
+  .pill:hover{background:rgba(216,207,189,.16);border-color:var(--sand)}
+  .pill svg{width:26px;height:14px}
+  @media(max-width:759px){
     .labels button{font-size:1.45rem;background:rgba(31,28,37,.78)}
+    .labels button[aria-expanded="true"]{text-decoration-line:none} /* its underline is the start of the branch itself */
+    .twig{font-size:1.2rem}
   }
   @media(prefers-reduced-motion:reduce){
-    html.tree .runway{display:none}
     html.tree .intro{position:relative}
     html.tree .cue{display:none}
-    html.tree :is(.stage,.treebox,#roots){transition:none}
-    html.tree .panel.open{animation:none}
     .labels button{transition:none}
-    .stem::before,.sprig,.sprig-b{animation:none}
   }
 </style>
 </head>
@@ -210,25 +180,24 @@
 
 <div class="stage" aria-hidden="true">
   <canvas id="sky"></canvas>
-  <div class="treebox">
+  <canvas id="dunes" class="cam"></canvas>
+  <div class="treebox cam">
     <canvas id="roots"></canvas>
     <canvas id="tree"></canvas>
   </div>
-  <p class="hint">Osama Monir. Pick a branch to read more.</p>
 </div>
 
 <header class="intro" id="intro">
   <h1>Osama Monir<span class="ar" lang="ar">أسامة منير</span></h1>
   <p class="role">Business development, research and brand communications.</p>
-  <p class="where">Sohar, Oman. Happy to work remotely.</p>
-  <p class="cue">scroll down and the ghaf will grow</p>
+  <p class="cue">pick a branch to read more</p>
 </header>
 
-<div class="runway" aria-hidden="true"></div>
-<canvas class="listc" id="list" aria-hidden="true"></canvas>
+<canvas class="listc cam" id="list" aria-hidden="true"></canvas>
+<canvas class="listc cam" id="sub" aria-hidden="true"></canvas>
 
 <nav aria-label="Sections">
-  <ul class="labels" id="labels">
+  <ul class="labels cam" id="labels">
     <li><button type="button" data-branch="me" data-open="me" aria-controls="me" aria-expanded="false">me</button></li>
     <li><button type="button" data-branch="work" data-open="work" aria-controls="work" aria-expanded="false">work</button></li>
     <li><button type="button" data-branch="path" data-open="path" aria-controls="path" aria-expanded="false">the path</button></li>
@@ -240,11 +209,11 @@
   <section class="panel" id="me" tabindex="-1" aria-labelledby="me-h">
     <button type="button" class="back" data-close>back to the tree</button>
     <h2 id="me-h"><span class="hand">me</span></h2>
-    <p data-twig="what i do">I do the research, write the study, design the deck and build the website it points to.</p>
-    <p data-twig="rsd now">Most of my week goes to <strong>RSD</strong>, an Omani holding and venture company. I write their feasibility studies and research notes, put together the investor presentations and partnership proposals, and I built their brand and the document style everything ships in.</p>
-    <p data-twig="clients">Industrial clients hire me for the same mix: investment presentations, company profiles and rebrands they can put in front of a partner. That works because I spent five years before this doing brand identity, graphic design, paid social and web development, and I have a Computer Science degree to back the technical side.</p>
-    <p data-twig="sohar &amp; languages">I live in Sohar, Oman. Arabic is my first language, my English is solid (Duolingo English Test, 120), and I’m happy to work remotely.</p>
-    <ul class="facts" data-twig="skills">
+    <p>I do the research, write the study, design the deck and build the website it points to.</p>
+    <p>Most of my week goes to <strong>RSD</strong>, an Omani holding and venture company. I write their feasibility studies and research notes, put together the investor presentations and partnership proposals, and I built their brand and the document style everything ships in.</p>
+    <p>Industrial clients hire me for the same mix: investment presentations, company profiles and rebrands they can put in front of a partner. That works because I spent five years before this doing brand identity, graphic design, paid social and web development, and I have a Computer Science degree to back the technical side.</p>
+    <p>I live in Sohar, Oman. Arabic is my first language, my English is solid (Duolingo English Test, 120), and I’m happy to work remotely.</p>
+    <ul class="facts">
       <li>Feasibility and market research</li>
       <li>Investor decks and company profiles</li>
       <li>Brand guidelines, Arabic and English</li>
@@ -318,7 +287,7 @@
       <li data-twig="2019 arrow"><span class="yr">2019</span><div><h3>Digital Marketing Assistant</h3><span class="co">Arrow for Advertising, Egypt</span><p>Helped run digital campaigns across social and paid platforms, and supported account management.</p></div></li>
     </ol>
     <h3 style="margin-top:2rem">Education and languages</h3>
-    <ul class="facts" data-twig="2022 bsc computer science">
+    <ul class="facts" data-twig="2022 bsc degree">
       <li>BSc Computer Science, M.E.T Academy, Egypt, 2022</li>
       <li>Duolingo English Test, score 120</li>
       <li>Arabic first language; voice over in Arabic and English</li>
@@ -338,8 +307,9 @@
     </ul>
   </section>
 </main>
-<div class="twigs" id="twigs" role="group" aria-label="Items on this branch"></div>
-<div class="note-card" id="card" aria-live="polite" hidden></div>
+<div class="twigs cam" id="twigs" role="group" aria-label="Items on this branch" tabindex="-1"></div>
+<div class="leaf cam" id="leaf" aria-live="polite" tabindex="-1" hidden></div>
+<button type="button" class="pill" id="back" data-back aria-label="Back one step" hidden><svg viewBox="0 0 26 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M24 7.5c-5-1.2-11-.6-21 0M8.5 2 3 7.5l5.5 4.5"/></svg></button>
 
 <footer>© 2026 Osama Monir. Drawn and built by hand.</footer>
 
@@ -361,9 +331,11 @@
   // small seeded random, so the tree is the same on every visit
   const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 
-  let W = 0, H = 0, dpr = 1, dots = null, drawn = 0, progress = -1, crownTop = 0, base = [0, 0, 1], listFrom = {}, labelBox = {}, moves = null, sideKey = null, relist = null;
-  const SIDE = { work: -1, path: 1, hi: -1, me: 1 }; // which side of the crown each label, and its list branch, hangs on
-  const listC = $('list'), lx = ctx(listC), twigBox = $('twigs');
+  let W = 0, H = 0, dpr = 1, ddpr = 1, duneM = 0, duneTop = 0, dots = null, drawn = 0, progress = -1, crownTop = 0, base = [0, 0, 1], labelBox = {}, tipsAt = {}, crownBox = [0, 0, 0, 0], relist = null;
+  const SIDE = { work: -1, path: 1, hi: -1, me: 1 }; // which side of the crown each label, and its branch, hangs on
+  const duneC = $('dunes'), dctx = ctx(duneC);
+  if (!dctx) return;
+  const cur = { sec: null, item: -1 }; // what is open: a section, and one of its twigs
   const narrowNow = () => W < 760;
 
   function duneY(x, k) { // k: 0 = back dune, 1 = front dune
@@ -461,13 +433,9 @@
       me:   { side: SIDE.me, c: outer(lower.length ? lower : clumps, 1) },
     };
 
-    // each section's list branch leaves the top of its own clump, on its own side: [x, y, outer edge of the crown on that side]
-    listFrom = {};
-    const leafL = Math.min(...clumps.map(c => c[0] - c[3])), leafR = Math.max(...clumps.map(c => c[0] + c[3]));
-    for (const k in from) { const { c, side } = from[k]; listFrom[k] = [c[0] + side * c[3] * 0.2, c[1] - c[3] * 0.45, side < 0 ? leafL : leafR]; }
 
     // place the labels, then grow a real branch from the crown out to each one
-    const tips = placeLabels(from, narrow);
+    const tips = placeLabels(from, narrow); tipsAt = tips;
     for (const k in from) {
       const { c, side } = from[k], tip = tips[k]; if (!tip) continue;
       limb(c[0] - side * c[3] * 0.25, c[1] + c[3] * 0.08, tip[0], tip[1], crownEnd, crownEnd + 0.3, side);
@@ -512,30 +480,8 @@
     dots = new Float32Array(pts.length);
     order.forEach((src, i) => { for (let f = 0; f < 5; f++) dots[i * 5 + f] = f === 2 ? (pts[src * 5 + 2] - minT) / (maxT - minT) : pts[src * 5 + f]; });
 
-    // where the tree goes when a section opens: shrunk, crown kept on screen at the left,
-    // base set back on the dune, section text starting just past the crown
-    const ts = 0.72;
-    const crownL = Math.min(...clumps.map(c => c[0] - c[3]), ...Object.values(tips).map(t => t[0]));
-    const crownR = Math.max(...clumps.map(c => c[0] + c[3]), ...Object.values(tips).map(t => t[0]));
-    const st = root.style;
-    st.setProperty('--bx', baseX + 'px'); st.setProperty('--by', baseY + 'px'); st.setProperty('--ts', ts);
-    // a right-hand branch sends the tree to the left edge; a left-hand branch sends it to the right edge (mirrored)
-    const toR = Math.max(W * 0.17, (baseX - crownL) * ts + 40), toL = W - Math.max(W * 0.17, (crownR - baseX) * ts + 40);
-    const move = (toX, pl, pr) => ({ tx: toX - baseX, ty: duneY(toX, 1) + 2 - baseY, pl, pr });
-    moves = {
-      1: move(toR, Math.max(W * 0.32, toR + (crownR - baseX) * ts + 40), 0),
-      [-1]: move(toL, 0, W - Math.min(W * 0.68, toL - (baseX - crownL) * ts - 40)),
-    };
+    crownBox = [Math.min(...clumps.map(c => c[0] - c[3])), crownTop, Math.max(...clumps.map(c => c[0] + c[3])), baseY]; // the text keeps off this
     base = [baseX, baseY, S];
-    applySide();
-  }
-  // which way the tree steps for the open section; only mirrored where list branches are drawn
-  function applySide() {
-    if (!moves) return;
-    const side = W >= 900 && SIDE[sideKey] < 0 ? -1 : 1, m = moves[side], st = root.style;
-    st.setProperty('--tx', m.tx + 'px'); st.setProperty('--ty', m.ty + 'px');
-    st.setProperty('--pl', m.pl + 'px'); st.setProperty('--pr', m.pr + 'px');
-    root.classList.toggle('side-l', side < 0);
   }
 
   // labels beside the crown (desktop) or in one row above it (phones); returns each branch tip
@@ -563,13 +509,13 @@
     return tips;
   }
 
-  // ---------- sky, moon and dunes ----------
+  // ---------- sky and moon (they stay put), then the dunes on their own wide sheet that slides with the tree ----------
   function drawSky() {
     const R = rng(77);
     sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     sctx.fillStyle = '#1F1C25'; sctx.fillRect(0, 0, W, H);
-    for (let i = 0, n = Math.round(W * H / 6500); i < n; i++) {
-      const x = R() * W, y = R() * H * 0.75, a = 0.15 + R() * 0.55, s = R() < 0.08 ? 2 : 1;
+    for (let i = 0, n = Math.round(W * H / 4900); i < n; i++) {
+      const x = R() * W, y = R() * H, a = 0.15 + R() * 0.55, s = R() < 0.08 ? 2 : 1;
       sctx.fillStyle = `rgba(${SAND},${a})`; sctx.fillRect(x, y, s, s);
     }
     // crescent moon; on phones it sits centred above the row of labels
@@ -581,30 +527,41 @@
       if (Math.hypot(x - (mx + mr * 0.45), y - (my - mr * 0.2)) < mr * 0.88) continue;
       sctx.fillStyle = 'rgba(232,199,122,.85)'; sctx.fillRect(x, y, 1, 1);
     }
+  }
+  function drawDunes() {
+    const R = rng(78), x0 = -duneM, x1 = W + duneM, yEnd = duneTop + duneC.height / ddpr;
+    dctx.setTransform(1, 0, 0, 1, 0, 0); dctx.clearRect(0, 0, duneC.width, duneC.height);
+    dctx.setTransform(ddpr, 0, 0, ddpr, duneM * ddpr, -duneTop * ddpr);
+    const below = (k, fill) => { // everything under a dune's crest
+      dctx.fillStyle = fill; dctx.beginPath(); dctx.moveTo(x0, yEnd);
+      for (let x = x0; x <= x1 + 8; x += 8) dctx.lineTo(x, duneY(x, k) - 1);
+      dctx.lineTo(x1 + 8, yEnd); dctx.closePath(); dctx.fill();
+    };
+    below(0, '#1F1C25'); // so no stars show through the sand
     for (const k of [0, 1]) { // two dunes, stippled densest on the moonlit crest
-      for (let x = 0; x < W; x += 1.2) {
+      if (k === 1) below(1, 'rgba(31,28,37,.6)');
+      for (let x = x0; x < x1; x += 1.2) {
         const crest = duneY(x, k);
-        for (let y = crest; y < H; y += 1.5) {
+        for (let y = crest; y < yEnd; y += 1.5) {
           const depth = (y - crest) / (H * 0.12);
+          if (depth > 2.2) { // deep sand, only seen when the camera dips: a thin scatter is enough
+            if (R() < 0.07) { dctx.fillStyle = SHADES[2]; dctx.fillRect(x + R(), y + R() * 6, 1, 1); }
+            y += 4.5; continue;
+          }
           const p = (k ? 0.55 : 0.32) * Math.exp(-depth * 3.2) + 0.015;
-          if (R() < p) { sctx.fillStyle = SHADES[depth < 0.12 ? (k ? 0 : 1) : depth < 0.5 ? 1 : 2]; sctx.fillRect(x + R(), y, 1, 1); }
+          if (R() < p) { dctx.fillStyle = SHADES[depth < 0.12 ? (k ? 0 : 1) : depth < 0.5 ? 1 : 2]; dctx.fillRect(x + R(), y, 1, 1); }
         }
-      }
-      if (k === 0) {
-        sctx.fillStyle = 'rgba(31,28,37,.6)';
-        sctx.beginPath(); sctx.moveTo(0, H);
-        for (let x = 0; x <= W; x += 8) sctx.lineTo(x, duneY(x, 1) - 1);
-        sctx.lineTo(W, H); sctx.closePath(); sctx.fill();
       }
     }
     for (let r = 0; r < 7; r++) { // wind ripples across the front dune
       const y0 = H * (0.9 + r * 0.014), off = R() * 50;
-      for (let x = 0; x < W; x += 2.2) if (R() < 0.55) {
+      for (let x = x0; x < x1; x += 2.2) if (R() < 0.55) {
         const y = y0 + Math.sin((x + off) / 38) * 3;
-        if (y > duneY(x, 1) + 6) { sctx.fillStyle = SHADES[1]; sctx.fillRect(x, y, 1, 1); }
+        if (y > duneY(x, 1) + 6) { dctx.fillStyle = SHADES[1]; dctx.fillRect(x, y, 1, 1); }
       }
     }
   }
+
 
   // dark cut-away of the dune under the tree, so the roots read against the sand
   function drawCut() {
@@ -629,21 +586,24 @@
     rootC.style.opacity = String(Math.min(1, p / 0.05)); // the cut-away opens as the roots start
     root.classList.toggle('grown', lo >= total);
   }
+  // the tree grows by itself once the page loads (about 3.6s), like natochi; once grown it stays grown
+  const GROW_MS = 3600;
+  let growT0 = 0, growDone = false;
   function currentProgress() {
-    if (reduce.matches || document.querySelector('.panel.open')) return 1;
-    const run = document.documentElement.scrollHeight - innerHeight;
-    return run > 0 ? Math.min(1, Math.max(0, scrollY / (run * 0.92))) : 1;
+    if (reduce.matches || cur.sec || growDone) return 1;
+    const now = performance.now();
+    if (!growT0) growT0 = now;
+    const t = Math.min(1, (now - growT0) / GROW_MS);
+    if (t >= 1) growDone = true;
+    return t * (2 - t * 0.6) / 1.4; // a little quicker at first, settling at the end
   }
+  const finishGrowth = () => { growDone = true; queue(); };
   let queued = false;
   function frame() {
     queued = false;
     const p = currentProgress();
     if (p !== progress) { progress = p; drawTree(p); }
-    if (!reduce.matches) {
-      const op = Math.max(0, 1 - scrollY / (innerHeight * 0.45));
-      intro.style.opacity = String(op);
-      intro.style.visibility = op < 0.05 ? 'hidden' : ''; // a faded intro must not catch taps meant for the labels
-    } else { intro.style.opacity = ''; intro.style.visibility = ''; }
+    if (p < 1) queue(); // keep growing
   }
   const queue = () => { if (!queued) { queued = true; requestAnimationFrame(frame); } };
 
@@ -653,178 +613,231 @@
     if (!w || !h) return; // the window can briefly report no size while it is being resized
     if (!force && w === lastW && Math.abs(h - H) < 120) return; // ignore the phone address bar sliding
     lastW = w; W = w; H = h; dpr = Math.min(2, devicePixelRatio || 1);
-    for (const c of [skyC, treeC, rootC, listC]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
-    build(); drawSky(); drawCut();
+    for (const c of [skyC, treeC, rootC]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+    // the dunes get a sheet much wider than the window (and deeper), because the camera slides over them
+    duneM = Math.round(Math.max(W * 1.2, 800)); duneTop = Math.round(H * 0.7); ddpr = W > 1000 ? Math.min(dpr, 1.25) : dpr;
+    const dw = W + duneM * 2, dh = Math.round(H * 0.95);
+    duneC.style.left = -duneM + 'px'; duneC.style.top = duneTop + 'px'; duneC.style.width = dw + 'px'; duneC.style.height = dh + 'px';
+    duneC.width = Math.round(dw * ddpr); duneC.height = Math.round(dh * ddpr);
+    build(); drawSky(); drawDunes(); drawCut();
     drawn = 0; progress = -1; tctx.setTransform(1, 0, 0, 1, 0, 0); tctx.clearRect(0, 0, treeC.width, treeC.height);
     frame();
     if (relist) relist();
   }
 
-  // ---------- list branches: a branch out of the shrunk tree with a twig per item ----------
-  const LISTS = { me: 1, work: 1, path: 1, hi: 1 }; // every section grows a branch on wide screens
-  const card = $('card');
-  let listSide = 1, keptRect = null, pressed = -1;
-  let listAnim = 0, listWait = 0;
-  function twigName(li) {
-    if (li.dataset.twig) return li.dataset.twig;
-    const yr = li.querySelector('.yr').textContent.trim().slice(0, 4);
-    const co = li.querySelector('.co').textContent.split(',')[0].trim().toLowerCase();
-    return yr + ' ' + co;
+  // ---------- branches: tree -> a section's branch with a twig per item -> one twig's text ----------
+  // Nothing is resized. Everything lives at its place in the scene and the camera slides to it.
+  const LEAF = { me: 1 }; // a section with no twigs: its text is written straight at the end of its branch
+  const listC = $('list'), subC = $('sub'), twigBox = $('twigs'), leaf = $('leaf'), pill = $('back');
+  let geo = null, stopList = null, stopSub = null;
+  const hits = (r, o) => r[0] < o[0] + o[2] && r[0] + r[2] > o[0] && r[1] < o[1] + o[3] && r[1] + r[3] > o[1];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const twigName = el => el.dataset.twig;
+  function itemsOf(k) {
+    const panel = $(k); if (!panel || LEAF[k]) return [];
+    const items = [...panel.querySelectorAll('[data-twig]')];
+    // the path: oldest job near the trunk, newest at the tip
+    return k === 'path' ? items.map((li, i) => [li, i]).sort((a, b) => parseInt(a[0].dataset.twig) - parseInt(b[0].dataset.twig) || b[1] - a[1]).map(a => a[0]) : items;
   }
-  function clearList() {
-    cancelAnimationFrame(listAnim); clearTimeout(listWait);
-    lx.setTransform(1, 0, 0, 1, 0, 0); lx.clearRect(0, 0, listC.width, listC.height);
-    twigBox.replaceChildren(); root.classList.remove('branch-mode'); card.hidden = true; keptRect = null;
-    document.querySelectorAll('.stem').forEach(s => s.remove()); root.classList.remove('stem-mode');
+  const cam = [0, 0];
+  function setCam(x, y) { cam[0] = Math.round(x); cam[1] = Math.round(y); root.style.setProperty('--cx', cam[0] + 'px'); root.style.setProperty('--cy', cam[1] + 'px'); }
+  // slide the camera so a box of the scene [x0, y0, x1, y1] sits in the clear part of the window
+  function frameBox(b, atTop) {
+    const padX = 8, top = 72, bot = 72, w = b[2] - b[0], h = b[3] - b[1];
+    setCam(w <= W - padX * 2 ? (W - w) / 2 - b[0] : padX - b[0], h <= H - top - bot && !atTop ? top + (H - top - bot - h) / 2 - b[1] : top - b[1]);
   }
-  // phones and narrow windows: the section grows a vertical branch instead, one twig per item;
-  // tapping a twig opens its contents right under it (one at a time), nothing opens by itself
-  function growStem(k, panel, keep, instant) {
-    let items = [...panel.querySelectorAll('[data-twig]')];
-    if (k === 'path') items = items.map((li, i) => [li, i]).sort((a, b) => parseInt(b[0].dataset.twig) - parseInt(a[0].dataset.twig) || a[1] - b[1]).map(a => a[0]); // newest at the top
-    const stem = document.createElement('div');
-    stem.className = 'stem' + (instant ? ' still' : '');
-    stem.setAttribute('role', 'group'); stem.setAttribute('aria-label', 'Items on this branch');
-    const rows = items.map((el, i) => {
-      const row = document.createElement('div'); row.className = 'sprig'; row.style.setProperty('--i', i);
-      const t = document.createElement('button'); t.type = 'button'; t.className = 'sprig-t'; t.textContent = twigName(el);
-      const body = document.createElement('div'); body.className = 'sprig-b'; body.hidden = true;
-      body.id = k + '-twig-' + i;
-      body.innerHTML = el.tagName === 'LI' ? el.innerHTML : el.outerHTML;
-      body.querySelectorAll('[data-twig]').forEach(x => x.removeAttribute('data-twig'));
-      t.setAttribute('aria-expanded', 'false'); t.setAttribute('aria-controls', body.id);
-      t.addEventListener('click', () => {
-        const open = t.getAttribute('aria-expanded') !== 'true';
-        rows.forEach(r => { r.t.setAttribute('aria-expanded', 'false'); r.body.hidden = true; });
-        pressed = open ? i : -1;
-        if (open) { t.setAttribute('aria-expanded', 'true'); body.hidden = false; row.scrollIntoView({ block: 'nearest', behavior: reduce.matches ? 'auto' : 'smooth' }); }
-      });
-      row.append(t, body); stem.append(row);
-      return { t, body };
-    });
-    panel.querySelector('h2').after(stem);
-    root.classList.add('stem-mode');
-    if (keep >= 0 && rows[keep]) { rows[keep].t.setAttribute('aria-expanded', 'true'); rows[keep].body.hidden = false; pressed = keep; }
-  }
-  // the chosen twig's contents, in a note hanging just under the branch
-  function showItem(items, i) {
-    const twigs = [...twigBox.children], el = items[i], b = twigs[i];
-    if (!el || !b) return;
-    pressed = i;
-    card.innerHTML = el.tagName === 'LI' ? el.innerHTML : el.outerHTML;
-    card.removeAttribute('data-twig');
-    card.querySelectorAll('[data-twig]').forEach(x => x.removeAttribute('data-twig'));
-    twigs.forEach((t, j) => t.setAttribute('aria-pressed', String(j === i)));
-    card.hidden = false; card.style.maxHeight = ''; card.style.left = '0px'; // measured at full width, wherever the last note sat
-    // the note opens away from the tree: rightwards on a right-hand branch, leftwards on a left-hand one
-    const tipX = +b.dataset.x, cw = card.offsetWidth;
-    const left = Math.max(16, Math.min(W - cw - 16, listSide > 0 ? tipX - 40 : tipX - cw + 40));
-    // ...and hangs below whatever twig names (and the section's own label) sit over its width
-    let top = +b.dataset.y + 8;
-    const under = (l, r, bottom) => { if (r > left - 8 && l < left + cw + 8) top = Math.max(top, bottom); };
-    twigs.forEach(t => under(t.offsetLeft, t.offsetLeft + t.offsetWidth, t.offsetTop + t.offsetHeight - 6));
-    if (keptRect) under(keptRect[0], keptRect[0] + keptRect[2], keptRect[1] + keptRect[3]);
-    top += 12;
-    card.style.left = left + 'px'; card.style.top = top + 'px';
-    card.style.setProperty('--ax', Math.max(12, Math.min(cw - 24, tipX - left - 6)) + 'px');
-    card.style.maxHeight = Math.max(140, H - top - 16) + 'px';
-    if (top + card.offsetHeight > H - 12) card.style.top = Math.max(12, H - 12 - card.offsetHeight) + 'px'; // never off the bottom
-  }
-  function growList(k, panel, instant, keep) {
-    clearList();
-    if (LISTS[k] && W < 900) { growStem(k, panel, keep, instant); return; } // phones and narrow windows: a vertical stem
-    if (!LISTS[k] || !listFrom[k]) return;
-    root.classList.add('branch-mode');
-    let items = [...panel.querySelectorAll('[data-twig]')];
-    if (k === 'path') items = items.map((li, i) => [li, i]).sort((a, b) => parseInt(a[0].dataset.twig) - parseInt(b[0].dataset.twig) || b[1] - a[1]).map(a => a[0]); // oldest job near the trunk, newest at the tip
-    const side = listSide = SIDE[k] || 1; // left-hand labels grow their branch to the left, right-hand ones to the right
-    const n = items.length, R = rng({ path: 31, work: 47, hi: 59, me: 73 }[k] || 47);
-    const v = name => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
-    const [bx, by] = base, ts = v('--ts'), tx = v('--tx'), ty = v('--ty');
-    const onScreen = (x, y) => [bx + (x - bx) * ts + tx, by + (y - by) * ts + ty]; // where a point of the full-size tree lands once it has shrunk and stepped aside
-    const [fx, fy, fe] = listFrom[k];
-    const [sx, sy] = onScreen(fx, fy), edgeX = onScreen(fe, fy)[0];
-    // out from the top of the section's own clump, up past the crown, then levelling off towards the screen edge
-    const ex = side > 0 ? W - 120 : 120, ey = Math.min(sy - H * 0.07, onScreen(0, crownTop)[1] - H * 0.02);
-    // the clicked label stays on the shrunk tree, about where the branch leaves the crown: the branch has to clear it
-    const lb = labelBox[k];
-    if (lb) { const [X, Y] = onScreen(lb[0], lb[1]); keptRect = [X - 8, Y, lb[2] * ts + 16, lb[3] * ts]; }
-    const span = Math.abs(ex - sx);
-    let f = 0.22, qy = ey + (sy - ey) * 0.12; // f: how far along the bend sits
-    const uOf = dist => (-2 * f + Math.sqrt(4 * f * f + 4 * (1 - 2 * f) * Math.min(1, Math.max(0, dist / span)))) / (2 * (1 - 2 * f)); // inverse of at() along x
-    const yOf = u => (1 - u) * (1 - u) * sy + 2 * u * (1 - u) * qy + u * u * ey;
-    if (keptRect) {
-      const near = (side > 0 ? keptRect[0] : keptRect[0] + keptRect[2]) - sx, far = (side > 0 ? keptRect[0] + keptRect[2] : keptRect[0]) - sx;
-      const dn = Math.max(12, near * side), df = far * side, need = keptRect[1] - 8;
-      if (df > 0 && dn < span * 0.5 && yOf(uOf(dn)) > need) { // too flat to pass above the label: bend earlier and higher
-        f = Math.max(0.08, Math.min(0.22, (df + 30) / span));
-        const u = uOf(dn);
-        qy = Math.max(ey - H * 0.12, (need - (1 - u) * (1 - u) * sy - u * u * ey) / (2 * u * (1 - u)));
-      }
-    }
-    const qx = sx + (ex - sx) * f;
-    const at = u => { const a = 1 - u; return [a * a * sx + 2 * a * u * qx + u * u * ex, yOf(u)]; };
-    const uAt = x => uOf(Math.abs(x - sx));
-    const wobble = u => Math.sin(u * 11) * 1.5;
-    const d = []; // [x, y, t, shade]
-    const blocks = []; // [x, y, w, h] things a twig's name must not sit on: the branch itself, the section's label, other names
-    const steps = Math.round(Math.hypot(ex - sx, ey - sy) / 1.1);
+  const wipe = c => { c.width = c.height = 1; c.style.width = c.style.height = '1px'; };
+
+  // stipple helpers; a dot is [x, y, time 0..1, shade]
+  function limbDots(d, at, len, w0, w1, t0, t1, R) {
+    const steps = Math.max(2, Math.round(len / 1.1));
     for (let i = 0; i <= steps; i++) {
-      const u = i / steps, [x, y] = at(u), w = Math.max(1.4, 6 * (1 - u * 0.75)), wob = wobble(u);
-      for (let j = 0; j < Math.ceil(w); j++) d.push([x + (R() - .5) * w, y + wob + (R() - .5) * w, u * 0.85, R() < .55 ? 0 : 1]);
-      if (i % 10 === 0) blocks.push([x - 7, y - 6, 14, 12]);
+      const u = i / steps, [x, y] = at(u), w = w0 + (w1 - w0) * u;
+      for (let j = 0; j < Math.ceil(w); j++) d.push([x + (R() - .5) * w, y + (R() - .5) * w, t0 + (t1 - t0) * u, R() < .55 ? 0 : 1]);
     }
-    const hits = (r, o) => r[0] < o[0] + o[2] && r[0] + r[2] > o[0] && r[1] < o[1] + o[3] && r[1] + r[3] > o[1];
-    // one button per twig, evenly spaced out along the branch from just past the crown; names alternate above and
-    // below, and take a longer stalk (or the other side) when the short one would land on something
-    const xa = edgeX + side * 34, xb = ex - side * 24;
-    const tipsAt = items.map((li, i) => {
+  }
+  function clumpDots(d, cx, cy, rx, t, R) {
+    const ry = rx * (0.4 + R() * 0.1);
+    for (let i = 0, n = Math.round(Math.PI * rx * ry * 0.5); i < n; i++) {
+      const r = Math.sqrt(R()), th = R() * 6.283, dy = Math.sin(th) * r * ry;
+      d.push([cx + Math.cos(th) * r * rx, cy + dy, Math.min(1, t + R() * 0.08), dy < -ry * .2 ? 0 : dy < ry * .35 ? 1 : 2]);
+    }
+  }
+  // lay a canvas over the dots' own patch of the scene and grow them in over dur ms
+  function paint(canvas, d, dur, delay, onStep) {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (const p of d) { if (p[0] < x0) x0 = p[0]; if (p[1] < y0) y0 = p[1]; if (p[0] > x1) x1 = p[0]; if (p[1] > y1) y1 = p[1]; }
+    if (!d.length) { wipe(canvas); if (onStep) onStep(1); return () => {}; }
+    x0 = Math.floor(x0) - 4; y0 = Math.floor(y0) - 4;
+    const w = Math.ceil(x1 - x0) + 8, h = Math.ceil(y1 - y0) + 8;
+    canvas.style.left = x0 + 'px'; canvas.style.top = y0 + 'px'; canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    const c = canvas.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, -x0 * dpr, -y0 * dpr);
+    d.sort((a, b) => a[2] - b[2]);
+    let i = 0, start = 0, raf = 0, wait = 0;
+    const step = now => {
+      if (!start) start = now;
+      const p = dur ? Math.min(1, (now - start) / dur) : 1;
+      for (; i < d.length && d[i][2] <= p; i++) { c.fillStyle = SHADES[d[i][3]]; c.fillRect(d[i][0], d[i][1], 1, 1); }
+      if (onStep) onStep(p);
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    if (dur) wait = setTimeout(() => { raf = requestAnimationFrame(step); }, delay); else step(0);
+    return () => { cancelAnimationFrame(raf); clearTimeout(wait); };
+  }
+
+  function clearSub() { if (stopSub) stopSub(); stopSub = null; wipe(subC); leaf.hidden = true; leaf.classList.remove('typing'); leaf.replaceChildren(); }
+  function clearAll() { clearSub(); if (stopList) stopList(); stopList = null; wipe(listC); twigBox.replaceChildren(); geo = null; }
+
+  // a section's branch: out of the tapped label, up and away from the trunk, a twig per item on alternating sides
+  function growSection(k, instant) {
+    const panel = $(k), side = SIDE[k] || 1, narrow = narrowNow(), lb = labelBox[k], tip = tipsAt[k];
+    if (!panel || !lb || !tip) return null;
+    const leafOnly = !!LEAF[k], items = itemsOf(k), n = items.length;
+    const R = rng({ path: 31, work: 47, hi: 59, me: 73 }[k] || 47);
+    const d = [];
+    // things a twig's name (and later the text) must not sit on: every label, the branch itself, other names
+    const blocks = Object.values(labelBox).map(b => [b[0] - 4, b[1] + 6, b[2] + 8, b[3] - 12]);
+    blocks.push([crownBox[0], crownBox[1], crownBox[2] - crownBox[0], crownBox[3] - crownBox[1]]); // ...and the tree's own crown
+    let P0;
+    if (narrow) { // phones: the labels stand in a row, so the branch starts as the word's underline and turns up at its outer end
+      P0 = [lb[0] + (side > 0 ? lb[2] + 2 : -2), lb[1] + lb[3] - 7];
+      limbDots(d, u => [tip[0] + (P0[0] - tip[0]) * u, P0[1] + Math.sin(u * 7) * 1.2], Math.abs(P0[0] - tip[0]), 2.6, 2.6, 0, 0.06, R);
+    } else P0 = [tip[0] - side * 10, tip[1] - 3];
+    let dx, dy;
+    if (leafOnly) { dx = narrow ? 40 : 130; dy = narrow ? lb[3] + 30 : Math.max(96, P0[1] - crownBox[1]); } // up to the top of the crown: the text hangs beside the whole tree
+    else if (narrow) { dx = W * 0.4; dy = clamp(n * 56, 200, H - 230); }
+    else { dx = clamp(n * 95, 300, W - 340); dy = clamp(n * 60, 200, H - 230); }
+    const E = [P0[0] + side * dx, P0[1] - dy], qx = P0[0] + side * dx * (narrow ? 0.2 : 0.25);
+    const at = u => { const a = 1 - u; return [a * a * P0[0] + 2 * a * u * qx + u * u * E[0], P0[1] - dy * u + Math.sin(u * 11) * 2.2 * Math.sin(u * Math.PI)]; };
+    const len = Math.hypot(dx, dy) * 1.06;
+    limbDots(d, at, len, narrow ? 5.5 : 8, 1.8, 0.06, 0.8, R);
+    for (let i = 0, m = Math.ceil(len / 11); i <= m; i++) { const [x, y] = at(i / m); blocks.push([x - 7, y - 6, 14, 12]); }
+
+    const ua = narrow ? 0.14 : 0.2, ub = 0.96, padIn = narrow ? 90 : 170;
+    const win = side > 0 ? [P0[0] - padIn, P0[0] - padIn + W - 24] : [P0[0] + padIn - (W - 24), P0[0] + padIn]; // one window's width of scene
+    const uOf = i => n > 1 ? ua + (ub - ua) * i / (n - 1) : 0.6;
+    const twigs = items.map((el, i) => {
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'twig'; b.textContent = twigName(li);
-      b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-controls', 'card');
-      b.addEventListener('click', () => showItem(items, i));
+      b.type = 'button'; b.className = 'twig'; b.textContent = twigName(el); b.dataset.i = i;
+      b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-controls', 'leaf');
       twigBox.append(b);
-      const bw = b.offsetWidth, bh = b.offsetHeight;
-      const u = uAt(n > 1 ? xa + (xb - xa) * i / (n - 1) : (xa + xb) / 2), [x0, yb] = at(u), y0 = yb + wobble(u), t0 = u * 0.85;
-      const jit = R() * 8, pref = i % 2 === 0;
+      const bw = b.offsetWidth + 6, bh = b.offsetHeight; // + room for the full stop it gets when open
+      const u = uOf(i), [x0, y0] = at(u), t0 = 0.06 + 0.74 * u;
+      const [xa, ya] = at(Math.max(0, u - 0.02)), [xb, yb] = at(Math.min(1, u + 0.02));
+      let nx = -(yb - ya), ny = xb - xa; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+      if (ny < 0) { nx = -nx; ny = -ny; } // (nx, ny): square to the branch, pointing down and away from the trunk
       let pick = null;
-      for (const [up, tier] of [[pref, 0], [pref, 1], [!pref, 0], [!pref, 1], [pref, 2], [!pref, 2]]) {
-        const L = 24 + jit + tier * 30, a = up ? -Math.PI / 2 + side * 0.45 : Math.PI / 2 - side * 0.45;
-        const x = x0 + Math.cos(a) * L, y = y0 + Math.sin(a) * L;
-        const left = Math.max(12, Math.min(W - bw - 12, x - bw / 2)), top = up ? y - bh + 2 : y - 2;
-        const text = [left - 3, top + 9, bw + 6, bh - 18]; // the name itself, inside the button's 44px tap area
-        const stalk = [Math.min(x0, x) - 2, Math.min(y0, y) + (up ? 0 : 8), Math.abs(x - x0) + 4, Math.max(1, Math.abs(y - y0) - 8)];
-        const c = { L, a, x, y, up, left, top, text };
+      const pref = i % 2 === 0; // first twig hangs on the outer side, the next on the inner side, and so on
+      for (const [low, tier] of [[pref, 0], [!pref, 0], [pref, 1], [!pref, 1], [pref, 2], [!pref, 2]]) {
+        const L = 30 + tier * 28, s = low ? 1 : -1, x = x0 + nx * L * s, y = y0 + ny * L * s;
+        const out = low ? side > 0 : side < 0; // does the name run rightwards from the stalk?
+        const left = out ? x + 1 : x - 1 - bw, top = y - bh / 2 + (low ? 4 : -4);
+        const text = [left + 3, top + 9, bw - 6, bh - 18]; // the name itself, inside the button's 44px tap area
+        const stalk = [Math.min(x0, x) - 1, Math.min(y0, y) - 1, Math.abs(x - x0) + 2, Math.abs(y - y0) + 2];
+        const c = { x, y, low, left, top, text, L, s };
         if (!pick) pick = c; // if nothing is clear, fall back to the plain alternating spot
-        if (top < 8 || top + bh > H - 8) continue;
-        if (blocks.some(o => hits(text, o)) || (keptRect && (hits(text, keptRect) || hits(stalk, keptRect))) || blocks.some(o => o.name && hits(stalk, o))) continue;
+        if (left < win[0] || left + bw > win[1]) continue;
+        if (blocks.some(o => hits(text, o)) || blocks.some(o => o.name && hits(stalk, o))) continue;
         pick = c; break;
       }
       const name = pick.text.slice(); name.name = true; blocks.push(name);
-      let x = x0, y = y0;
-      for (let s = 0; s < pick.L; s++) { x += Math.cos(pick.a); y += Math.sin(pick.a); d.push([x, y, t0 + 0.08 * s / pick.L, 1]); }
-      for (let q = 0; q < 26; q++) { const r = Math.sqrt(R()) * 4.5, th = R() * 6.283; d.push([x + Math.cos(th) * r * 1.4, y + Math.sin(th) * r, t0 + 0.1, R() < .6 ? 0 : 1]); }
-      b.style.left = pick.left + 'px'; b.style.top = pick.top + 'px';
-      b.dataset.t = t0 + 0.1; b.dataset.x = x; b.dataset.y = Math.max(y, y0);
-      return b;
+      for (let q = 0; q < pick.L; q++) d.push([x0 + nx * q * pick.s, y0 + ny * q * pick.s, t0 + 0.05 * q / pick.L, 1]);
+      b.style.left = pick.left + 'px'; b.style.top = pick.top + 'px'; b.dataset.t = t0 + 0.06;
+      return { b, low: pick.low, node: [x0, y0], rect: [pick.left, pick.top, bw, bh] };
     });
-    d.sort((a, b) => a[2] - b[2]);
-    // nothing is opened for the reader: the note stays away until a twig is tapped (a resize keeps the one already open)
-    pressed = -1;
-    if (keep >= 0 && keep < n) showItem(items, keep);
-    // grow it
-    lx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const twigs = tipsAt, dur = instant || reduce.matches ? 0 : 1300;
-    let drawnL = 0, startAt = 0;
-    const step = now => {
-      if (!startAt) startAt = now;
-      const p = dur ? Math.min(1, (now - startAt) / dur) : 1;
-      for (; drawnL < d.length && d[drawnL][2] <= p; drawnL++) { const [x, y, , sh] = d[drawnL]; lx.fillStyle = SHADES[sh]; lx.fillRect(x, y, 1, 1); }
-      twigs.forEach(b => b.classList.toggle('on', +b.dataset.t <= p));
-      if (p < 1) listAnim = requestAnimationFrame(step);
-    };
-    if (dur) listWait = setTimeout(() => { listAnim = requestAnimationFrame(step); }, 450); // after the tree steps aside
-    else step(performance.now());
+    // leaf clumps between the twigs, smaller towards the tip
+    const cl = leafOnly ? [0.3, 0.55, 0.8] : twigs.slice(1).map((_, i) => (uOf(i) + uOf(i + 1)) / 2);
+    for (const u of cl) { const [x, y] = at(u); clumpDots(d, x, y - 3, (narrow ? 20 : 34) * (1 - u * 0.5) * (0.8 + R() * 0.4), 0.1 + 0.74 * u, R); }
+    clumpDots(d, E[0], E[1], narrow ? 10 : 14, 0.86, R);
+
+    // what the camera should hold in view for this section
+    const box = [Math.min(lb[0], P0[0], E[0]) - 4, E[1] - 16, Math.max(lb[0] + lb[2] + 8, P0[0], E[0]) + 4, lb[1] + lb[3]];
+    for (const t of twigs) { box[0] = Math.min(box[0], t.rect[0]); box[1] = Math.min(box[1], t.rect[1]); box[2] = Math.max(box[2], t.rect[0] + t.rect[2]); box[3] = Math.max(box[3], t.rect[1] + t.rect[3]); }
+
+    const show = p => twigs.forEach(t => t.b.classList.toggle('on', +t.b.dataset.t <= p));
+    stopList = paint(listC, d, instant ? 0 : 1300, 350, show);
+    twigBox.setAttribute('aria-label', panel.querySelector('h2').textContent.trim() + ': ' + (n ? n + ' items on this branch' : 'branch'));
+    return { k, side, narrow, panel, items, twigs, blocks, box, E, lb, leafOnly, seed: R };
+  }
+
+  // wrap each word so the text can be written out visually while all of it is already there for screen readers
+  function wordify(el) {
+    const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+    while (tw.nextNode()) nodes.push(tw.currentNode);
+    let w = 0;
+    for (const nd of nodes) {
+      if (!nd.nodeValue.trim()) continue;
+      const frag = document.createDocumentFragment();
+      for (const part of nd.nodeValue.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) { frag.append(part); continue; }
+        const s = document.createElement('span'); s.className = 'w'; s.style.setProperty('--w', w++); s.textContent = part; frag.append(s);
+      }
+      nd.replaceWith(frag);
+    }
+    el.querySelectorAll('.note, .facts li').forEach(box => { // scraps of paper and bullets arrive with their first word
+      const first = box.querySelector('.w'); if (!first) return;
+      box.classList.add('w'); box.style.setProperty('--w', first.style.getPropertyValue('--w'));
+    });
+    return w;
+  }
+
+  // one twig's text (i >= 0), a twig-less section's text, or just the list (i < 0): placed in the scene, then framed
+  function showLeaf(i, instant) {
+    const g = geo; if (!g) return;
+    clearSub();
+    g.twigs.forEach((t, j) => { t.b.setAttribute('aria-pressed', String(j === i)); t.b.style.visibility = ''; });
+    if (!g.leafOnly && i < 0) { frameBox(g.box); return; }
+    const src = g.leafOnly ? null : g.items[i];
+    leaf.innerHTML = g.leafOnly ? [...g.panel.children].filter(c => !c.matches('.back,h2')).map(c => c.outerHTML).join('')
+      : src.tagName === 'LI' ? src.innerHTML : src.outerHTML;
+    leaf.querySelectorAll('[data-twig]').forEach(x => x.removeAttribute('data-twig'));
+    leaf.setAttribute('aria-label', g.leafOnly ? g.panel.querySelector('h2').textContent.trim() : twigName(src));
+    const words = wordify(leaf);
+    const tw = g.narrow ? W - 56 : Math.min(g.leafOnly ? 620 : 440, W * 0.44);
+    leaf.style.width = tw + 'px'; leaf.style.maxHeight = Math.max(160, H - 150) + 'px'; leaf.style.left = leaf.style.top = '0px';
+    leaf.hidden = false;
+    const th = leaf.offsetHeight;
+    // its own little branch leaves the twig (or the end of the section's branch) heading away from the trunk and down,
+    // and runs on until the text has clear sky to itself
+    const tg = g.leafOnly ? null : g.twigs[i];
+    const S0 = g.leafOnly ? g.E : tg.low ? [tg.rect[0] + (g.side > 0 ? tg.rect[2] + 1 : -1), tg.rect[1] + tg.rect[3] / 2 + 3] : tg.node;
+    const phi = g.leafOnly ? -0.15 : g.narrow ? 0.5 : 0.6, ux = g.side * Math.cos(phi), uy = Math.sin(phi);
+    let T, rect;
+    for (let r = g.leafOnly ? 18 : 60; r < 2400; r += 16) {
+      T = [S0[0] + ux * r, S0[1] + uy * r];
+      rect = [g.side > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
+      const fat = [rect[0] - 14, rect[1] - 10, tw + 28, th + 20];
+      if (!g.blocks.some(o => hits(fat, o))) break;
+    }
+    leaf.style.left = rect[0] + 'px'; leaf.style.top = rect[1] + 'px';
+    // the sub-branch, with a few leaves, ending in a tuft where the writing starts
+    const R = rng(900 + (i < 0 ? 0 : i) * 7), d = [], run = Math.hypot(T[0] - S0[0], T[1] - S0[1]);
+    const mx = (S0[0] + T[0]) / 2, my = (S0[1] + T[1]) / 2 + Math.min(26, run * 0.12);
+    const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0], a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
+    limbDots(d, at, run, 3.4, 1.4, 0, 0.8, R);
+    for (let c = 1, m = Math.min(5, Math.floor(run / 70)); c <= m; c++) { const u = c / (m + 1), [x, y] = at(u); clumpDots(d, x, y - 2, 9 + R() * 8, 0.8 * u, R); }
+    clumpDots(d, T[0], T[1], 7, 0.86, R);
+    stopSub = paint(subC, d, instant ? 0 : 520, 150, null);
+    if (!instant) {
+      leaf.style.setProperty('--d0', (g.leafOnly ? 900 : 560) + 'ms');
+      leaf.style.setProperty('--ws', Math.min(26, 1900 / Math.max(1, words)).toFixed(1) + 'ms');
+      leaf.classList.add('typing');
+    }
+    // hold the text in view, and with it as much of where it hangs from as the window has room for
+    const join = (a, b) => [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
+    const fits = b => b[2] - b[0] <= W - 16 && b[3] - b[1] <= H - 144;
+    const own = [rect[0] - 8, rect[1] - 6, rect[0] + tw + 8, rect[1] + th];
+    const from = tg ? [tg.rect[0], tg.rect[1], tg.rect[0] + tg.rect[2], tg.rect[1] + tg.rect[3]] : [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]];
+    const stub = [Math.min(T[0] - g.side * 20, T[0]), T[1] - 26, Math.max(T[0] - g.side * 20, T[0]), T[1]]; // at least the tip of its branch
+    const all = join(join(own, from), [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]]);
+    const tree = join(all, crownBox); // best of all: the whole tree beside the text
+    frameBox(fits(tree) ? tree : fits(all) ? all : fits(join(own, from)) ? join(own, from) : fits(join(own, stub)) ? join(own, stub) : own, g.narrow); // phones read from the top of the screen
+    // a neighbouring twig that the slide leaves under the back button steps out of its way
+    const corner = [0, H - 76, 88, 76];
+    g.twigs.forEach((t, j) => { if (j !== i && hits([t.rect[0] + cam[0], t.rect[1] + cam[1], t.rect[2], t.rect[3]], corner)) t.b.style.visibility = 'hidden'; });
   }
 
   try {
@@ -834,46 +847,82 @@
     addEventListener('resize', () => resize(false));
     reduce.addEventListener('change', queue);
 
-    // Branches and "back" are real buttons with their own handlers (not links), so they
+    // Branches, twigs and "back" are real buttons with their own handlers (not links), so they
     // still work in previews and file viewers that swallow taps on links.
-    const panels = [...document.querySelectorAll('.panel')];
+    const labelFor = k => labels.find(b => b.dataset.open === k) || null;
+    labels.forEach(b => b.setAttribute('aria-controls', LEAF[b.dataset.open] ? 'leaf' : 'twigs'));
     let opener = null;
-    function openPanel(id, from) {
-      const panel = panels.find(p => p.id === id) || null;
-      panels.forEach(p => p.classList.toggle('open', p === panel));
-      labels.forEach(b => b.setAttribute('aria-expanded', String(!!panel && b.dataset.open === id)));
-      if (panel) { sideKey = id; applySide(); } // left-hand sections send the tree right, right-hand ones send it left
-      root.classList.toggle('panel-open', !!panel);
-      const keepOpen = () => pressed; // a resize redraws the branch and keeps the note that was open
-      pressed = -1;
-      if (panel && LISTS[id]) growList(id, panel, root.classList.contains('instant'), -1); else clearList();
-      relist = panel && LISTS[id] ? () => growList(id, panel, true, keepOpen()) : null;
-      if (panel) { opener = from || opener; panel.scrollTop = 0; panel.focus({ preventScroll: true }); }
-      else if (opener) { opener.focus({ preventScroll: true }); opener = null; } // back to the label that opened it
+    // the one place that changes what is open. sec: a section id or null; item: a twig's number or -1
+    function go(sec, item, o = {}) {
+      sec = sec && SIDE[sec] && $(sec) ? sec : null;
+      const changed = sec !== cur.sec || !!o.force;
+      if (!changed && item === cur.item) return; // browser Back fires twice (popstate + hashchange): do it once
+      const instant = !!o.instant || reduce.matches || root.classList.contains('instant');
+      const before = cur.item, was = geo && geo.twigs[before];
+      if (changed) { clearAll(); cur.sec = sec; if (sec) geo = growSection(sec, instant); if (!geo) cur.sec = sec = null; }
+      cur.item = geo && item >= 0 && item < geo.twigs.length ? item : -1;
+      labels.forEach(b => b.setAttribute('aria-expanded', String(b.dataset.open === sec)));
+      root.classList.toggle('panel-open', !!sec);
+      pill.hidden = !sec;
+      if (geo) showLeaf(cur.item, instant); else setCam(0, 0);
+      // the page may have been scrolled under the open branch: come back to the fully grown tree, labels and all
+      if (changed && !sec) finishGrowth();
+      if (!o.keepFocus) {
+        if (changed && sec) { opener = o.from || labelFor(sec); (geo.leafOnly ? leaf : twigBox).focus({ preventScroll: true }); } // into the branch
+        else if (changed && opener) { opener.focus({ preventScroll: true }); opener = null; } // back to the label that opened it
+        else if (!changed && cur.item < 0 && was && !o.from) was.b.focus({ preventScroll: true }); // back to the twig that was open
+      }
       queue();
     }
-    const setHash = h => { try { history.pushState(null, '', h ? '#' + h : location.pathname + location.search); } catch (_) {} };
+    const still = () => { root.classList.add('instant'); requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('instant'))); }; // no slide for the next frame or two
+    relist = () => { still(); go(cur.sec, cur.item, { force: true, instant: true, keepFocus: true }); }; // after a resize: same thing open, redrawn in place
+    const setHash = (replace) => {
+      const h = cur.sec ? '#' + cur.sec + (cur.item >= 0 ? '/' + slug(twigName(geo.items[cur.item])) : '') : location.pathname + location.search;
+      try { history[replace ? 'replaceState' : 'pushState'](null, '', h); } catch (_) {}
+    };
+    // one step back at a time: twig -> branch -> tree
+    function back(all) {
+      if (!cur.sec) return;
+      if (cur.item >= 0 && !all) go(cur.sec, -1); else go(null, -1);
+      setHash();
+    }
     document.addEventListener('click', e => {
-      const b = e.target.closest('[data-open],[data-close]'); if (!b) return;
-      if (b.hasAttribute('data-close')) { openPanel(null); setHash(''); return; }
-      openPanel(b.dataset.open, b); setHash(b.dataset.open);
+      const t = e.target.nodeType === 1 ? e.target : e.target.parentElement; if (!t) return;
+      const b = t.closest('[data-open],[data-back],[data-close],.twig');
+      if (!b) { // a tap on empty sky steps back, unless it was on something to read or use
+        if (cur.sec && !t.closest('a,button,#leaf,.corner') && !String(getSelection && getSelection()).trim()) back();
+        return;
+      }
+      if (b.matches('[data-back]')) return back();
+      if (b.matches('[data-close]')) return back(true);
+      if (b.matches('.twig')) { // tap a twig to open it; tap it again to close it; opening another closes the first
+        const i = +b.dataset.i, had = cur.item >= 0, next = cur.item === i ? -1 : i;
+        go(cur.sec, next, { from: b }); setHash(had && next >= 0);
+        return;
+      }
+      if (b.dataset.open === cur.sec) return back(true); // tapping the open branch's own label folds it away
+      go(b.dataset.open, -1, { from: b }); setHash();
     });
-    const fromHash = () => openPanel(location.hash.slice(1));
+    const fromHash = () => {
+      const [sec, item] = location.hash.slice(1).split('/');
+      go(sec, item ? itemsOf(sec).findIndex(el => slug(twigName(el)) === item) : -1);
+    };
     addEventListener('popstate', fromHash);
     addEventListener('hashchange', fromHash);
-    if (location.hash) { // a direct link to a section: show it in place, without the slide
-      root.classList.add('instant'); fromHash();
-      requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('instant')));
+    if (location.hash) { // a direct link to a section or twig: show it in place, without the slide
+      still(); fromHash();
     }
     // label widths change once the handwriting font loads: redraw so the branches still reach them
     document.fonts && document.fonts.ready.then(() => resize(true));
     // tabbing onto a branch label before the tree is grown jumps straight to the grown tree
     $('labels').addEventListener('focusin', () => {
-      if (!root.classList.contains('grown') && !document.querySelector('.panel.open')) scrollTo(0, document.documentElement.scrollHeight);
+      if (!root.classList.contains('grown') && !cur.sec) finishGrowth();
     });
-    addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.panel.open')) { openPanel(null); setHash(''); } });
+    addEventListener('keydown', e => {
+      if ((e.key === 'Escape' || e.key === 'Backspace') && cur.sec && !e.defaultPrevented) { if (e.key === 'Backspace') e.preventDefault(); back(); }
+    });
   } catch (err) {
-    root.classList.remove('tree', 'grown'); // drawing failed: fall back to the plain CV
+    root.classList.remove('tree', 'grown', 'panel-open'); // drawing failed: fall back to the plain CV
     console.error(err);
   }
 })();
