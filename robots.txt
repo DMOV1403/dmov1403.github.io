@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /ref/
+Disallow: /docs/
+
+Sitemap: https://osamamonir.com/sitemap.xml

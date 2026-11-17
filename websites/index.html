@@ -9,7 +9,9 @@
 <meta name="theme-color" content="#1F1C25">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://osamamonir.com/websites/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F1C25'/%3E%3Cellipse cx='32' cy='26' rx='22' ry='10' fill='%23D8CFBD'/%3E%3Crect x='30' y='30' width='4' height='22' fill='%23D8CFBD'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://osamamonir.com/websites/">
 <meta property="og:title" content="Osama Monir | Websites">
@@ -22,10 +24,67 @@
 <meta property="og:image:alt" content="A stippled ghaf tree on moonlit dunes beside the name Osama Monir">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://osamamonir.com/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/pages.css?v=20261118b">
+<link rel="preload" href="../assets/fonts/spectral-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/caveat-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/fonts.css?v=1">
+<link rel="stylesheet" href="../assets/pages.css?v=20261118c">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "CollectionPage",
+   "url": "https://osamamonir.com/websites/",
+   "name": "Osama Monir | Websites",
+   "isPartOf": {
+    "@id": "https://osamamonir.com/#site"
+   },
+   "author": {
+    "@id": "https://osamamonir.com/#me"
+   },
+   "hasPart": [
+    {
+     "@type": "WebSite",
+     "name": "Dr. Monir Lotfy",
+     "url": "https://monirlotfy.com/",
+     "inLanguage": "ar",
+     "creator": {
+      "@id": "https://osamamonir.com/#me"
+     },
+     "description": "Arabic author platform with a book store, a paid members' library and an in-browser reader."
+    },
+    {
+     "@type": "WebSite",
+     "name": "RSD",
+     "url": "https://rsd.services/",
+     "inLanguage": "en",
+     "creator": {
+      "@id": "https://osamamonir.com/#me"
+     },
+     "description": "Corporate site for an Omani mining, investment and industrial technology company."
+    }
+   ]
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Home",
+     "item": "https://osamamonir.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Websites",
+     "item": "https://osamamonir.com/websites/"
+    }
+   ]
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to the case studies</a>
@@ -80,9 +139,9 @@
             </div>
             <div class="browser"><div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span class="url">monirlotfy.com</span></div>
               <div class="screen" tabindex="0" aria-label="monirlotfy.com on a computer, scroll to see more">
-                <img id="mp1" role="tabpanel" aria-labelledby="mt1" src="../assets/work/site-monir-desk.webp" width="1200" height="3000" alt="monirlotfy.com home page on a computer: the author's portrait, new releases, his story and featured books" loading="lazy">
-                <img id="mp2" role="tabpanel" aria-labelledby="mt2" src="../assets/work/site-monir-library.webp" width="1200" height="1500" alt="The library page: a grid of the author's book covers with prices" loading="lazy">
-                <img id="mp3" role="tabpanel" aria-labelledby="mt3" src="../assets/work/site-monir-upgrade.webp" width="1200" height="1500" alt="The membership page: one lifetime price, what members get and the payment options" loading="lazy">
+                <div id="mp1" role="tabpanel" aria-labelledby="mt1"><img src="../assets/work/site-monir-desk.webp" srcset="../assets/work/site-monir-desk-640.webp 640w, ../assets/work/site-monir-desk.webp 1200w" sizes="(min-width: 56em) 46rem, calc(100vw - 2.5rem)" width="1200" height="3000" alt="monirlotfy.com home page on a computer: the author's portrait, new releases, his story and featured books" loading="lazy"></div>
+                <div id="mp2" role="tabpanel" aria-labelledby="mt2"><img src="../assets/work/site-monir-library.webp" srcset="../assets/work/site-monir-library-640.webp 640w, ../assets/work/site-monir-library.webp 1200w" sizes="(min-width: 56em) 46rem, calc(100vw - 2.5rem)" width="1200" height="1500" alt="The library page: a grid of the author's book covers with prices" loading="lazy"></div>
+                <div id="mp3" role="tabpanel" aria-labelledby="mt3"><img src="../assets/work/site-monir-upgrade.webp" srcset="../assets/work/site-monir-upgrade-640.webp 640w, ../assets/work/site-monir-upgrade.webp 1200w" sizes="(min-width: 56em) 46rem, calc(100vw - 2.5rem)" width="1200" height="1500" alt="The membership page: one lifetime price, what members get and the payment options" loading="lazy"></div>
               </div>
             </div>
             <p class="hint">Real captures of the live site. Scroll inside the window.</p>
@@ -132,7 +191,7 @@
         <div class="show">
           <div>
             <div class="browser"><div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span class="url">rsd.services</span></div>
-              <div class="screen" tabindex="0" aria-label="rsd.services on a computer, scroll to see the whole home page"><img src="../assets/work/web-rsd-full.webp" width="1200" height="4333" alt="The whole rsd.services home page: a port at dusk, what the company does, its projects and a contact band" loading="lazy"></div>
+              <div class="screen" tabindex="0" aria-label="rsd.services on a computer, scroll to see the whole home page"><img src="../assets/work/web-rsd-full.webp" srcset="../assets/work/web-rsd-full-640.webp 640w, ../assets/work/web-rsd-full.webp 1200w" sizes="(min-width: 56em) 46rem, calc(100vw - 2.5rem)" width="1200" height="4333" alt="The whole rsd.services home page: a port at dusk, what the company does, its projects and a contact band" loading="lazy"></div>
             </div>
             <p class="hint">The whole home page, captured from the live site. Scroll inside the window.</p>
           </div>
@@ -226,6 +285,6 @@
   </ul>
 </footer>
 <script src="../assets/horizon.js?v=20261118b" defer></script>
-<script src="../assets/websites.js?v=20261118b" defer></script>
+<script src="../assets/websites.js?v=20261118c" defer></script>
 </body>
 </html>
