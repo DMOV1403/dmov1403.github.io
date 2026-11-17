@@ -141,3 +141,89 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
   main{background:none}
   .note{box-shadow:none;rotate:0deg;border:1px solid #999}
 }
+
+/* ===================== the table: real work, taped down on a dark desk ===================== */
+.table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.2rem 1.1rem;margin:1.4rem 0 .5rem;padding:.8rem .2rem 0;list-style:none}
+#work > .body{max-width:none}
+@media (min-width:56em){
+  .table{grid-template-columns:repeat(12,minmax(0,1fr));gap:3.2rem 2rem;margin-left:-14.7rem;padding-left:0;align-items:start}
+  .table .w4{grid-column:span 4}.table .w5{grid-column:span 5}.table .w3{grid-column:span 3}
+}
+@media (max-width:55.99em){.table .wide{grid-column:span 2}}
+.piece{display:block;text-decoration:none;color:inherit;position:relative;rotate:var(--r,-1.5deg);transition:rotate .25s ease,translate .25s ease}
+.table li:nth-child(3n+2) .piece{--r:1.4deg}
+.table li:nth-child(4n+3) .piece{--r:-.6deg}
+.table li:nth-child(5n) .piece{--r:2deg}
+.piece:hover,.piece:focus-visible{rotate:0deg;translate:0 -4px}
+.piece .pic{display:block;position:relative;background:#E9E1D2;box-shadow:0 18px 30px -18px rgba(0,0,0,.9),0 2px 6px rgba(0,0,0,.35);padding:.55rem .55rem .7rem;border-radius:2px}
+.piece .pic::before{content:"";position:absolute;z-index:2;top:-.7rem;left:50%;width:4.2rem;height:1.2rem;translate:-50% 0;rotate:-3deg;background:rgba(236,229,216,.38);box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.piece img{display:block;width:100%;height:auto;aspect-ratio:var(--ar,auto);object-fit:cover;object-position:top;border-radius:2px;transition:opacity .6s ease}
+.piece canvas{position:absolute;left:.55rem;top:.55rem;width:calc(100% - 1.1rem);pointer-events:none;transition:opacity .6s ease}
+.piece .cap{display:block;margin-top:.7rem;font-family:var(--hand);font-size:1.45rem;line-height:1.1;color:var(--sand)}
+.piece .cap small{display:block;font-family:var(--serif);font-size:.85rem;line-height:1.4;color:var(--ink-dim);margin-top:.15rem}
+/* typed memos for the work that can't be shown */
+.memo{display:block;background:var(--paper);color:var(--paper-ink);padding:1.4rem 1.1rem 1.2rem;font-size:.95rem;line-height:1.45;box-shadow:0 18px 30px -18px rgba(0,0,0,.9);position:relative;min-height:12rem}
+.memo::before{content:"";position:absolute;top:-.7rem;left:50%;width:4.2rem;height:1.2rem;translate:-50% 0;rotate:3deg;background:rgba(236,229,216,.5)}
+.memo b{display:block;font-family:var(--hand);font-size:2.2rem;line-height:1;margin-bottom:.4rem}
+.memo i{display:block;margin-top:.6rem;font-size:.82rem;color:#5a5260}
+/* while dots are drawing, the photo waits underneath */
+.dotting img{opacity:0}
+.dotted canvas{opacity:0}
+
+/* ===================== case files: in the page without JS, in a dialog with it ===================== */
+.casefile{padding:2rem 0;border-top:1px solid var(--rule)}
+.casefile h3{font-size:clamp(1.4rem,1.15rem + 1vw,1.9rem);font-weight:500;line-height:1.2}
+.casefile .for{font-family:var(--hand);font-size:1.4rem;color:var(--sand);line-height:1.1}
+.casefile p{margin-top:.8rem;max-width:40rem}
+.casefile .more{margin-top:1rem}
+.gallery{display:grid;gap:1.2rem;margin-top:1.4rem}
+@media (min-width:40em){.gallery.two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gallery figure{margin:0}
+.gallery img,.gallery video{display:block;width:100%;height:auto;border-radius:6px;background:#2b2731}
+.gallery figcaption{margin-top:.45rem;font-size:.92rem;color:var(--ink-dim)}
+.gallery .tall{max-height:70vh;overflow:auto;border-radius:6px;overscroll-behavior:contain}
+.gallery .tall img{border-radius:0}
+.reels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+@media (min-width:40em){.reels{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.reels video{width:100%;height:auto;border-radius:8px;background:#000}
+.reels figcaption{font-size:.88rem;color:var(--ink-dim);margin-top:.35rem}
+html.js .casefiles{display:none}
+
+dialog.viewer{width:min(64rem,calc(100% - 1.5rem));max-height:calc(100dvh - 1.5rem);margin:auto;padding:0;border:0;border-radius:14px;background:var(--sky);color:var(--ink);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.9);overflow:auto}
+dialog.viewer:modal{overscroll-behavior:contain}
+dialog.viewer::backdrop{background:rgba(14,12,18,.78);overflow:hidden;overscroll-behavior:contain}
+dialog.viewer .casefile{border-top:0;padding:1.4rem clamp(1rem,.5rem + 3vw,2.6rem) 2.4rem}
+dialog.viewer .bar{position:sticky;top:0;z-index:3;display:flex;justify-content:flex-end;padding:.6rem .6rem 0;pointer-events:none}
+dialog.viewer .x{pointer-events:auto;display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:.4rem 1rem;border-radius:999px;border:1.5px solid rgba(216,207,189,.55);background:rgba(31,28,37,.92);color:var(--ink);font:inherit;cursor:pointer}
+dialog.viewer .x:hover{background:var(--sky-2);border-color:var(--sand)}
+
+/* ===================== the path as a night route ===================== */
+.route{position:relative}
+.route canvas{position:absolute;left:0;top:0;width:2.6rem;height:100%;pointer-events:none}
+.route .path{padding-left:3.2rem}
+.route .path > li{position:relative}
+.route .place{display:block;font-family:var(--hand);font-size:1.25rem;color:var(--moon);margin:-.2rem 0 .3rem}
+
+/* ===================== websites: real sites in a browser and a phone you can scroll ===================== */
+.show{display:grid;gap:1.8rem;align-items:start;margin:1.4rem 0 .4rem}
+@media (min-width:56em){.show{grid-template-columns:minmax(0,1fr) 14.5rem}}
+.browser{border-radius:12px;background:#34303b;box-shadow:0 30px 60px -30px rgba(0,0,0,.95);overflow:hidden}
+.browser .chrome{display:flex;align-items:center;gap:.4rem;padding:.55rem .75rem}
+.browser .chrome i{width:.7rem;height:.7rem;border-radius:50%;background:#5a5462}
+.browser .url{margin-left:.5rem;flex:1;min-width:0;background:var(--sky);border-radius:6px;padding:.2rem .7rem;font-size:.85rem;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen{height:clamp(17rem,12rem + 22vw,32rem);overflow:auto;overscroll-behavior:contain;background:#fff;scrollbar-width:thin}
+.screen img{display:block;width:100%;height:auto}
+.phone{width:min(14.5rem,72%);margin:0 auto;padding:.6rem;border-radius:2.3rem;background:#0f0e12;box-shadow:0 30px 60px -30px rgba(0,0,0,.95),inset 0 0 0 2px #2c2833}
+.phone .screen{height:27rem;border-radius:1.8rem}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .7rem;list-style:none}
+.tab{font:inherit;font-size:.92rem;min-height:40px;padding:.3rem .9rem;border-radius:999px;border:1.5px solid var(--rule);background:none;color:var(--ink-dim);cursor:pointer}
+.tab[aria-selected="true"]{border-color:var(--sand);color:var(--ink);background:rgba(216,207,189,.1)}
+.tab:hover{color:var(--ink)}
+.show .hint{font-size:.9rem;color:var(--ink-dim);margin-top:.5rem;font-style:italic}
+.measured{display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:1rem;margin-top:1.2rem;list-style:none}
+.measured li{border-top:2px solid var(--moon);padding-top:.5rem}
+.measured b{display:block;font-family:var(--hand);font-size:2rem;line-height:1;color:var(--ink)}
+.measured span{font-size:.9rem;color:var(--ink-dim)}
+.when{margin-top:.6rem;font-size:.85rem;color:var(--ink-dim)}
+.case > p,.case > h4,.case .built,.case .spec,.case .facts,.case .stack{max-width:46rem}
