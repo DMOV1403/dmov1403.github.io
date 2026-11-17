@@ -158,8 +158,33 @@
   html.tree .panel.open .back{display:inline-flex;align-items:center;min-height:44px;font-family:var(--hand);font-size:1.45rem;color:var(--ink-dim);margin:-.5rem 0 .6rem}
   html.tree .panel.open .back:hover{color:var(--ink)}
   html.instant :is(.treebox,.labels,#roots,.panel){transition:none!important;animation:none!important}
+  /* phones and narrow windows: the section is a vertical branch with a twig per item */
+  html.stem-mode .panel.open > :not(.back,h2,.stem){display:none}
+  .stem{position:relative;margin:.4rem 0 0 .35rem;padding-left:1.5rem}
+  .stem::before{content:"";position:absolute;left:0;top:.2rem;bottom:1.2rem;width:3px;border-radius:2px;
+    background:radial-gradient(circle,var(--sand) 0 42%,transparent 48%) 0 0/3px 5px repeat-y;transform-origin:top;animation:stem-grow .9s cubic-bezier(.3,.7,.2,1) both}
+  .sprig{position:relative;animation:sprig-in .45s ease-out both;animation-delay:calc(.25s + var(--i) * 70ms)}
+  .sprig::before{content:"";position:absolute;left:-1.5rem;top:21px;width:1.2rem;height:3px;rotate:-14deg;transform-origin:left;
+    background:radial-gradient(circle,var(--sand) 0 42%,transparent 48%) 0 0/5px 3px repeat-x}
+  .sprig-t{display:flex;align-items:center;width:100%;min-height:44px;padding:.2rem .4rem;border-radius:8px;text-align:left;
+    font-family:var(--hand);font-size:1.5rem;font-weight:600;line-height:1.1;color:var(--ink-dim);transition:color .2s,background .2s}
+  .sprig-t:hover,.sprig-t:focus-visible{color:var(--ink);background:rgba(216,207,189,.1)}
+  .sprig-t[aria-expanded="true"]{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+  .sprig-b{margin:.2rem 0 .9rem .4rem;padding:.85rem 1rem 1rem;font-size:1rem;background:rgba(31,28,37,.9);
+    border:1px solid rgba(216,207,189,.22);border-radius:6px;animation:panel-in .3s ease-out}
+  .sprig-b[hidden]{display:none}
+  :is(.note-card,.sprig-b) .yr,:is(.note-card,.sprig-b) .what{display:block;color:var(--ink-dim);font-size:.95rem}
+  :is(.note-card,.sprig-b) .co{display:block;color:var(--sand);font-style:italic}
+  .sprig-b p{margin:.4rem 0 0}
+  .sprig-b > p:first-child,.sprig-b .facts{margin-top:0}
+  .sprig-b .notes{margin:.6rem 0 .2rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stem.still::before,.stem.still .sprig{animation:none}
+  @keyframes stem-grow{from{scale:1 0}}
+  @keyframes sprig-in{from{opacity:0;translate:-.5rem 0}}
   @media(max-width:760px){
     html.tree .panel.open{left:0;padding:4.5rem 1.25rem 4rem;background:rgba(31,28,37,.93)}
+    html.stem-mode.tree .panel.open{background:rgba(31,28,37,.8)}
+    html.tree .hint{bottom:auto;top:4rem}
     html.tree.panel-open :is(.treebox,.labels){translate:0 0;scale:1}
     html.tree.panel-open .stage{opacity:.3}
     .labels button{font-size:1.45rem;background:rgba(31,28,37,.78)}
@@ -171,6 +196,7 @@
     html.tree :is(.stage,.treebox,#roots){transition:none}
     html.tree .panel.open{animation:none}
     .labels button{transition:none}
+    .stem::before,.sprig,.sprig-b{animation:none}
   }
 </style>
 </head>
@@ -649,6 +675,36 @@
     cancelAnimationFrame(listAnim); clearTimeout(listWait);
     lx.setTransform(1, 0, 0, 1, 0, 0); lx.clearRect(0, 0, listC.width, listC.height);
     twigBox.replaceChildren(); root.classList.remove('branch-mode'); card.hidden = true; keptRect = null;
+    document.querySelectorAll('.stem').forEach(s => s.remove()); root.classList.remove('stem-mode');
+  }
+  // phones and narrow windows: the section grows a vertical branch instead, one twig per item;
+  // tapping a twig opens its contents right under it (one at a time), nothing opens by itself
+  function growStem(k, panel, keep, instant) {
+    let items = [...panel.querySelectorAll('[data-twig]')];
+    if (k === 'path') items = items.map((li, i) => [li, i]).sort((a, b) => parseInt(b[0].dataset.twig) - parseInt(a[0].dataset.twig) || a[1] - b[1]).map(a => a[0]); // newest at the top
+    const stem = document.createElement('div');
+    stem.className = 'stem' + (instant ? ' still' : '');
+    stem.setAttribute('role', 'group'); stem.setAttribute('aria-label', 'Items on this branch');
+    const rows = items.map((el, i) => {
+      const row = document.createElement('div'); row.className = 'sprig'; row.style.setProperty('--i', i);
+      const t = document.createElement('button'); t.type = 'button'; t.className = 'sprig-t'; t.textContent = twigName(el);
+      const body = document.createElement('div'); body.className = 'sprig-b'; body.hidden = true;
+      body.id = k + '-twig-' + i;
+      body.innerHTML = el.tagName === 'LI' ? el.innerHTML : el.outerHTML;
+      body.querySelectorAll('[data-twig]').forEach(x => x.removeAttribute('data-twig'));
+      t.setAttribute('aria-expanded', 'false'); t.setAttribute('aria-controls', body.id);
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') !== 'true';
+        rows.forEach(r => { r.t.setAttribute('aria-expanded', 'false'); r.body.hidden = true; });
+        pressed = open ? i : -1;
+        if (open) { t.setAttribute('aria-expanded', 'true'); body.hidden = false; row.scrollIntoView({ block: 'nearest', behavior: reduce.matches ? 'auto' : 'smooth' }); }
+      });
+      row.append(t, body); stem.append(row);
+      return { t, body };
+    });
+    panel.querySelector('h2').after(stem);
+    root.classList.add('stem-mode');
+    if (keep >= 0 && rows[keep]) { rows[keep].t.setAttribute('aria-expanded', 'true'); rows[keep].body.hidden = false; pressed = keep; }
   }
   // the chosen twig's contents, in a note hanging just under the branch
   function showItem(items, i) {
@@ -676,7 +732,8 @@
   }
   function growList(k, panel, instant, keep) {
     clearList();
-    if (!LISTS[k] || W < 900 || !listFrom[k]) return; // phones and narrow windows keep the plain list
+    if (LISTS[k] && W < 900) { growStem(k, panel, keep, instant); return; } // phones and narrow windows: a vertical stem
+    if (!LISTS[k] || !listFrom[k]) return;
     root.classList.add('branch-mode');
     let items = [...panel.querySelectorAll('[data-twig]')];
     if (k === 'path') items = items.map((li, i) => [li, i]).sort((a, b) => parseInt(a[0].dataset.twig) - parseInt(b[0].dataset.twig) || b[1] - a[1]).map(a => a[0]); // oldest job near the trunk, newest at the tip
