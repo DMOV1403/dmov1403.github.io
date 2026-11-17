@@ -389,7 +389,7 @@
           push(x - Math.sin(a) * o, y + Math.cos(a) * o, t0 + dur * i / steps, R() < 0.6 ? 0 : 1);
         }
       }
-      if (d < 4) for (let k = 0; k < 2; k++) rootLine(x, y, a + (k ? 0.5 : -0.5) + (R() - 0.5) * 0.3, len * 0.72, w * 0.62, d + 1, t0 + dur);
+      if (d < 4 && y < H + 20) for (let k = 0; k < 2; k++) rootLine(x, y, a + (k ? 0.5 : -0.5) + (R() - 0.5) * 0.3, len * 0.72, w * 0.62, d + 1, t0 + dur);
     }
 
     // trunk and limbs: twisted, pushed outward into a wide umbrella crown
@@ -416,7 +416,8 @@
       }
     }
     branch(baseX, baseY, -Math.PI / 2 + (R() - 0.5) * 0.1, S * 0.24, S * 0.05, 0, 0);
-    for (let k = 0; k < 5; k++) rootLine(baseX + (k - 2) * S * 0.012, baseY - 2, Math.PI / 2 + (k - 2) * 0.42, S * 0.1, S * 0.026, 0, -0.32);
+    // a wide root system, spreading flatter and further at the sides (like natochi's), always in view under the sand
+    for (let k = 0; k < 7; k++) { const o = (k - 3) / 3; rootLine(baseX + o * S * 0.02, baseY - 2, Math.PI / 2 + o * 1.12, S * (0.12 + 0.05 * Math.abs(o)), S * 0.03, 0, -0.32); }
 
     // leaf clumps with a soft drooping fringe
     let crownEnd = 0;
@@ -596,10 +597,10 @@
   function drawCut() {
     const [bx, by, S] = base;
     rctx.setTransform(dpr, 0, 0, dpr, 0, 0); rctx.clearRect(0, 0, W, H);
-    const cy = by + S * 0.12, rad = S * 0.42;
+    const cy = by + S * 0.1, rad = S * 0.66;
     const g = rctx.createRadialGradient(bx, cy, 0, bx, cy, rad);
     g.addColorStop(0, 'rgba(31,28,37,.97)'); g.addColorStop(0.7, 'rgba(31,28,37,.85)'); g.addColorStop(1, 'rgba(31,28,37,0)');
-    rctx.save(); rctx.translate(bx, cy); rctx.scale(1, 0.55); rctx.translate(-bx, -cy);
+    rctx.save(); rctx.translate(bx, cy); rctx.scale(1, 0.5); rctx.translate(-bx, -cy);
     rctx.fillStyle = g; rctx.beginPath(); rctx.arc(bx, cy, rad, 0, Math.PI * 2); rctx.fill(); rctx.restore();
   }
 
