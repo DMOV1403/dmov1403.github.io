@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Osama Monir — Web Development Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="text-scale" content="scale">
+<title>Osama Monir | Websites</title>
 <meta name="description" content="I design and build complete websites and handle the hosting, domain and SEO myself. Two real projects: a full publishing platform with payments and a members' library, and a corporate site for an Omani venture company.">
+<meta name="theme-color" content="#1F1C25">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://osamamonir.com/websites/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314120d'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23c9a35c'%3EO%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F1C25'/%3E%3Cellipse cx='32' cy='26' rx='22' ry='10' fill='%23D8CFBD'/%3E%3Crect x='30' y='30' width='4' height='22' fill='%23D8CFBD'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://osamamonir.com/websites/">
-<meta property="og:title" content="Osama Monir — Web Development Portfolio">
+<meta property="og:title" content="Osama Monir | Websites">
 <meta property="og:description" content="I design and build complete websites and handle the hosting, domain and SEO myself. Two real projects: a full publishing platform with payments and a members' library, and a corporate site for an Omani venture company.">
 <meta property="og:site_name" content="Osama Monir">
 <meta property="og:image" content="https://osamamonir.com/og.jpg">
@@ -22,532 +24,167 @@
 <meta name="twitter:image" content="https://osamamonir.com/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    color-scheme:dark;
-    --ink:#14120d;
-    --ink-2:#1b1812;
-    --ink-3:#242019;
-    --bone:#efe9dc;
-    --bone-dim:#b5ad9c;
-    --gold:#c9a35c;
-    --gold-soft:rgba(201,163,92,.14);
-    --rust:#b4552d;
-    --line:rgba(239,233,220,.12);
-    --serif:"Fraunces",Georgia,serif;
-    --sans:"Archivo",Helvetica,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--ink);
-    color:var(--bone);
-    font-family:var(--sans);
-    font-size:1rem;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  body::before{
-    content:"";
-    position:fixed;inset:0;
-    pointer-events:none;z-index:1;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  }
-  ::selection{background:var(--gold);color:var(--ink)}
-
-  .wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
-
-  /* ---------- header ---------- */
-  header{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    border-bottom:1px solid transparent;
-    transition:background .35s,border-color .35s;
-  }
-  header.solid{background:rgba(20,18,13,.92);border-color:var(--line);backdrop-filter:blur(10px)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .mark{font-family:var(--serif);font-weight:700;font-size:1.25rem;letter-spacing:.02em;color:var(--bone);text-decoration:none}
-  .mark span{color:var(--gold)}
-  nav a.lnk{
-    color:var(--bone-dim);text-decoration:none;font-size:.8125rem;font-weight:600;
-    letter-spacing:.14em;text-transform:uppercase;margin-left:28px;transition:color .25s;
-  }
-  nav a.lnk:hover{color:var(--gold)}
-
-  /* ---------- hero ---------- */
-  .hero{position:relative;padding:clamp(140px,20vh,220px) 0 clamp(60px,8vh,90px)}
-  .hero::after{
-    content:"";position:absolute;top:-30%;right:-15%;width:60vw;height:60vw;
-    background:radial-gradient(circle,rgba(201,163,92,.10),transparent 60%);
-    pointer-events:none;
-  }
-  .overline{
-    display:inline-flex;align-items:center;gap:10px;
-    font-size:.75rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
-  }
-  .overline::before{content:"";width:34px;height:1px;background:var(--gold)}
-  h1{
-    font-family:var(--serif);font-weight:300;
-    font-size:clamp(2.625rem,7.4vw,5.75rem);
-    line-height:1.04;letter-spacing:-.01em;
-    margin:26px 0 30px;max-width:16ch;
-  }
-  h1 em{font-style:italic;font-weight:400;color:var(--gold)}
-  .lede{max-width:52ch;color:var(--bone-dim);font-size:clamp(1rem,1.6vw,1.1875rem)}
-
-  .stats{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    margin-top:clamp(48px,7vh,72px);
-  }
-  .stat{padding:26px 18px 26px 0}
-  .stat+.stat{border-left:1px solid var(--line);padding-left:26px}
-  .stat b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.75rem);color:var(--bone);line-height:1.1}
-  .stat span{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
-
-  /* ---------- ticker ---------- */
-  .ticker{border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;white-space:nowrap}
-  .ticker{position:relative}
-  .ticker-track{display:inline-block;animation:tick 34s linear infinite}
-  .ticker.paused .ticker-track{animation-play-state:paused}
-  .ticker-toggle{position:absolute;right:12px;top:50%;translate:0 -50%;z-index:1;font:inherit;font-size:.6875rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:100px;border:1px solid var(--line);background:var(--ink);color:var(--bone-dim);cursor:pointer}
-  .ticker-toggle:hover{color:var(--gold);border-color:var(--gold)}
-  .ticker span{
-    font-family:var(--serif);font-style:italic;font-size:1.0625rem;color:var(--bone-dim);margin:0 14px;
-  }
-  .ticker i{color:var(--gold);font-style:normal}
-  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-  /* ---------- sections ---------- */
-  section{padding:clamp(72px,11vh,130px) 0}
-  .sec-head{display:flex;align-items:baseline;gap:22px;margin-bottom:clamp(36px,6vh,64px)}
-  .sec-num{
-    font-family:var(--serif);font-size:clamp(3.25rem,7vw,6rem);font-weight:300;
-    color:transparent;-webkit-text-stroke:1px var(--gold);line-height:1;
-  }
-  .sec-title h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.75rem,4vw,3rem);line-height:1.1}
-  .sec-title p{color:var(--gold);font-size:.8125rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-top:8px}
-
-  .case{border-top:1px solid var(--line)}
-  .brief{
-    display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,5vw,70px);
-    margin-bottom:clamp(44px,7vh,70px);
-  }
-  .brief h3{font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
-  .brief p{color:var(--bone-dim)}
-  .brief p strong{color:var(--bone);font-weight:600}
-  .meta{list-style:none;margin-top:22px}
-  .meta li{
-    display:flex;justify-content:space-between;gap:16px;
-    padding:10px 0;border-bottom:1px dashed var(--line);font-size:.875rem;
-  }
-  .meta li span:first-child{color:var(--bone-dim)}
-  .meta li span:last-child{color:var(--bone);font-weight:600;text-align:right}
-  .meta a{color:var(--gold);text-decoration:underline 1px var(--gold-soft);text-underline-offset:.2em}
-  .meta a:hover{border-color:var(--gold)}
-
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
-  .cell{
-    background:var(--ink-2);padding:28px 26px;position:relative;overflow:hidden;
-    transition:background .3s;
-  }
-  .cell:hover{background:var(--ink-3)}
-  .cell::after{
-    content:"";position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);
-    transition:width .45s cubic-bezier(.2,.8,.2,1);
-  }
-  .cell:hover::after{width:100%}
-  .cell h4{font-family:var(--serif);font-weight:600;font-size:1.1875rem;margin-bottom:10px}
-  .cell p{font-size:.875rem;color:var(--bone-dim);line-height:1.65}
-  .cell .glyph{font-size:1.25rem;color:var(--gold);display:block;margin-bottom:14px}
-
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(36px,5vh,54px)}
-  .chips h5{width:100%;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-  .chip{
-    font-size:.8125rem;font-weight:500;color:var(--bone);
-    border:1px solid var(--line);border-radius:100px;padding:7px 16px;
-    background:var(--ink-2);
-  }
-  .chip.hot{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
-
-  .callouts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:clamp(36px,5vh,54px)}
-  .callout{
-    border:1px solid var(--line);border-left:3px solid var(--gold);
-    padding:26px 28px;background:var(--ink-2);
-  }
-  .callout h4{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.3125rem;color:var(--gold);margin-bottom:10px}
-  .callout p{font-size:.90625rem;color:var(--bone-dim)}
-
-  .check{list-style:none;columns:2;column-gap:44px;margin-top:clamp(30px,4vh,44px)}
-  .check li{
-    break-inside:avoid;display:flex;gap:12px;align-items:flex-start;
-    padding:11px 0;border-bottom:1px dashed var(--line);font-size:.9375rem;color:var(--bone-dim);
-  }
-  .check li::before{content:"✓";color:var(--gold);font-weight:700;flex:0 0 auto}
-  .check li strong{color:var(--bone);font-weight:600}
-
-  /* ---------- capabilities ---------- */
-  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-  .cap{background:var(--ink-2);padding:34px 30px;transition:background .3s}
-  .cap:hover{background:var(--ink-3)}
-  .cap b{font-family:var(--serif);font-size:.9375rem;color:var(--gold);display:block;margin-bottom:16px}
-  .cap h3{font-family:var(--serif);font-weight:600;font-size:1.3125rem;margin-bottom:12px}
-  .cap p{font-size:.875rem;color:var(--bone-dim)}
-
-  /* ---------- process ---------- */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,34px)}
-  .step{border-top:2px solid var(--gold);padding-top:20px}
-  .step b{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);font-size:1rem}
-  .step h3{font-family:var(--serif);font-weight:600;font-size:1.25rem;margin:8px 0 10px}
-  .step p{font-size:.875rem;color:var(--bone-dim)}
-
-  /* ---------- contact ---------- */
-  .contact{border-top:1px solid var(--line);text-align:center;position:relative}
-  .contact::before{
-    content:"";position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);
-    width:70vw;height:50vh;background:radial-gradient(ellipse,rgba(201,163,92,.09),transparent 65%);
-    pointer-events:none;
-  }
-  .contact h2{
-    font-family:var(--serif);font-weight:300;font-size:clamp(2.25rem,6vw,4.5rem);
-    line-height:1.08;max-width:18ch;margin:0 auto 22px;
-  }
-  .contact h2 em{font-style:italic;color:var(--gold)}
-  .contact p{color:var(--bone-dim);max-width:46ch;margin:0 auto 40px}
-  .btn{
-    display:inline-block;font-family:var(--sans);font-weight:600;font-size:.875rem;
-    letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
-    color:var(--ink);background:var(--gold);padding:18px 42px;border-radius:100px;
-    transition:transform .25s,box-shadow .25s;
-  }
-  .btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,163,92,.28)}
-  .contact .alt{display:block;margin-top:22px;font-size:.875rem;color:var(--bone-dim)}
-  .contact .alt a{color:var(--gold);text-decoration:none}
-
-  footer{border-top:1px solid var(--line);padding:30px 0;font-size:.8125rem;color:var(--bone-dim)}
-  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-
-  /* ---------- reveal ---------- */
-  /* one-shot entrance animation on the individual `translate` property: the per-item delay
-     lives in animation-delay, so hover transitions on these elements are never delayed */
-  .reveal{opacity:0;translate:0 26px}
-  .reveal.in{opacity:1;translate:none}
-  @media (prefers-reduced-motion:no-preference){
-    .reveal.in{animation:reveal-in .8s cubic-bezier(.2,.7,.2,1) backwards}
-  }
-  @keyframes reveal-in{from{opacity:0;translate:0 26px}}
-
-  @media (prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    .ticker-track{animation:none}
-    .ticker-toggle{display:none}
-    .reveal{opacity:1;translate:none}
-  }
-
-  /* ---------- responsive ---------- */
-  @media (max-width:860px){
-    .stats{grid-template-columns:1fr 1fr}
-    .stat{padding:22px 14px 22px 0}
-    .stat:nth-child(3){border-left:none;padding-left:0}
-    .stat:nth-child(odd){border-left:none;padding-left:0}
-    .stat:nth-child(even){border-left:1px solid var(--line);padding-left:22px}
-    .stat:nth-child(n+3){border-top:1px solid var(--line)}
-    .brief{grid-template-columns:1fr}
-    .callouts{grid-template-columns:1fr}
-    .caps{grid-template-columns:1fr}
-    .steps{grid-template-columns:1fr 1fr}
-    .check{columns:1}
-    nav a.lnk{margin-left:16px;font-size:.75rem}
-  }
-  @media (max-width:520px){
-    .steps{grid-template-columns:1fr}
-    nav a.lnk:first-child{display:none}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/pages.css">
 </head>
 <body>
+<a class="skip" href="#content">Skip to the case studies</a>
 
-<header id="hdr">
-  <div class="wrap nav">
-    <a class="mark" href="#top">Osama<span>&nbsp;Monir</span></a>
-    <nav>
-      <a class="lnk" href="#work">Work</a>
-      <a class="lnk" href="#capabilities">Capabilities</a>
-      <a class="lnk" href="#contact">Contact</a>
-    </nav>
+<header>
+  <nav class="site" aria-label="Site">
+    <a class="home" href="../">back to the tree</a>
+    <ul>
+      <li><a href="../portfolio/">Portfolio</a></li>
+      <li><a href="../websites/" aria-current="page">Websites</a></li>
+      <li><a href="../video/">Video ads</a></li>
+      <li><a href="../Osama-Monir-CV.pdf">CV as PDF</a></li>
+    </ul>
+  </nav>
+
+  <div class="open">
+    <h1>From first sketch to shipped site.</h1>
+    <p class="role">I design and build complete websites, from brand sites that go live in days to full platforms with payments, member areas and admin panels.</p>
+    <p class="lede">I also take care of the hosting, the domain and the SEO, so you get a finished site that people can actually find. Here are two real projects I built from start to finish.</p>
+    <ul class="acts">
+      <li><a class="btn main" href="mailto:Monirosama6@gmail.com">Tell me about your project</a></li>
+      <li><a class="btn" href="#work">See the two projects</a></li>
+    </ul>
   </div>
+  <div class="horizon" aria-hidden="true"><canvas></canvas></div>
 </header>
 
-<main>
-<!-- ================= HERO ================= -->
-<div class="hero" id="top">
-  <div class="wrap">
-    <span class="overline reveal">Web Development Portfolio</span>
-    <h1 class="reveal">From first sketch to <em>shipped&nbsp;site.</em></h1>
-    <p class="lede reveal">I design and build complete websites, from simple brand sites that go
-    live in days to full platforms with payments, member areas and admin panels. I also take care
-    of the hosting, the domain and the SEO, so what you get is a finished site that people can
-    actually find. Here are two real projects I built from start to finish.</p>
-
-    <div class="stats">
-      <div class="stat reveal"><b>2</b><span>Websites shipped live</span></div>
-      <div class="stat reveal"><b>24k+</b><span>Lines of code written</span></div>
-      <div class="stat reveal"><b>27</b><span>Pages designed &amp; built</span></div>
-      <div class="stat reveal"><b>4</b><span>Payment methods integrated</span></div>
+<main id="content">
+  <section class="limb" id="numbers" aria-labelledby="numbers-h">
+    <h2 id="numbers-h">in numbers</h2>
+    <div class="body">
+      <ul class="notes" aria-label="The two projects in numbers">
+        <li class="note"><b>2</b><span>client websites live</span></li>
+        <li class="note"><b>24k+</b><span>lines of code written</span></li>
+        <li class="note"><b>27</b><span>pages designed and built</span></li>
+        <li class="note"><b>4</b><span>payment methods wired in</span></li>
+      </ul>
     </div>
-  </div>
-</div>
+  </section>
 
-<div class="ticker">
-  <button class="ticker-toggle" type="button" aria-label="Pause scrolling banner">Pause</button>
-  <div class="ticker-track" aria-hidden="true">
-    <span>Design <i>·</i></span><span>Development <i>·</i></span><span>Hosting <i>·</i></span><span>Domains <i>·</i></span><span>SEO <i>·</i></span><span>E-commerce <i>·</i></span><span>Payments <i>·</i></span><span>Membership platforms <i>·</i></span><span>Arabic &amp; RTL <i>·</i></span><span>Security <i>·</i></span><span>Ongoing care <i>·</i></span>
-    <span>Design <i>·</i></span><span>Development <i>·</i></span><span>Hosting <i>·</i></span><span>Domains <i>·</i></span><span>SEO <i>·</i></span><span>E-commerce <i>·</i></span><span>Payments <i>·</i></span><span>Membership platforms <i>·</i></span><span>Arabic &amp; RTL <i>·</i></span><span>Security <i>·</i></span><span>Ongoing care <i>·</i></span>
-  </div>
-</div>
-
-<!-- ================= CASE 01 ================= -->
-<section class="case" id="work">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="sec-num">01</div>
-      <div class="sec-title">
-        <h2>Dr. Monir Lotfy — Digital Publishing Platform</h2>
-        <p>Author platform · Online store · Membership library</p>
-      </div>
-    </div>
-
-    <div class="brief">
-      <div class="reveal">
-        <h3>The Brief</h3>
-        <p>An Arabic-speaking author wanted one home for everything he does: his books,
-        his articles, his media, a way to <strong>sell books online</strong>, and a
-        <strong>members' library</strong> where readers pay once and read his books right
-        in the browser, with a community growing around it. I built the whole thing,
-        put it online under his own domain, and still look after it today.</p>
-        <ul class="meta">
-          <li><span>Live at</span><span><a href="https://monirlotfy.com" target="_blank" rel="noopener">monirlotfy.com</a></span></li>
-          <li><span>Type</span><span>Full-stack web application</span></li>
-          <li><span>Language</span><span>Arabic-first, fully RTL</span></li>
-          <li><span>Launch</span><span>Hosting, domain &amp; deployment handled</span></li>
-          <li><span>Scale</span><span>22 pages · 15 database tables · 12 APIs</span></li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <h3>What I Built</h3>
-        <div class="grid">
-          <div class="cell"><span class="glyph">◈</span><h4>Online Book Store</h4><p>A public catalog of his published books, plus digital copies for sale. Physical orders work with cash on delivery or bank transfer, and every order moves through a clear workflow from pending to shipped.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Lifetime Membership</h4><p>Readers pay once and get lifetime access to the premium library. They can pay in dollars through PayPal, or in Egyptian pounds through Vodafone Cash.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>In-Browser Book Reader</h4><p>Members read protected PDF books right inside the site. Files are streamed securely, access is checked on every request, and downloads stay under control.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Community Feed</h4><p>Members post, react with emojis and hold threaded discussions, all moderated from the admin panel.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Notification Center</h4><p>An in-app bell for announcements, new book alerts and welcome messages, plus email reminders that send themselves in the background.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Full Admin Panel</h4><p>The author runs everything himself: orders, books, users, payment approvals, subscriptions and announcements. He does not need a developer for the day-to-day.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Accounts &amp; Email Flows</h4><p>Registration, login, email verification and password reset, with every email written in Arabic.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Articles &amp; Media</h4><p>A publishing space for his articles, next to an audio library, his biography, his services and what readers say about him.</p></div>
+  <section class="limb" id="work" aria-labelledby="work-h">
+    <h2 id="work-h">the work</h2>
+    <div class="body">
+      <article class="case" aria-labelledby="monir-h">
+        <h3 id="monir-h">Dr. Monir Lotfy, a digital publishing platform</h3>
+        <p class="kind">Author platform, online store and members’ library</p>
+        <h4>the brief</h4>
+        <p>An Arabic-speaking author wanted one home for everything he does: his books, his articles, his media, a way to sell books online, and a members’ library where readers pay once and read his books right in the browser, with a community growing around it. I built the whole thing, put it online under his own domain, and still look after it today.</p>
+        <dl class="spec">
+          <dt>Live at</dt><dd><a href="https://monirlotfy.com" rel="noopener">monirlotfy.com</a></dd>
+          <dt>Type</dt><dd>Full-stack web application</dd>
+          <dt>Language</dt><dd>Arabic first, fully right to left</dd>
+          <dt>Scale</dt><dd>22 pages, 15 database tables, 12 APIs</dd>
+          <dt>Launch</dt><dd>Hosting, domain and deployment handled</dd>
+        </dl>
+        <h4>what i built</h4>
+        <div class="built">
+          <div><h5>Online book store</h5><p>A public catalogue of his books, plus digital copies for sale. Physical orders work with cash on delivery or bank transfer, and every order moves through a clear workflow from pending to shipped.</p></div>
+          <div><h5>Lifetime membership</h5><p>Readers pay once for lifetime access to the premium library, in dollars through PayPal or in Egyptian pounds through Vodafone Cash.</p></div>
+          <div><h5>In-browser book reader</h5><p>Members read protected PDF books inside the site. Files are streamed securely, access is checked on every request, and downloads stay under control.</p></div>
+          <div><h5>Community feed</h5><p>Members post, react and hold threaded discussions, all moderated from the admin panel.</p></div>
+          <div><h5>Notifications</h5><p>An in-app bell for announcements, new book alerts and welcome messages, plus email reminders that send themselves in the background.</p></div>
+          <div><h5>Admin panel</h5><p>The author runs orders, books, users, payment approvals, subscriptions and announcements himself, without a developer for the day-to-day.</p></div>
+          <div><h5>Accounts and email</h5><p>Registration, login, email verification and password reset, with every email written in Arabic.</p></div>
+          <div><h5>Articles and media</h5><p>A space for his articles, next to an audio library, his biography, his services and what readers say about him.</p></div>
         </div>
-      </div>
-    </div>
-
-    <div class="callouts">
-      <div class="callout reveal">
-        <h4>Payments that fit the audience</h4>
-        <p>Four ways to pay under one roof: PayPal checkout with server-side capture and
-        verified webhooks, a Vodafone Cash flow with admin approval for readers in Egypt,
-        and cash on delivery or bank transfer for physical orders. Every payment is
-        validated, logged and easy to audit.</p>
-      </div>
-      <div class="callout reveal">
-        <h4>Production-grade security</h4>
-        <p>Hardened like a commercial product: strict security headers, rate limiting on
-        every sensitive action, hashed passwords, hardened sessions and verified webhooks.
-        Access is re-checked against the database on every request, so if a payment is
-        refunded or cancelled, access ends instantly.</p>
-      </div>
-    </div>
-
-    <div class="chips reveal">
-      <h5>Under the Hood</h5>
-      <span class="chip hot">SvelteKit 2 + Svelte 5</span>
-      <span class="chip hot">TypeScript</span>
-      <span class="chip">Tailwind CSS</span>
-      <span class="chip">SQLite / Turso cloud DB</span>
-      <span class="chip">Drizzle ORM</span>
-      <span class="chip">PayPal API + webhooks</span>
-      <span class="chip">Vodafone Cash</span>
-      <span class="chip">Supabase Storage</span>
-      <span class="chip">Upstash Redis rate limiting</span>
-      <span class="chip">PDF.js reader</span>
-      <span class="chip">Transactional email</span>
-      <span class="chip">Scheduled jobs</span>
-      <span class="chip">Structured logging</span>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CASE 02 ================= -->
-<section class="case">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="sec-num">02</div>
-      <div class="sec-title">
-        <h2>RSD — Corporate Identity Site</h2>
-        <p>Brand website · Mining, investment &amp; industrial technology · Oman</p>
-      </div>
-    </div>
-
-    <div class="brief">
-      <div class="reveal">
-        <h3>The Brief</h3>
-        <p>RSD is an Omani venture company that connects natural resources with
-        international investors. They needed a site that <strong>feels like an
-        established firm</strong>, loads fast anywhere in the world, and shows up on
-        Google. I designed it, built it, set up the hosting, connected the domain
-        and handled the SEO, start to finish.</p>
-        <ul class="meta">
-          <li><span>Live at</span><span><a href="https://rsd.services" target="_blank" rel="noopener">rsd.services</a></span></li>
-          <li><span>Type</span><span>Corporate brand site</span></li>
-          <li><span>Launch</span><span>Hosting, domain &amp; SEO handled</span></li>
-          <li><span>Approach</span><span>Zero-dependency, hand-crafted code</span></li>
-          <li><span>Scale</span><span>5 pages · custom design system</span></li>
+        <h4>payments and security</h4>
+        <p>Four ways to pay under one roof: PayPal checkout with server-side capture and verified webhooks, a Vodafone Cash flow with admin approval for readers in Egypt, and cash on delivery or bank transfer for physical orders. Every payment is validated, logged and easy to audit.</p>
+        <p>It’s hardened like a commercial product: strict security headers, rate limiting on every sensitive action, hashed passwords, hardened sessions and verified webhooks. Access is re-checked against the database on every request, so if a payment is refunded or cancelled, access ends at once.</p>
+        <h4>under the hood</h4>
+        <ul class="stack" aria-label="Technology used">
+          <li>SvelteKit 2 and Svelte 5</li><li>TypeScript</li><li>Tailwind CSS</li><li>SQLite and Turso</li><li>Drizzle ORM</li><li>PayPal API and webhooks</li><li>Vodafone Cash</li><li>Supabase Storage</li><li>Upstash Redis rate limiting</li><li>PDF.js reader</li><li>Transactional email</li><li>Scheduled jobs</li><li>Structured logging</li>
         </ul>
-      </div>
-      <div class="reveal">
-        <h3>What I Built</h3>
-        <div class="grid">
-          <div class="cell"><span class="glyph">◈</span><h4>Editorial Design System</h4><p>A serif and sans identity on a warm ivory palette, built around the brand story of <em>Rasad</em>, the word Arab astronomers used for observation. No template involved.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Five-Page Architecture</h4><p>Home, About, What We Do, Projects and Contact, telling the company's story across mining, investment and industrial technology.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Motion &amp; Interaction</h4><p>Scroll reveals, a scrolling keyword ticker, a filterable project grid and a sticky header. Everything calms down for visitors who prefer reduced motion.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Performance by Design</h4><p>Hand-written HTML, CSS and JavaScript with no frameworks and no build step. The whole production site is about 63&nbsp;KB, so it loads instantly and nothing can break.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Complete SEO Launch</h4><p>Clean URLs, a sitemap, structured data, social sharing cards and branded WhatsApp previews. Then I verified the site with Google myself and submitted it for indexing.</p></div>
-          <div class="cell"><span class="glyph">◈</span><h4>Hosting &amp; Domain, Done</h4><p>I set up the hosting, connected the rsd.services domain, and keep the whole site versioned on GitHub as a permanent backup.</p></div>
+      </article>
+
+      <article class="case" aria-labelledby="rsd-h">
+        <h3 id="rsd-h">RSD, a corporate identity site</h3>
+        <p class="kind">Brand website for a mining, investment and industrial technology company in Oman</p>
+        <h4>the brief</h4>
+        <p>RSD is an Omani venture company that connects natural resources with international investors. They needed a site that feels like an established firm, loads fast anywhere in the world, and shows up on Google. I designed it, built it, set up the hosting, connected the domain and handled the SEO, start to finish.</p>
+        <dl class="spec">
+          <dt>Live at</dt><dd><a href="https://rsd.services" rel="noopener">rsd.services</a></dd>
+          <dt>Type</dt><dd>Corporate brand site</dd>
+          <dt>Approach</dt><dd>Hand-written code, no dependencies</dd>
+          <dt>Scale</dt><dd>5 pages and a custom design system</dd>
+          <dt>Launch</dt><dd>Hosting, domain and SEO handled</dd>
+        </dl>
+        <h4>what i built</h4>
+        <div class="built">
+          <div><h5>An editorial design system</h5><p>A serif and sans identity on a warm ivory palette, built around the brand story of Rasad, the word Arab astronomers used for observation. No template involved.</p></div>
+          <div><h5>Five pages</h5><p>Home, About, What We Do, Projects and Contact, telling the company’s story across mining, investment and industrial technology.</p></div>
+          <div><h5>Motion that stays calm</h5><p>Scroll reveals, a filterable project grid and a sticky header. Everything calms down for visitors who prefer reduced motion.</p></div>
+          <div><h5>Fast by design</h5><p>Hand-written HTML, CSS and JavaScript with no frameworks and no build step. The whole site is about 63 KB, so it loads instantly and nothing can break.</p></div>
+          <div><h5>A complete SEO launch</h5><p>Clean URLs, a sitemap, structured data and branded WhatsApp previews. Then I verified the site with Google and submitted it for indexing.</p></div>
+          <div><h5>Hosting and domain</h5><p>I set up the hosting, connected rsd.services, and keep the site versioned on GitHub as a permanent backup.</p></div>
         </div>
+        <ul class="facts" aria-label="Where it stands">
+          <li>Live and indexed: all five pages picked up by Google</li>
+          <li>Built mobile-first, with a full-screen menu and accessibility built in</li>
+          <li>Five design rounds with the client before the final look</li>
+          <li>Plain files the client can host anywhere, cheaply, for good</li>
+          <li>Handed off with a launch checklist, Google Search Console access and a simple update routine</li>
+        </ul>
+        <h4>under the hood</h4>
+        <ul class="stack" aria-label="Technology used">
+          <li>Hand-written HTML, CSS and JS</li><li>No dependencies</li><li>Custom design system</li><li>IntersectionObserver animations</li><li>Apache clean URLs</li><li>JSON-LD structured data</li><li>Open Graph cards</li><li>Google Search Console</li><li>GitHub</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="limb" id="capabilities" aria-labelledby="capabilities-h">
+    <h2 id="capabilities-h">what i can do</h2>
+    <div class="body">
+      <p class="lead">For your site, start to finish.</p>
+      <div class="areas">
+        <div><h3>Design and branding</h3><p>A design built from your brand, your story and your colours. Never a recycled template.</p></div>
+        <div><h3>Full-stack development</h3><p>From simple brand sites to complete platforms with databases, user accounts, member areas and admin panels.</p></div>
+        <div><h3>Payments and e-commerce</h3><p>PayPal, local methods like Vodafone Cash, cash on delivery and bank transfer, wired into secure order flows.</p></div>
+        <div><h3>Arabic and bilingual sites</h3><p>Proper right-to-left layouts and real Arabic typography, planned from day one instead of patched in later.</p></div>
+        <div><h3>Hosting, domain and SEO</h3><p>I set up the hosting, connect your domain and handle the SEO: clean URLs, sitemaps and Google Search Console. Your site doesn’t just go online, it gets found.</p></div>
+        <div><h3>Care after launch</h3><p>Websites keep living after launch. I stay around for new features, updates and fixes as your project grows.</p></div>
       </div>
     </div>
+  </section>
 
-    <ul class="check reveal">
-      <li><strong>Live and indexed:</strong> domain connected, and all 5 pages picked up by Google</li>
-      <li><strong>Responsive:</strong> built mobile-first, with a full-screen menu and accessibility baked in</li>
-      <li><strong>True to the brand:</strong> designed from the company's own logo, story and sectors</li>
-      <li><strong>Refined in the open:</strong> five design iterations with the client before the final look</li>
-      <li><strong>Owner-friendly:</strong> plain files the client can host anywhere, cheaply, forever</li>
-      <li><strong>Fully handed off:</strong> launch checklist, Google Search Console access and a simple update routine</li>
-    </ul>
+  <section class="limb" id="process" aria-labelledby="process-h">
+    <h2 id="process-h">how we’ll work</h2>
+    <div class="body">
+      <ol class="steps">
+        <li><h3>Listen</h3><p>We talk about what you want, who it’s for, and what you already have. You bring the idea, I turn it into a plan.</p></li>
+        <li><h3>Design</h3><p>I explore a few directions and we go back and forth until the design feels like yours.</p></li>
+        <li><h3>Build</h3><p>Clean, fast, secure code. You review real progress along the way, not mockups.</p></li>
+        <li><h3>Launch and care</h3><p>Hosting, domain, SEO and handoff. After that, I’m one message away whenever you need changes.</p></li>
+      </ol>
+    </div>
+  </section>
 
-    <div class="chips reveal">
-      <h5>Under the Hood</h5>
-      <span class="chip hot">Hand-written HTML / CSS / JS</span>
-      <span class="chip hot">Zero dependencies</span>
-      <span class="chip">Custom design system</span>
-      <span class="chip">IntersectionObserver animations</span>
-      <span class="chip">Apache clean URLs</span>
-      <span class="chip">JSON-LD structured data</span>
-      <span class="chip">Open Graph / social cards</span>
-      <span class="chip">Google Search Console</span>
-      <span class="chip">GitHub version control</span>
+  <section class="limb" id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">say hi</h2>
+    <div class="body">
+      <p class="lead">Have a project in mind? Tell me what you need and I’ll tell you how we get there.</p>
+      <p>Whether it’s a simple site that goes live in days or a full platform with payments and members, hosting, domain and SEO are included.</p>
+      <ul class="hi">
+        <li>Email: <a href="mailto:Monirosama6@gmail.com">Monirosama6@gmail.com</a></li>
+        <li>Phone: <a href="tel:+96879384026">+968 79384026</a></li>
+      </ul>
     </div>
-  </div>
-</section>
-
-<!-- ================= CAPABILITIES ================= -->
-<section id="capabilities" style="border-top:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="sec-num">03</div>
-      <div class="sec-title">
-        <h2>What I Can Do for You</h2>
-        <p>Capabilities</p>
-      </div>
-    </div>
-    <div class="caps">
-      <div class="cap reveal"><b>i.</b><h3>Design &amp; Branding</h3><p>A design built from your brand, your story and your colors. Never a recycled template.</p></div>
-      <div class="cap reveal"><b>ii.</b><h3>Full-Stack Development</h3><p>From simple brand sites to complete platforms with databases, user accounts, member areas and admin panels.</p></div>
-      <div class="cap reveal"><b>iii.</b><h3>Payments &amp; E-commerce</h3><p>PayPal, local methods like Vodafone Cash, cash on delivery and bank transfer, all wired into secure order flows you can trust.</p></div>
-      <div class="cap reveal"><b>iv.</b><h3>Arabic &amp; Bilingual Sites</h3><p>Proper right-to-left layouts and real Arabic typography, planned from day one instead of patched in later.</p></div>
-      <div class="cap reveal"><b>v.</b><h3>Hosting, Domain &amp; SEO</h3><p>I set up the hosting, connect your domain and handle the SEO: clean URLs, sitemaps and Google Search Console. Your site does not just go online, it gets found.</p></div>
-      <div class="cap reveal"><b>vi.</b><h3>Care &amp; Iteration</h3><p>Websites keep living after launch. I stay around for new features, updates and fixes as your project grows.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PROCESS ================= -->
-<section style="border-top:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="sec-num">04</div>
-      <div class="sec-title">
-        <h2>How We'll Work</h2>
-        <p>Process</p>
-      </div>
-    </div>
-    <div class="steps">
-      <div class="step reveal"><b>Step 01</b><h3>Listen</h3><p>We talk about what you want, who it is for, and what you already have. You bring the vision, I turn it into a plan.</p></div>
-      <div class="step reveal"><b>Step 02</b><h3>Design</h3><p>I explore a few directions and we go back and forth until the design feels like yours.</p></div>
-      <div class="step reveal"><b>Step 03</b><h3>Build</h3><p>Clean, fast, secure code. You review real progress along the way, not mockups.</p></div>
-      <div class="step reveal"><b>Step 04</b><h3>Launch &amp; Care</h3><p>Hosting, domain, SEO and handoff. After that, I am one message away whenever you need changes.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CONTACT ================= -->
-<section class="contact" id="contact">
-  <div class="wrap">
-    <span class="overline reveal" style="justify-content:center;display:inline-flex">Let's Talk</span>
-    <h2 class="reveal" style="margin-top:24px">Have a project in mind? <em>Let's build it.</em></h2>
-    <p class="reveal">Whether it is a simple site that goes live in days or a full platform with
-    payments and members, tell me what you have in mind and I will tell you how we get there.
-    Hosting, domain and SEO included.</p>
-    <a class="btn reveal" href="mailto:monirosama6@gmail.com">monirosama6@gmail.com</a>
-  </div>
-</section>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <span>© <span id="yr">2026</span> Osama Monir — Web Development</span>
-    <span>Designed &amp; built by hand, like everything else here.</span>
-  </div>
+  <p>© 2026 Osama Monir. This site is built by hand too.</p>
+  <ul>
+    <li><a href="../">Back to the tree</a></li>
+    <li><a href="../portfolio/">Portfolio</a></li>
+    <li><a href="../Osama-Monir-CV.pdf">CV as PDF</a></li>
+  </ul>
 </footer>
-
-<script>
-(function(){
-  "use strict";
-  // sticky header
-  var hdr=document.getElementById("hdr");
-  var onScroll=function(){hdr.classList.toggle("solid",window.scrollY>40)};
-  window.addEventListener("scroll",onScroll,{passive:true});
-  onScroll();
-
-  // ticker pause / play (WCAG 2.2.2)
-  var ticker=document.querySelector(".ticker"),tkBtn=ticker.querySelector(".ticker-toggle");
-  tkBtn.addEventListener("click",function(){
-    var p=ticker.classList.toggle("paused");
-    tkBtn.textContent=p?"Play":"Pause";
-    tkBtn.setAttribute("aria-label",(p?"Play":"Pause")+" scrolling banner");
-  });
-
-  // year
-  document.getElementById("yr").textContent=new Date().getFullYear();
-
-  // scroll reveal
-  var els=document.querySelectorAll(".reveal");
-  if("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-    var seen=0;
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var d=(seen++ % 4)*90;
-          e.target.style.animationDelay=d+"ms";
-          e.target.classList.add("in");
-          io.unobserve(e.target);
-        }
-      });
-    },{threshold:.12,rootMargin:"0px 0px -8% 0px"});
-    els.forEach(function(el){io.observe(el)});
-  }else{
-    els.forEach(function(el){el.classList.add("in")});
-  }
-})();
-</script>
+<script src="../assets/horizon.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,143 @@
+/* Shared look for the reading pages (portfolio, websites): the same night, sand and handwriting as the tree. */
+:root{
+  --sky:#1F1C25;      /* night over the dunes */
+  --sky-2:#26222D;    /* a shade lighter, for the odd raised block */
+  --sand:#D8CFBD;     /* moonlit sand */
+  --ink:#ECE5D8;      /* body text, ~13:1 on --sky */
+  --ink-dim:#B3AA9B;  /* secondary text, ~7:1 on --sky */
+  --moon:#E8C77A;     /* focus and the moon, used sparingly */
+  --paper:#DDD3BF;    /* taped notes */
+  --paper-ink:#2A2530;
+  --rule:rgba(216,207,189,.18);
+  --serif:'Spectral',Georgia,serif;
+  --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --gutter:clamp(1rem,.5rem + 3vw,3rem);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--sky);color:var(--ink);font-family:var(--serif);-webkit-text-size-adjust:100%;scroll-padding-top:1.5rem}
+body{background:var(--sky);font-size:1.0625rem;line-height:1.7;min-height:100vh;overflow-x:clip}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:color-mix(in srgb,var(--sand) 55%,transparent)}
+a:hover{text-decoration-color:var(--sand)}
+:focus-visible{outline:2px solid var(--moon);outline-offset:3px;border-radius:4px}
+img,svg,canvas{display:block;max-width:100%}
+.ar{display:inline-block;font-family:'Amiri',serif;font-weight:400;font-size:.6em;color:var(--ink-dim);margin-left:.5em;white-space:nowrap} /* physical margin: the span itself runs right to left */
+@media (max-width:34em){.open .ar{display:block;margin:.25em 0 0;font-size:.55em;text-align:left}}
+.skip{position:absolute;left:var(--gutter);top:-4rem;z-index:10;background:var(--sand);color:var(--paper-ink);padding:.5rem .9rem;border-radius:8px}
+.skip:focus{top:.75rem}
+
+/* ---------- top: links back into the rest of the site ---------- */
+.site{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.25rem 1.5rem;
+  padding:max(1rem,env(safe-area-inset-top)) max(var(--gutter),env(safe-area-inset-right)) .5rem max(var(--gutter),env(safe-area-inset-left))}
+.site .home{font-family:var(--hand);font-size:1.6rem;font-weight:600;line-height:1;text-decoration:none;color:var(--sand);padding:.35rem 0;min-height:44px;display:inline-flex;align-items:center}
+.site .home:hover{text-decoration:underline}
+.site ul{list-style:none;display:flex;flex-wrap:wrap;gap:0 1.1rem;font-size:.95rem}
+.site li a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:var(--ink-dim)}
+.site li a:hover{color:var(--ink);text-decoration:underline}
+.site a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--moon)}
+
+/* ---------- opening: name, what I do, and a strip of night with the ghaf on it ---------- */
+.open{padding:clamp(1.5rem,1rem + 4vw,4.5rem) var(--gutter) 0;max-width:72rem;margin:0 auto}
+.open h1{font-weight:500;font-size:clamp(2.5rem,1.6rem + 4.5vw,5rem);line-height:1;letter-spacing:-.01em}
+.open .role{margin-top:1rem;max-width:36rem;font-size:clamp(1.1rem,1rem + .5vw,1.35rem);line-height:1.45;color:var(--ink)}
+.open .lede{margin-top:.9rem;max-width:36rem;color:var(--ink-dim)}
+.acts{display:flex;flex-wrap:wrap;gap:.75rem 1rem;margin-top:1.6rem;list-style:none}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:.45rem 1.1rem;border:1.5px solid rgba(216,207,189,.55);border-radius:999px;text-decoration:none;color:var(--ink)}
+.btn:hover{background:rgba(216,207,189,.12);border-color:var(--sand)}
+.btn.main{background:var(--sand);color:var(--paper-ink);border-color:var(--sand);font-weight:600}
+.btn.main:hover{background:var(--ink)}
+.horizon{position:relative;height:clamp(150px,90px + 14vw,280px);margin-top:clamp(1rem,2vw,2rem)}
+.horizon canvas{position:absolute;inset:0;width:100%;height:100%}
+
+/* ---------- the branch: section names hang off a dotted line down the page ---------- */
+main{max-width:72rem;margin:0 auto;padding:0 var(--gutter)}
+.limb{display:grid;gap:.6rem 0;padding:2.6rem 0 1rem}
+.limb > h2{font-family:var(--hand);font-weight:600;font-size:2.1rem;line-height:1;color:var(--sand)}
+.limb > .body{min-width:0;max-width:42rem}
+.lead{font-size:clamp(1.25rem,1.05rem + .9vw,1.7rem);line-height:1.35;font-weight:500;margin-bottom:1.1rem;max-width:34rem}
+.body > p + p,.case > p + p{margin-top:.9rem}
+@media (min-width:56em){
+  main{background:radial-gradient(circle,rgba(216,207,189,.55) 1.1px,transparent 1.4px) 12.5rem 0/6px 9px repeat-y;background-origin:content-box}
+  .limb{grid-template-columns:12.5rem minmax(0,1fr);padding-top:3.4rem}
+  .limb > h2{position:relative;text-align:right;padding-right:1.6rem;padding-top:.15rem;align-self:start}
+  .limb > h2::after{content:"";position:absolute;right:-.1rem;top:.75em;width:1.3rem;height:6px;
+    background:radial-gradient(circle,rgba(216,207,189,.8) 1.1px,transparent 1.4px) 0 0/5px 6px repeat-x}
+  .limb > .body{padding-left:2.2rem}
+  .open{padding-left:calc(var(--gutter) + 14.7rem)} /* the name lines up with the text column under the branch */
+}
+
+/* small facts, a list of short claims */
+.facts{list-style:none;display:grid;gap:.45rem;margin-top:1.2rem}
+.facts li{padding-left:1.15rem;position:relative}
+.facts li::before{content:"";position:absolute;left:0;top:.72em;width:.4rem;height:.4rem;border-radius:50%;background:var(--sand)}
+
+/* taped notes: results, scrawled on scraps of paper (same as on the tree) */
+.notes{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:1.4rem 1rem;margin:1.8rem 0 .4rem;padding-top:.6rem}
+.note{position:relative;background:var(--paper);color:var(--paper-ink);padding:1.1rem .9rem .9rem;rotate:-2deg;box-shadow:0 10px 18px -12px rgba(0,0,0,.7)}
+.note:nth-child(2n){rotate:1.6deg}
+.note:nth-child(3n){rotate:-.8deg}
+.note::before{content:"";position:absolute;top:-.6rem;left:50%;width:3.4rem;height:1.1rem;translate:-50% 0;rotate:4deg;background:rgba(236,229,216,.42);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.note b{display:block;font-family:var(--hand);font-size:2.3rem;line-height:1;font-weight:600}
+.note span{display:block;margin-top:.35rem;font-size:.9rem;line-height:1.35}
+
+/* what I do: six areas */
+.areas{display:grid;gap:1.6rem 2.2rem;margin-top:.4rem}
+@media (min-width:40em){.areas{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.areas h3{font-size:1.15rem;font-weight:600;line-height:1.3}
+.areas p{margin-top:.35rem}
+.areas .tools{margin-top:.45rem;font-size:.92rem;color:var(--ink-dim);font-style:italic}
+
+/* the work: one short story per project */
+.work{list-style:none;display:grid;gap:0}
+.work > li{padding:1.5rem 0;border-top:1px solid var(--rule)}
+.work > li:first-child{border-top:0;padding-top:.2rem}
+.work .for{font-family:var(--hand);font-size:1.35rem;line-height:1.1;color:var(--sand)}
+.work h3{font-size:1.25rem;font-weight:600;line-height:1.3;margin-top:.2rem}
+.work p{margin-top:.5rem}
+.work .more{margin-top:.6rem}
+
+/* the path: a real timeline, years on the left */
+.path{list-style:none}
+.path > li{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:.2rem 1.25rem;padding:1.1rem 0;border-top:1px solid var(--rule)}
+.path > li:first-child{border-top:0;padding-top:.2rem}
+.path .yr{font-family:var(--hand);font-size:1.35rem;line-height:1.2;color:var(--sand)}
+.path h3{font-size:1.1rem;font-weight:600;line-height:1.35}
+.path .co{display:block;color:var(--ink-dim);font-style:italic;font-weight:400}
+.path p{margin-top:.3rem}
+@media (max-width:34em){.path > li{grid-template-columns:1fr}}
+
+/* web case studies */
+.case{padding-top:.2rem}
+.case + .case{margin-top:2.6rem;padding-top:2.4rem;border-top:1px solid var(--rule)}
+.case h3{font-size:clamp(1.35rem,1.1rem + 1vw,1.75rem);font-weight:500;line-height:1.25}
+.case .kind{margin-top:.25rem;color:var(--ink-dim);font-style:italic}
+.case h4{font-family:var(--hand);font-size:1.5rem;font-weight:600;color:var(--sand);line-height:1.1;margin:1.6rem 0 .5rem}
+.spec{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.35rem 1.2rem;margin-top:1.2rem;padding:1rem 1.1rem;background:var(--sky-2);border-radius:10px}
+.spec dt{color:var(--ink-dim)}
+.spec dd{min-width:0}
+.built{display:grid;gap:1.1rem 2rem}
+@media (min-width:40em){.built{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.built h5{font-size:1.02rem;font-weight:600}
+.built p{margin-top:.2rem;font-size:1rem}
+.stack{list-style:none;display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.4rem}
+.stack li{font-size:.9rem;padding:.2rem .65rem;border:1px solid var(--rule);border-radius:999px;color:var(--ink-dim)}
+.steps{list-style:none;counter-reset:s;display:grid;gap:1.1rem}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.2rem .8rem}
+.steps li::before{content:counter(s);font-family:var(--hand);font-size:1.9rem;line-height:1;color:var(--sand);grid-row:span 2}
+.steps h3{font-size:1.1rem;font-weight:600}
+
+/* say hi */
+.hi{list-style:none;display:grid;gap:.5rem;margin-top:.4rem}
+.hi a{text-decoration-thickness:1px}
+
+footer{max-width:72rem;margin:3.5rem auto 0;padding:1.5rem var(--gutter) max(2rem,env(safe-area-inset-bottom));border-top:1px solid var(--rule);color:var(--ink-dim);font-size:.92rem;display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;justify-content:space-between}
+footer ul{list-style:none;display:flex;flex-wrap:wrap;gap:0 1.1rem}
+footer a{display:inline-flex;min-height:44px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+@media print{
+  html,body{background:#fff;color:#000}
+  .site,.horizon,.skip,.acts{display:none}
+  main{background:none}
+  .note{box-shadow:none;rotate:0deg;border:1px solid #999}
+}
