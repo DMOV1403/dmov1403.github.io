@@ -54,8 +54,11 @@
   @media(max-width:760px){
     html.tree.panel-open #moon{opacity:0}
     .corner{left:0;justify-content:flex-start;gap:0 1rem;padding:.5rem 1rem;font-size:.9rem;background:linear-gradient(var(--sky) 75%,rgba(31,28,37,0))}
-    .intro{padding-top:5.5rem}
-    .ar{display:block;margin:.4rem 0 0;font-size:.55em}
+    .intro{padding-top:4.2rem}
+    .intro h1{font-size:2.35rem}
+    .intro .role{margin-top:.7rem;font-size:1rem;line-height:1.45}
+    .cue{margin-top:.7rem;font-size:1.3rem}
+    .ar{display:inline;margin-inline-start:.4em;font-size:.6em}
   }
 
   /* ---------- sections (the CV itself) ---------- */
@@ -343,8 +346,17 @@
   if (!dctx) return;
   const cur = { sec: null, item: -1 }; // what is open: a section, and one of its twigs
   const narrowNow = () => W < 760;
+  let trunkExtra = 0; // extra straight trunk under the crown, so the tree stands as tall as the screen allows (like natochi's)
   let fitScale = 1; // phones: the tree shrinks a little when the name block would otherwise sit on the labels
-  const introBottom = () => { const c = intro.querySelector('.cue'); return (c || intro).getBoundingClientRect().bottom; };
+  // how far the crown and labels could still rise: labels under the name block stay below it, the rest below the top links
+  function headroom() {
+    const rng2 = document.createRange(), rs = [];
+    for (const el of intro.children) { rng2.selectNodeContents(el); const r = rng2.getBoundingClientRect(); if (r.width) rs.push(r); }
+    const iL = Math.min(...rs.map(r => r.left)) - 12, iR = Math.max(...rs.map(r => r.right)) + 12, iB = Math.max(...rs.map(r => r.bottom)) + 12;
+    let m = crownTop - 70;
+    for (const [x, y, w] of Object.values(labelBox)) m = Math.min(m, x < iR && x + w > iL ? y - iB : y - 64);
+    return m;
+  }
 
   function duneY(x, k) { // k: 0 = back dune, 1 = front dune
     const b = H * (k ? 0.86 : 0.8);
@@ -358,7 +370,7 @@
     const narrow = narrowNow();
     const baseX = narrow ? W * 0.5 : W * 0.6;
     const baseY = duneY(baseX, 1) + 2;
-    const S = Math.min(H * 0.6, W * (narrow ? 0.7 : 0.42)) * fitScale;
+    const S = Math.min(H * 0.6, W * (narrow ? 0.74 : 0.42)) * fitScale;
     const clumps = [];
     const MAXD = 5;
     const push = (x, y, t, shade, size) => pts.push(x, y, t, shade, size || 1);
@@ -403,7 +415,20 @@
         branch(x, y, na, len * (0.68 + R() * 0.14), w * 0.66, d + 1, t1);
       }
     }
-    branch(baseX, baseY, -Math.PI / 2 + (R() - 0.5) * 0.1, S * 0.24, S * 0.05, 0, 0);
+    // a tall bare trunk first (phones and roomy windows), then the twisting limbs and the crown on top of it
+    let tx0 = baseX, ty0 = baseY, tT = 0;
+    if (trunkExtra > 0) {
+      const steps = Math.max(5, Math.round(trunkExtra / 1.4)), w0 = S * 0.05, dur = trunkExtra / S;
+      for (let i = 0; i < steps; i++) {
+        const y = baseY - trunkExtra * i / steps, x = baseX + Math.sin(i / steps * 2.2) * S * 0.008, ww = w0 * (1.12 - 0.12 * i / steps);
+        for (let j = 0, n = Math.ceil(ww * 0.9); j < n; j++) {
+          const o = (R() - 0.5) * ww, edge = Math.abs(o) / (ww / 2 + 0.01);
+          push(x + o, y, dur * i / steps, edge > 0.6 ? 0 : (R() < .5 ? 1 : 2));
+        }
+      }
+      tx0 = baseX + Math.sin(2.2) * S * 0.008; ty0 = baseY - trunkExtra; tT = dur;
+    }
+    branch(tx0, ty0, -Math.PI / 2 + (R() - 0.5) * 0.1, S * 0.24, S * 0.05, 0, tT);
     for (let k = 0; k < 5; k++) rootLine(baseX + (k - 2) * S * 0.012, baseY - 2, Math.PI / 2 + (k - 2) * 0.42, S * 0.1, S * 0.026, 0, -0.32);
 
     // leaf clumps with a soft drooping fringe
@@ -526,11 +551,11 @@
       const x = R() * W, y = R() * H, a = 0.15 + R() * 0.55, s = R() < 0.08 ? 2 : 1;
       sctx.fillStyle = `rgba(${SAND},${a})`; sctx.fillRect(x, y, s, s);
     }
-    // crescent moon; on phones it sits at the top right, beside the Arabic name
+    // crescent moon; on phones it sits at the right end of the cue's line, between the name and the labels
     const narrow = narrowNow();
     mctx.setTransform(dpr, 0, 0, dpr, 0, 0); mctx.clearRect(0, 0, W, H); // the moon has its own sheet, so phones can tuck it away while a branch is open
-    const arB = narrow && intro.querySelector('.ar') ? intro.querySelector('.ar').getBoundingClientRect() : null;
-    const mx = narrow ? W - 44 : W * 0.88, my = narrow ? (arB ? arB.top + arB.height / 2 : 110) : H * 0.15, mr = Math.min(W, H) * 0.035;
+    const cueB = narrow && intro.querySelector('.cue') ? intro.querySelector('.cue').getBoundingClientRect() : null; // on phones: the empty end of the cue's line
+    const mx = narrow ? W - 46 : W * 0.88, my = narrow ? (cueB ? cueB.top + cueB.height / 2 : 110) : H * 0.15, mr = Math.min(W, H) * 0.035;
     for (let i = 0; i < mr * mr * 2.2; i++) {
       const r = Math.sqrt(R()) * mr, th = R() * Math.PI * 2;
       const x = mx + Math.cos(th) * r, y = my + Math.sin(th) * r;
@@ -597,15 +622,15 @@
     root.classList.toggle('grown', lo >= total);
   }
   // the tree grows by itself once the page loads (about 3.6s), like natochi; once grown it stays grown
-  const GROW_MS = 3600;
+  const GROW_MS = 4200;
   let growT0 = 0, growDone = false;
   function currentProgress() {
     if (reduce.matches || cur.sec || growDone) return 1;
     const now = performance.now();
-    if (!growT0) growT0 = now;
+    if (!growT0) return 0; // empty sky until the page has painted and the fonts are in
     const t = Math.min(1, (now - growT0) / GROW_MS);
     if (t >= 1) growDone = true;
-    return t * (2 - t * 0.6) / 1.4; // a little quicker at first, settling at the end
+    return 0.5 - 0.5 * Math.cos(Math.PI * t); // eases in and settles at the end
   }
   const finishGrowth = () => { growDone = true; queue(); };
   let queued = false;
@@ -629,14 +654,16 @@
     const dw = W + duneM * 2, dh = Math.round(H * 0.95);
     duneC.style.left = -duneM + 'px'; duneC.style.top = duneTop + 'px'; duneC.style.width = dw + 'px'; duneC.style.height = dh + 'px';
     duneC.width = Math.round(dw * ddpr); duneC.height = Math.round(dh * ddpr);
-    fitScale = 1; build();
-    if (narrowNow()) { // keep the row of labels (and the crown under it) clear of the name, role and cue
-      const want = introBottom() + 10, top = Math.min(...Object.values(labelBox).map(b => b[1]));
-      if (top < want) {
-        const gap = crownTop - top; // label row sits this far above the crown, whatever the tree's size
-        fitScale = Math.min(1, Math.max(0.5, (base[1] - want - gap) / (base[1] - crownTop)));
-        build();
-      }
+    fitScale = 1; trunkExtra = 0; build();
+    const slack = headroom();
+    if (slack < 0 && narrowNow()) { // keep the row of labels (and the crown under it) clear of the name, role and cue
+      const top = Math.min(...Object.values(labelBox).map(b => b[1])), want = top - slack;
+      const gap = crownTop - top; // label row sits this far above the crown, whatever the tree's size
+      fitScale = Math.min(1, Math.max(0.5, (base[1] - want - gap) / (base[1] - crownTop)));
+      build();
+    } else if (slack > 12) { // room to spare: raise the crown on a taller trunk
+      trunkExtra = Math.min(slack - 6, H * 0.32); build();
+      if (headroom() < 0) { trunkExtra = Math.max(0, trunkExtra + headroom() - 4); build(); }
     }
     drawSky(); drawDunes(); drawCut();
     drawn = 0; progress = -1; tctx.setTransform(1, 0, 0, 1, 0, 0); tctx.clearRect(0, 0, treeC.width, treeC.height);
@@ -934,6 +961,9 @@
     }
     // label widths change once the handwriting font loads: redraw so the branches still reach them
     document.fonts && document.fonts.ready.then(() => resize(true));
+    // start growing once the page is on screen (fonts in, or after 1.2s at most), so the visitor sees all of it
+    Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 1200))])
+      .then(() => requestAnimationFrame(() => requestAnimationFrame(() => { growT0 = performance.now(); queue(); })));
     // tabbing onto a branch label before the tree is grown jumps straight to the grown tree
     $('labels').addEventListener('focusin', () => {
       if (!root.classList.contains('grown') && !cur.sec) finishGrowth();
