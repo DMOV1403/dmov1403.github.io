@@ -145,3 +145,8 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 .measured span{font-size:.9rem;color:var(--ink-dim)}
 .when{margin-top:.6rem;font-size:.85rem;color:var(--ink-dim)}
 .case > p,.case > h4,.case .built,.case .spec,.case .facts,.case .stack{max-width:46rem}
+.screen img[hidden]{display:none} /* the tabs hide the pages that aren't picked */
+.site a[aria-current="page"]:not([href]){cursor:default}
+.hi .btn{margin:.2rem 0 .5rem}
+.copy{font:inherit;font-size:.85rem;min-height:36px;margin-left:.4rem;padding:.15rem .75rem;border-radius:999px;border:1.5px solid var(--rule);background:none;color:var(--ink-dim);cursor:pointer}
+.copy:hover{color:var(--ink);border-color:var(--sand)}

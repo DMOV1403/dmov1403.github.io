@@ -13,3 +13,9 @@
     pick(tabs[0]);
   }
 })();
+// "Copy" next to the email address: puts it on the clipboard and says so on the button
+for (const b of document.querySelectorAll('button.copy')) b.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; }
+  catch (_) { b.textContent = 'Select it above'; }
+  setTimeout(() => { b.textContent = 'Copy'; }, 2500);
+});
