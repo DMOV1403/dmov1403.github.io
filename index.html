@@ -880,8 +880,9 @@
       let nx = -(yb - ya), ny = xb - xa; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
       if (ny < 0) { nx = -nx; ny = -ny; } // (nx, ny): square to the branch, pointing down and away from the trunk
       let pick = null;
-      const pref = i % 2 === 0; // first twig hangs on the outer side, the next on the inner side, and so on
-      for (const [low, tier] of [[pref, 0], [!pref, 0], [pref, 1], [!pref, 1], [pref, 2], [!pref, 2]]) {
+      // every twig hangs on the outer side, so a left branch's twigs all point left and a right branch's all point right;
+      // when a name would land on something, its twig grows a little longer instead of switching sides
+      for (const [low, tier] of [[true, 0], [true, 1], [true, 2], [true, 3]]) {
         const L = 30 + tier * 28, s = low ? 1 : -1, x = x0 + nx * L * s, y = y0 + ny * L * s;
         const out = low ? side > 0 : side < 0; // does the name run rightwards from the stalk?
         const left = out ? x + 1 : x - 1 - bw, top = y - bh / 2 + (low ? 4 : -4);
