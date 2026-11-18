@@ -108,7 +108,7 @@
 
   /* ===== TREE MODE: only switched on by the script once the drawing works ===== */
   html.tree .stage{display:block;position:fixed;inset:0;z-index:1;pointer-events:none}
-  html.tree .stage :is(#sky,#moon,#tree,#roots){position:absolute;inset:0;width:100%;height:100%}
+  html.tree .stage :is(#sky,#shoot,#moon,#tree,#roots){position:absolute;inset:0;width:100%;height:100%}
   html.tree #dunes{position:absolute}
   html.tree .treebox{position:absolute;inset:0}
   html.tree .intro{position:fixed;top:0;left:0;transition:opacity .3s;pointer-events:none} /* its empty box must not swallow taps on the labels under it */
@@ -264,6 +264,7 @@
 
 <div class="stage" aria-hidden="true">
   <canvas id="sky"></canvas>
+  <canvas id="shoot"></canvas>
   <canvas id="moon"></canvas>
   <canvas id="dunes" class="cam"></canvas>
   <div class="treebox cam">
@@ -903,9 +904,10 @@
       let nx = -(yb - ya), ny = xb - xa; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
       if (ny < 0) { nx = -nx; ny = -ny; } // (nx, ny): square to the branch, pointing down and away from the trunk
       let pick = null;
-      // every twig hangs on the outer side, so a left branch's twigs all point left and a right branch's all point right;
-      // when a name would land on something, its twig grows a little longer instead of switching sides
-      for (const [low, tier] of [[true, 0], [true, 1], [true, 2], [true, 3]]) {
+      // twigs alternate sides, outer then inner, so the branch keeps spreading both ways like a real one;
+      // each twig's text later grows out on its own twig's side (see showLeaf)
+      const pref = i % 2 === 0;
+      for (const [low, tier] of [[pref, 0], [!pref, 0], [pref, 1], [!pref, 1], [pref, 2], [!pref, 2]]) {
         const L = 30 + tier * 28, s = low ? 1 : -1, x = x0 + nx * L * s, y = y0 + ny * L * s;
         const out = low ? side > 0 : side < 0; // does the name run rightwards from the stalk?
         const left = out ? x + 1 : x - 1 - bw, top = y - bh / 2 + (low ? 4 : -4);
@@ -978,12 +980,15 @@
     // its own little branch leaves the twig (or the end of the section's branch) heading away from the trunk and down,
     // and runs on until the text has clear sky to itself
     const tg = g.leafOnly ? null : g.twigs[i];
-    const S0 = g.leafOnly ? g.E : tg.low ? [tg.rect[0] + (g.side > 0 ? tg.rect[2] + 1 : -1), tg.rect[1] + tg.rect[3] / 2 + 3] : tg.node;
-    const phi = g.leafOnly ? -0.15 : g.narrow ? 0.5 : 0.6, ux = g.side * Math.cos(phi), uy = Math.sin(phi);
+    // a twig's text grows out on that twig's own side: outer twigs away from the trunk (and a little down),
+    // inner twigs toward it (and a little up, into the open sky above the branch)
+    const dir = g.leafOnly || tg.low ? g.side : -g.side;
+    const S0 = g.leafOnly ? g.E : [tg.rect[0] + (dir > 0 ? tg.rect[2] + 1 : -1), tg.rect[1] + tg.rect[3] / 2 + 3];
+    const phi = g.leafOnly ? -0.15 : !tg.low ? -0.35 : g.narrow ? 0.5 : 0.6, ux = dir * Math.cos(phi), uy = Math.sin(phi);
     let T, rect;
     for (let r = g.leafOnly ? 18 : 60; r < 2400; r += 16) {
       T = [S0[0] + ux * r, S0[1] + uy * r];
-      rect = [g.side > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
+      rect = [dir > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
       const fat = [rect[0] - 14, rect[1] - 10, tw + 28, th + 20];
       if (!g.blocks.some(o => hits(fat, o))) break;
     }
@@ -1006,7 +1011,7 @@
     const fits = b => b[2] - b[0] <= W - 16 && b[3] - b[1] <= H - 144;
     const own = [rect[0] - 8, rect[1] - 6, rect[0] + tw + 8, rect[1] + th];
     const from = tg ? [tg.rect[0], tg.rect[1], tg.rect[0] + tg.rect[2], tg.rect[1] + tg.rect[3]] : [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]];
-    const stub = [Math.min(T[0] - g.side * 20, T[0]), T[1] - 26, Math.max(T[0] - g.side * 20, T[0]), T[1]]; // at least the tip of its branch
+    const stub = [Math.min(T[0] - dir * 20, T[0]), T[1] - 26, Math.max(T[0] - dir * 20, T[0]), T[1]]; // at least the tip of its branch
     const all = join(join(own, from), [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]]);
     const tree = join(all, crownBox); // best of all: the whole tree beside the text
     frameBox(fits(tree) ? tree : fits(all) ? all : fits(join(own, from)) ? join(own, from) : fits(join(own, stub)) ? join(own, stub) : own, g.narrow); // phones read from the top of the screen
@@ -1103,6 +1108,44 @@
     root.classList.remove('tree', 'grown', 'panel-open'); // drawing failed: fall back to the plain CV
     console.error(err);
   }
+})();
+</script>
+<script>
+// now and then a shooting star crosses the sky behind the tree: a stippled sand trail with a faint moonlit head.
+// Only on the tree, never while a branch is open, never for visitors who prefer less motion, and not in a hidden tab.
+(() => {
+  const c = document.getElementById('shoot'), g = c && c.getContext && c.getContext('2d'), root = document.documentElement;
+  if (!g) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const later = ms => setTimeout(fly, ms != null ? ms : 7000 + Math.random() * 11000);
+  function fly() {
+    if (reduce.matches || document.hidden || !root.classList.contains('tree') || !root.classList.contains('grown') || root.classList.contains('panel-open')) return later();
+    const W = innerWidth, H = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
+    c.width = W * dpr; c.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const dir = Math.random() < 0.5 ? -1 : 1, a = (0.22 + Math.random() * 0.3), ux = dir * Math.cos(a), uy = Math.sin(a);
+    const x0 = W * (dir > 0 ? 0.05 + Math.random() * 0.5 : 0.45 + Math.random() * 0.5), y0 = H * (0.04 + Math.random() * 0.3);
+    const travel = Math.min(W, 520) * (0.7 + Math.random() * 0.5), tail = 90 + Math.random() * 110, dur = 900 + Math.random() * 500;
+    const jit = Array.from({ length: 160 }, () => [(Math.random() - 0.5) * 2.2, Math.random()]);
+    let t0 = 0;
+    const step = now => {
+      if (root.classList.contains('panel-open')) { g.clearRect(0, 0, W, H); return later(); } // a branch opened: the star goes at once
+      if (!t0) t0 = now;
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 2), fade = k < 0.7 ? 1 : 1 - (k - 0.7) / 0.3;
+      const hx = x0 + ux * travel * e, hy = y0 + uy * travel * e, len = tail * Math.min(1, k * 4);
+      g.clearRect(0, 0, W, H);
+      for (let i = 0; i < jit.length; i++) { // the trail: dots thinning out behind the head
+        const u = i / jit.length, d = u * len, al = (1 - u) * 0.85 * fade * (0.5 + jit[i][1] * 0.5);
+        g.fillStyle = `rgba(216,207,189,${al.toFixed(3)})`;
+        g.fillRect(hx - ux * d - uy * jit[i][0] * (1 - u), hy - uy * d + ux * jit[i][0] * (1 - u), u < 0.15 ? 1.6 : 1, u < 0.15 ? 1.6 : 1);
+      }
+      const glow = g.createRadialGradient(hx, hy, 0, hx, hy, 6);
+      glow.addColorStop(0, `rgba(240,226,190,${(0.95 * fade).toFixed(3)})`); glow.addColorStop(1, 'rgba(232,199,122,0)');
+      g.fillStyle = glow; g.fillRect(hx - 6, hy - 6, 12, 12);
+      if (k < 1) requestAnimationFrame(step); else { g.clearRect(0, 0, W, H); later(); }
+    };
+    requestAnimationFrame(step);
+  }
+  later(5500); // the first one a few seconds after the tree has grown
 })();
 </script>
 </body>
