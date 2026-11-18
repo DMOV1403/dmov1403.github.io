@@ -150,3 +150,17 @@ footer a{display:inline-flex;min-height:44px;align-items:center}
 .hi .btn{margin:.2rem 0 .5rem}
 .copy{font:inherit;font-size:.85rem;min-height:36px;margin-left:.4rem;padding:.15rem .75rem;border-radius:999px;border:1.5px solid var(--rule);background:none;color:var(--ink-dim);cursor:pointer}
 .copy:hover{color:var(--ink);border-color:var(--sand)}
+
+/* ===================== small line drawings that answer the pointer (hairline), in the site's own colours ===================== */
+.figs{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1.2rem 1.6rem;margin:.6rem 0 2rem}
+.figs li{display:grid;gap:.15rem;align-content:start}
+.figs b{font-family:var(--hand);font-size:1.5rem;font-weight:600;line-height:1.1;color:var(--sand)}
+.figs span{font-size:.95rem;color:var(--ink-dim)}
+.fig{width:100%;max-width:15rem;aspect-ratio:5/4;margin-bottom:.3rem;
+  --hairline-plate:#1F1C25;--hairline-hi:#ECE5D8;--hairline-edge:#B3AA9B;--hairline-mid:#7A7382;--hairline-lo:#4A4452;--hairline-stroke:1}
+@media (max-width:34em){ /* phones: the drawing sits beside its caption, so three of them don't fill three screens */
+  .figs{grid-template-columns:1fr;gap:.6rem}
+  .figs li{grid-template-columns:7.5rem minmax(0,1fr);column-gap:.9rem;align-items:center}
+  .figs .fig{grid-row:span 2;margin:0}
+  .figs b{align-self:end}.figs span{align-self:start}
+}

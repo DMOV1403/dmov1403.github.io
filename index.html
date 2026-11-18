@@ -25,7 +25,7 @@
 <meta name="twitter:image" content="https://osamamonir.com/og.jpg">
 <link rel="preload" href="assets/fonts/spectral-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/caveat-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=2">
 <style>
   :root{
     --sky:#1F1C25;      /* night over the dunes */
@@ -37,6 +37,7 @@
     --paper-ink:#2A2530;
     --serif:'Spectral',Georgia,serif;
     --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+    --sans:'Libre Franklin',system-ui,'Segoe UI',Roboto,sans-serif; /* plain and easy to read: the words on the branches and what they open */
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{background:var(--sky);color:var(--ink);font-family:var(--serif);font-size:100%;-webkit-text-size-adjust:100%}
@@ -142,24 +143,30 @@
   /* the open branch: bold, underlined, with a full stop; the others stay on the tree, a little quieter */
   .labels button[aria-expanded="true"]{font-weight:700;text-decoration-line:underline}
   :is(.labels button[aria-expanded="true"],.twig[aria-pressed="true"])::after{content:"."}
-  html.tree.panel-open .labels button[aria-expanded="false"]{opacity:.55}
+  .labels button.folded{pointer-events:none}
+  html.grown .labels button.folded .ch:not(.on){opacity:0}
 
   /* a section's branch grows out of its label, up and away from the trunk, with a twig per item */
   html.tree .listc{display:block;position:fixed;left:0;top:0;z-index:4;pointer-events:none}
   html.tree .twigs{display:block;position:fixed;inset:0;z-index:22;pointer-events:none;outline:none}
-  .twig{position:absolute;pointer-events:auto;font-family:var(--hand);font-size:1.3rem;font-weight:600;line-height:1;color:var(--ink-dim);padding:.3rem .4rem;min-height:44px;display:flex;align-items:center;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .4s,color .2s,background .2s;
+  .twig{position:absolute;pointer-events:auto;font-family:var(--sans);font-size:.98rem;font-weight:500;letter-spacing:.01em;line-height:1;color:#D9D1C2;padding:.3rem .4rem;min-height:44px;display:flex;align-items:center;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .4s,color .2s,background .2s;
     text-decoration-thickness:1.5px;text-underline-offset:.22em}
   .twig.on{opacity:1}
+  .twig .ch{white-space:pre;opacity:0}
+  .twig .ch.on{opacity:1}
   .twig:hover,.twig:focus-visible{color:var(--ink);background:rgba(216,207,189,.1);text-decoration-line:underline}
   .twig[aria-pressed="true"]{color:var(--ink);font-weight:700;text-decoration-line:underline}
   /* a twig's contents: plain text on the sky at the end of its own little branch */
   html.tree .leaf{display:block;position:fixed;left:0;top:0;z-index:23;overflow:auto;overscroll-behavior:contain;outline:none;
-    font-size:1rem;line-height:1.6;padding:.35rem .5rem .7rem;border-radius:10px;
+    font-family:var(--sans);font-size:1rem;line-height:1.7;padding:.35rem .5rem .7rem;border-radius:10px;
     background:rgba(31,28,37,.6);box-shadow:0 0 34px 26px rgba(31,28,37,.6);text-shadow:0 0 3px var(--sky),0 0 8px var(--sky)} /* a soft shade, so the lines stay readable where they cross the dune */
   html.tree .leaf[hidden]{display:none}
   .leaf .yr,.leaf .what{display:block;color:var(--ink-dim);font-size:.95rem}
   .leaf .co{display:block;color:var(--sand);font-style:italic}
-  .leaf h3{font-weight:600;font-size:1.15rem;line-height:1.3}
+  .leaf h3{font-weight:650;font-size:1.12rem;line-height:1.3}
+  .leaf > .yr:first-child{display:none} /* the year is already the open word and the trail */
+  .job + .job{margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(216,207,189,.16)}
+  .job p{margin:.3rem 0 0}
   .leaf p{margin:.45rem 0 0}
   .leaf > p:first-child,.leaf > .facts:first-child{margin-top:0}
   .leaf .facts{margin-top:.9rem}
@@ -169,6 +176,13 @@
     .leaf.typing .w{animation:w-in .16s both;animation-delay:calc(var(--d0,0ms) + var(--w) * var(--ws,24ms))}
   }
   @keyframes w-in{from{opacity:0}}
+  /* where you are: a small trail at the top while a branch is open; each step is a way back */
+  html.tree .trail{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem .15rem;position:fixed;z-index:30;top:max(.5rem,env(safe-area-inset-top));left:max(.75rem,env(safe-area-inset-left));right:.75rem;font-family:var(--sans);font-size:.92rem;color:var(--ink-dim);pointer-events:none}
+  html.tree .trail[hidden]{display:none}
+  .trail button{pointer-events:auto;font:inherit;color:var(--ink-dim);min-height:44px;padding:.2rem .55rem;border-radius:999px;text-decoration:underline;text-decoration-color:rgba(216,207,189,.35);text-underline-offset:.25em}
+  .trail button:hover{color:var(--ink);background:rgba(216,207,189,.12)}
+  .trail b{font-weight:600;color:var(--ink);padding:.2rem .55rem}
+  .trail i{font-style:normal;opacity:.6}
   /* one step back: bottom left, like a pebble at the foot of the tree */
   html.tree .pill{display:inline-flex;position:fixed;z-index:30;left:max(1rem,env(safe-area-inset-left));bottom:max(1rem,env(safe-area-inset-bottom));
     align-items:center;justify-content:center;width:56px;height:44px;border-radius:999px;color:var(--ink);
@@ -177,9 +191,8 @@
   .pill:hover{background:rgba(216,207,189,.16);border-color:var(--sand)}
   .pill svg{width:26px;height:14px}
   @media(max-width:759px){
-    .labels button{font-size:1.45rem;background:rgba(31,28,37,.78)}
-    .labels button[aria-expanded="true"]{text-decoration-line:none} /* its underline is the start of the branch itself */
-    .twig{font-size:1.2rem}
+    .labels button{font-size:1.3rem;padding:.4rem .35rem}
+    .twig{font-size:.92rem}
   }
   @media(prefers-reduced-motion:reduce){
     html.tree .intro{position:relative}
@@ -258,7 +271,7 @@
 <body>
 
 <ul class="corner" aria-label="Quick links">
-  <li><a href="Osama-Monir-CV.pdf" download>CV as PDF</a></li>
+  <li><a href="cv/">Read my CV</a></li>
   <li><a href="websites/">Websites</a></li>
 </ul>
 
@@ -295,20 +308,16 @@
   <section class="panel" id="me" tabindex="-1" aria-labelledby="me-h">
     <button type="button" class="back" data-close>back to the tree</button>
     <h2 id="me-h"><span class="hand">me</span></h2>
-    <p data-twig="what i do">I do the research, write the study, design the deck and build the website it points to.</p>
-    <p data-twig="nusail now">I’m Research and Development Manager at <strong>Nusail Trading &amp; Contracting</strong>, an industrial waste management and logistics contractor in Sohar. I head their new R&amp;D function: new venture studies, the ISO management system documents, the rebrand and the material that goes to partners.</p>
-    <p data-twig="before that">Before that I did business development and research for <strong>RSD</strong>, an Omani holding and venture company, and designed the documents that carried the work: feasibility studies, investor decks, partnership proposals and the brand itself. Earlier I spent five years in brand identity, graphic design, paid social and web development. With a Computer Science degree behind it, I’m as comfortable checking a financial model as laying out the report it goes in.</p>
-    <p data-twig="sohar &amp; languages">I live in Sohar, Oman. Arabic is my first language, my English is professional level (Duolingo English Test, 120), and I’m happy to work remotely.</p>
+    <p data-twig="now">I’m Research and Development Manager at <strong>Nusail Trading &amp; Contracting</strong>, an industrial waste and logistics contractor in Sohar, Oman. I run its new R&amp;D function: new venture studies, ISO documentation, the rebrand and the material that goes to partners.</p>
+    <p data-twig="before">Before that I did business development and research for <strong>RSD</strong>, an Omani venture company, after five years in brand identity, design, paid social and web development. With a Computer Science degree behind it, I’m as comfortable checking a financial model as laying out the report it goes in.</p>
     <ul class="facts" data-twig="skills">
       <li>Feasibility and market research</li>
       <li>Investor decks and company profiles</li>
       <li>ISO 9001, 14001 and 45001 documentation</li>
-      <li>Brand identity and guidelines, Arabic and English</li>
-      <li>NDA and scope-of-work drafting</li>
+      <li>Brand identity, in Arabic and English</li>
       <li>Websites and small software tools</li>
-      <li>Meta Ads, Google Ads and content strategy</li>
-      <li>Premiere Pro and AI video</li>
-      <li>Arabic and English voice over</li>
+      <li>Paid ads, video and voice over</li>
+      <li>Arabic first language, professional English</li>
     </ul>
   </section>
 
@@ -316,47 +325,32 @@
     <button type="button" class="back" data-close>back to the tree</button>
     <h2 id="work-h"><span class="hand">work</span></h2>
     <p>Some work I’m proud of, and a few numbers I wrote down along the way.</p>
-    <ul class="notes" data-twig="the numbers">
+    <ul class="notes" data-twig="results">
       <li class="note"><b>14x</b><span>Instagram views in 30 days, 26.1K to 368.2K</span></li>
       <li class="note"><b>-35%</b><span>cost per click after new creatives and tighter targeting</span></li>
       <li class="note"><b>20K</b><span>patient records moved out of a DOS program</span></li>
       <li class="note"><b>11</b><span>European buyers found and contacted for a gypsum export deal</span></li>
     </ul>
     <ul class="work-list">
-      <li data-twig="duqm study">
-        <p class="what">Feasibility study for RSD, Duqm</p>
-        <h3>A Level 2 feasibility study for a new urea and ammonia plant</h3>
-        <p>I co-wrote the study, built the investor presentations, wrote the port and logistics note, and drafted our reply when an outside reviewer pushed back. Then I helped set up the investor meeting that came after.</p>
-      </li>
-      <li data-twig="rsd brand">
-        <p class="what">Brand build and corporate site</p>
-        <h3>RSD, from the name up</h3>
-        <p>I named the company, wrote the brand guidelines, set up the document style and the research report pipeline, and designed and built the website. I’ve also written their research notes on gas monetisation, industrial minerals, an AI and data hub, and farming in southern Oman. <a href="https://rsd.services" target="_blank" rel="noopener">Visit rsd.services</a></p>
-      </li>
       <li data-twig="nusail">
         <p class="what">Research and development, Nusail Trading &amp; Contracting</p>
         <h3>A new R&amp;D function for an industrial contractor</h3>
-        <p>For a partnership pitch I prepared the investment presentation, company profile, speaker notes and a growth roadmap built from their register of 39 contracts. Now I’m researching a possible plant in Oman for aluminium melt-treatment products, writing the integrated ISO 9001, 14001 and 45001 documentation, and I led the rebrand to the approved Arabic and English mark.</p>
+        <p>An investment presentation, company profile and growth roadmap built from their register of 39 contracts. Now: a study for a possible aluminium melt-treatment plant in Oman, the ISO 9001, 14001 and 45001 documentation, and the rebrand to the approved Arabic and English mark.</p>
+      </li>
+      <li data-twig="rsd">
+        <p class="what">Brand build and corporate site</p>
+        <h3>RSD, from the name up</h3>
+        <p>I named the company, wrote its brand guidelines and document style, and designed and built the website. <a href="https://rsd.services" target="_blank" rel="noopener">Visit rsd.services</a></p>
       </li>
       <li data-twig="clinic system">
         <p class="what">Software for healthcare</p>
         <h3>Clinic management system</h3>
-        <p>A private clinic in Oman was still on a DOS program. I moved about 20,000 patients and 40,000 visits into a new desktop app that handles registration, consultations, prescriptions, audit logs and printing across the network.</p>
-      </li>
-      <li data-twig="rif majan">
-        <p class="what">Paid social for Rif Majan</p>
-        <h3>368K monthly views, and cheaper clicks</h3>
-        <p>One targeted campaign took their Instagram from 26.1K to 368.2K monthly views in a month. Later I redid the ad creatives and pulled the targeting in to a 15km radius: cost per click dropped 35% and we beat the reservation target on a smaller budget.</p>
-      </li>
-      <li data-twig="al-muneer">
-        <p class="what">My own agency</p>
-        <h3>Al-Muneer Agency</h3>
-        <p>I built its brand and portfolio site, then did the brand identities and content strategies for Hungr Station and Al Saaj Breakfast. I also make commercial reels that mix live footage with AI-generated video, most recently for a date gelato brand and a luxury residential project.</p>
+        <p>A private clinic in Oman was still on a DOS program. I moved about 20,000 patients and 40,000 visits into a new desktop app for registration, consultations, prescriptions and printing.</p>
       </li>
       <li data-twig="websites">
         <p class="what">Web development</p>
         <h3>Client websites</h3>
-        <p>A full publishing platform with payments and a members’ library, and a corporate site for a venture company. Design, code, hosting, domain and SEO on both. <a href="websites/">Read the web case studies</a></p>
+        <p>A publishing platform with payments and a members’ library, and a corporate site. Design, code, hosting, domain and SEO on both. <a href="websites/">See the websites</a></p>
       </li>
     </ul>
   </section>
@@ -364,23 +358,15 @@
   <section class="panel" id="path" tabindex="-1" aria-labelledby="path-h">
     <button type="button" class="back" data-close>back to the tree</button>
     <h2 id="path-h"><span class="hand">the path</span></h2>
-    <p>Where I’ve worked so far.</p>
+    <p>Where I’ve worked so far, year by year.</p>
     <ol class="path">
-      <li data-twig="2026 nusail"><span class="yr">2026 to now</span><div><h3>Research &amp; Development Manager</h3><span class="co">Nusail Trading &amp; Contracting, Sohar</span><p>I head the company’s new R&amp;D function and report to the CEO. New venture studies, ISO management system documentation, the rebrand and partner materials, for an industrial waste and logistics contractor that serves OQ and Sohar Aluminium.</p></div></li>
-      <li data-twig="2026 al-muneer"><span class="yr">2026 to now</span><div><h3>Founder &amp; Creative Lead</h3><span class="co">Al-Muneer Agency, Sohar</span><p>My own small digital marketing agency. Mostly food and beverage, hospitality and real estate clients in Oman, plus web design for clients in Germany.</p></div></li>
-      <li data-twig="2026 rsd"><span class="yr">May to August 2026</span><div><h3>Business Development &amp; Research Consultant</h3><span class="co">RSD, Oman and remote</span><p>Part-time retainer with an Omani holding and venture company in mining, investment and industrial technology. Business development, research and analysis, branding and communications.</p></div></li>
-      <li data-twig="2022 freelance web"><span class="yr">2022 to now</span><div><h3>Web Developer &amp; Designer</h3><span class="co">Freelance, remote</span><p>Business websites, landing pages, portfolio sites and small software tools. Design, code and deployment.</p></div></li>
-      <li data-twig="2024 rif majan"><span class="yr">2024 to May 2026</span><div><h3>Head of Advertising &amp; Marketing</h3><span class="co">Rif Majan, Sohar</span><p>In-house creative lead for two restaurant branches. I built the brand identity, menus and packaging, shot and edited the video, and ran the social accounts and paid campaigns.</p></div></li>
-      <li data-twig="2023 roaya optical"><span class="yr">2023 to 2024</span><div><h3>Marketing Manager</h3><span class="co">Roaya Optical Center, Egypt</span><p>All the promotional materials and visual assets, plus events and outreach campaigns across their locations.</p></div></li>
-      <li data-twig="2021 echo media"><span class="yr">2021 to 2023</span><div><h3>Head of Marketing Department</h3><span class="co">ECHO Media Production Agency, Egypt</span><p>Ran the marketing department and its creative team, and took client projects from brief to delivery: scripts, pre-production, shooting and editing, across several accounts at once.</p></div></li>
-      <li data-twig="2019 arrow"><span class="yr">2019</span><div><h3>Digital Marketing Assistant</h3><span class="co">Arrow for Advertising, Egypt</span><p>Helped run digital campaigns across social and paid platforms, and supported account management.</p></div></li>
+      <li data-twig="2026"><span class="yr">2026</span><div><div class="job"><h3>Research &amp; Development Manager</h3><span class="co">Nusail Trading &amp; Contracting, Sohar · 2026 to now</span><p>I head the company’s new R&amp;D function and report to the CEO: new venture studies, ISO documentation, the rebrand and partner materials.</p></div><div class="job"><h3>Founder &amp; Creative Lead</h3><span class="co">Al-Muneer Agency, Sohar · 2026 to now</span><p>My own small digital marketing agency, mostly for food, hospitality and real estate clients in Oman.</p></div><div class="job"><h3>Business Development &amp; Research Consultant</h3><span class="co">RSD, Oman and remote · May to August 2026</span><p>Research, investor materials and the brand for an Omani venture company in mining, investment and industrial technology.</p></div></div></li>
+      <li data-twig="2024"><span class="yr">2024</span><div><div class="job"><h3>Head of Advertising &amp; Marketing</h3><span class="co">Rif Majan, Sohar · 2024 to May 2026</span><p>In-house creative lead for two restaurant branches: brand identity, menus, video, social accounts and paid campaigns.</p></div></div></li>
+      <li data-twig="2023"><span class="yr">2023</span><div><div class="job"><h3>Marketing Manager</h3><span class="co">Roaya Optical Center, Egypt · 2023 to 2024</span><p>Promotional materials, events and outreach campaigns across their locations.</p></div></div></li>
+      <li data-twig="2022"><span class="yr">2022</span><div><div class="job"><h3>BSc Computer Science</h3><span class="co">M.E.T Academy, Egypt · 2022</span><p>My degree, and the reason the technical side of the work holds up.</p></div><div class="job"><h3>Web Developer &amp; Designer</h3><span class="co">Freelance, remote · 2022 to now</span><p>Business websites, landing pages and small software tools: design, code and deployment.</p></div></div></li>
+      <li data-twig="2021"><span class="yr">2021</span><div><div class="job"><h3>Head of Marketing Department</h3><span class="co">ECHO Media Production Agency, Egypt · 2021 to 2023</span><p>Ran the marketing department and its creative team, from scripts and shooting to editing, across several client accounts.</p></div></div></li>
+      <li data-twig="2019"><span class="yr">2019</span><div><div class="job"><h3>Digital Marketing Assistant</h3><span class="co">Arrow for Advertising, Egypt · 2019</span><p>Helped run digital campaigns across social and paid platforms.</p></div></div></li>
     </ol>
-    <h3 style="margin-top:2rem">Education and languages</h3>
-    <ul class="facts" data-twig="2022 bsc degree">
-      <li>BSc Computer Science, M.E.T Academy, Egypt, 2022</li>
-      <li>Duolingo English Test, score 120</li>
-      <li>Arabic first language; voice over in Arabic and English</li>
-    </ul>
   </section>
 
   <section class="panel" id="hi" tabindex="-1" aria-labelledby="hi-h">
@@ -392,12 +378,13 @@
       <li data-twig="phone">Phone: <a href="tel:+96879384026">+968 79384026</a></li>
       <li>Based in Sohar, Oman, working with clients anywhere</li>
       <li data-twig="behance"><a href="https://www.behance.net/osamamonir_" target="_blank" rel="noopener">Design work on Behance</a></li>
-      <li data-twig="cv (pdf)"><a href="Osama-Monir-CV.pdf" download>Download the CV as a PDF</a></li>
+      <li data-twig="cv"><a href="cv/">Read my CV</a></li>
     </ul>
   </section>
 </main>
 <div class="twigs cam" id="twigs" role="group" aria-label="Items on this branch" tabindex="-1"></div>
 <div class="leaf cam" id="leaf" aria-live="polite" tabindex="-1" hidden></div>
+<nav class="trail" id="trail" aria-label="Where you are" hidden></nav>
 <button type="button" class="pill" id="back" data-back aria-label="Back one step" hidden><svg viewBox="0 0 26 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M24 7.5c-5-1.2-11-.6-21 0M8.5 2 3 7.5l5.5 4.5"/></svg></button>
 
 <footer>© 2026 Osama Monir. Drawn and built by hand.</footer>
@@ -455,7 +442,7 @@
     const narrow = narrowNow();
     const baseX = narrow ? W * 0.5 : W * 0.6;
     const baseY = duneY(baseX, 1) + 2;
-    const Sfit = Math.min(H * 0.6, W * (narrow ? 0.8 : 0.42)) * fitScale;
+    const Sfit = Math.min(H * 0.6, W * (narrow ? 0.64 : 0.42)) * fitScale;
     let S = narrow ? 270 : Sfit; // phones: the tree is grown at one fixed size, so it keeps the same shape on every phone, then scaled to fit
     const clumps = [];
     const MAXD = 5;
@@ -626,28 +613,26 @@
     const order = ['hi', 'work', 'path', 'me']; // left to right on phones
     // on computers a label keeps clear of the name block (each line of it) and of the crown at its own height
     const lines = [];
-    if (!narrow) { const rg = document.createRange(); for (const el of intro.children) { rg.selectNodeContents(el); for (const r of rg.getClientRects()) if (r.width) lines.push([r.left - 10, r.top - 8, r.right + 10, r.bottom + 8]); } }
+    { const rg = document.createRange(); for (const el of intro.children) { rg.selectNodeContents(el); for (const r of rg.getClientRects()) if (r.width) lines.push([r.left - 10, r.top - 8, r.right + 10, r.bottom + 8]); } }
     const meets = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3];
     for (const b of labels) {
       const k = b.dataset.branch, f = from[k]; if (!f) continue;
       const lw = b.offsetWidth || 90, lh = b.offsetHeight || 44;
       let x, y;
-      if (narrow) {
-        const cxPos = W * [0.13, 0.37, 0.63, 0.87][order.indexOf(k)];
-        x = cxPos - lw / 2; y = crownTop - 60 - lh / 2;
-      } else {
-        const edge = f.c[0] + f.side * f.c[3];
-        x = f.side < 0 ? edge - 84 - lw : edge + 84;
+      { // the same rule on every screen: beside the crown, at the end of its own limb (a shorter limb on a narrow screen)
+        const edge = f.c[0] + f.side * f.c[3], gap = narrow ? 14 : 84;
+        x = f.side < 0 ? edge - gap - lw : edge + gap;
         y = f.c[1] - lh / 2 - (k === 'work' || k === 'path' ? 18 : -6);
       }
       at[k] = { b, k, f, lw, lh, x, y };
     }
-    if (!narrow) {
+    {
+      const pad = narrow ? 8 : 24;
       const clearCrown = L => { // out past any leaf clump that reaches this label's height
         const near = (clumps || []).filter(c => Math.abs(c[1] - (L.y + L.lh / 2)) < L.lh / 2 + c[3] * 0.5 + 6);
         if (!near.length) return;
-        if (L.f.side < 0) L.x = Math.min(L.x, Math.min(...near.map(c => c[0] - c[3])) - 24 - L.lw);
-        else L.x = Math.max(L.x, Math.max(...near.map(c => c[0] + c[3])) + 24);
+        if (L.f.side < 0) L.x = Math.min(L.x, Math.min(...near.map(c => c[0] - c[3])) - pad - L.lw);
+        else L.x = Math.max(L.x, Math.max(...near.map(c => c[0] + c[3])) + pad);
       };
       for (const L of Object.values(at)) clearCrown(L);
       for (const L of Object.values(at)) { // below the name block if it would sit on a line of it
@@ -662,7 +647,7 @@
       const x = Math.max(12, Math.min(W - L.lw - 12, L.x)), y = Math.max(60, Math.min(H - L.lh - 12, L.y));
       L.b.style.left = x + 'px'; L.b.style.top = y + 'px';
       labelBox[L.k] = [x, y, L.lw, L.lh];
-      tips[L.k] = narrow ? [x + L.lw / 2, y + L.lh - 4] : [L.f.side < 0 ? x + L.lw + 2 : x - 2, y + L.lh / 2 + 4];
+      tips[L.k] = [L.f.side < 0 ? x + L.lw + 2 : x - 2, y + L.lh / 2 + 4];
     }
     return tips;
   }
@@ -802,7 +787,7 @@
   // ---------- branches: tree -> a section's branch with a twig per item -> one twig's text ----------
   // Nothing is resized. Everything lives at its place in the scene and the camera slides to it.
   const LEAF = { me: 1 }; // a section with no twigs: its text is written straight at the end of its branch
-  const leafy = k => !!LEAF[k] && !narrowNow(); // on phones a long text would bury the screen, so "me" keeps its twigs there
+  const leafy = () => false; // every section opens with words, on every screen // on phones a long text would bury the screen, so "me" keeps its twigs there
   const listC = $('list'), subC = $('sub'), twigBox = $('twigs'), leaf = $('leaf'), pill = $('back');
   let geo = null, stopList = null, stopSub = null;
   const hits = (r, o) => r[0] < o[0] + o[2] && r[0] + r[2] > o[0] && r[1] < o[1] + o[3] && r[1] + r[3] > o[1];
@@ -840,7 +825,7 @@
     }
   }
   // lay a canvas over the dots' own patch of the scene and grow them in over dur ms
-  function paint(canvas, d, dur, delay, onStep) {
+  function paint(canvas, d, dur, delay, onStep, ease) {
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
     for (const p of d) { if (p[0] < x0) x0 = p[0]; if (p[1] < y0) y0 = p[1]; if (p[0] > x1) x1 = p[0]; if (p[1] > y1) y1 = p[1]; }
     if (!d.length) { wipe(canvas); if (onStep) onStep(1); return () => {}; }
@@ -853,90 +838,164 @@
     let i = 0, start = 0, raf = 0, wait = 0;
     const step = now => {
       if (!start) start = now;
-      const p = dur ? Math.min(1, (now - start) / dur) : 1;
+      const x = dur ? Math.min(1, (now - start) / dur) : 1, p = ease ? ease(x) : x;
       for (; i < d.length && d[i][2] <= p; i++) { c.fillStyle = SHADES[d[i][3]]; c.fillRect(d[i][0], d[i][1], 1, 1); }
       if (onStep) onStep(p);
-      if (p < 1) raf = requestAnimationFrame(step);
+      if (x < 1) raf = requestAnimationFrame(step);
     };
     if (dur) wait = setTimeout(() => { raf = requestAnimationFrame(step); }, delay); else step(0);
     return () => { cancelAnimationFrame(raf); clearTimeout(wait); };
   }
 
-  function clearSub() { if (stopSub) stopSub(); stopSub = null; wipe(subC); leaf.hidden = true; leaf.classList.remove('typing'); leaf.replaceChildren(); }
-  function clearAll() { clearSub(); if (stopList) stopList(); stopList = null; wipe(listC); twigBox.replaceChildren(); geo = null; }
+  // ---------- one routine for every word, on every screen (after natochi.cv's own code) ----------
+  // A word that holds something opens the same way whether it is a section's label or one of its items:
+  // a branch leaves the word's twig, bends upward, and carries what is inside on twigs of its own.
+  const DEG = Math.PI / 180, lerp = (a, b, t) => a + (b - a) * t;
+  const STEEP = [62, 50, 74, 35, 22], LENF = [1, 0.8, 1.25, 0.65];
+  const easeOut = x => 1 - Math.pow(1 - x, 3), easeIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  // a cubic curve from O: it leaves at the twig's angle turned by `steep`, and ends almost back on the twig's angle
+  function curve(O, i, len, dir, steep, R) {
+    const E = Math.cos(i) >= 0 ? 1 : -1, a0 = i + dir * E * steep * DEG, a1 = i + dir * E * 0.15, am = 0.55 * a0 + 0.45 * a1;
+    const end = [O[0] + len * Math.cos(am), O[1] + len * Math.sin(am)];
+    const c1 = [O[0] + 0.42 * len * Math.cos(a0), O[1] + 0.42 * len * Math.sin(a0)], c2 = [end[0] - 0.3 * len * Math.cos(a1), end[1] - 0.3 * len * Math.sin(a1)];
+    const P = 2 + R() * 2, C = 5 + R() * 3, z = R() * 6.283, D = R() * 6.283, amp = 0.03 * len * 0.5, nx = -Math.sin(am), ny = Math.cos(am);
+    const at = t => {
+      const u = 1 - t, b0 = u * u * u, b1 = 3 * u * u * t, b2 = 3 * u * t * t, b3 = t * t * t;
+      const w = amp * (Math.sin(t * P * Math.PI + z) + 0.35 * Math.sin(t * C * Math.PI + D)) * Math.min(1, 4 * t);
+      return [b0 * O[0] + b1 * c1[0] + b2 * c2[0] + b3 * end[0] + nx * w, b0 * O[1] + b1 * c1[1] + b2 * c2[1] + b3 * end[1] + ny * w];
+    };
+    const tan = t => { const [xa, ya] = at(Math.max(0, t - 0.02)), [xb, yb] = at(Math.min(1, t + 0.02)); return Math.atan2(yb - ya, xb - xa); };
+    const m = Math.max(12, Math.round(len / 4)), pts = []; for (let q = 0; q <= m; q++) pts.push(at(q / m));
+    return { at, tan, len, pts };
+  }
+  // try the ways a branch could leave O, in natochi's order; the first clean one wins, otherwise the least bad
+  function bestCurve(O, i, len, seed, score) {
+    let best = null, idx = 0; const ground = base[1] - 16;
+    for (const dir of [-1, 1]) for (const steep of STEEP) for (const f of LENF) {
+      const R = rng(seed + idx * 31), c = curve(O, i, len * f, dir, steep, R);
+      let s = 0.4 * idx; for (const p of c.pts) if (p[1] > ground) s += 4;
+      const extra = score(c, R); s += extra.s;
+      if (!best || s < best.s) best = { c, s, extra, R };
+      idx++; if (s < 1) return best;
+    }
+    return best;
+  }
+  // a twig hanging off a branch at t, on one side, and the box of whatever sits at its tip
+  function hang(c, t, side, r1, r2, mult, w, h, flip) {
+    const node = c.at(t), ang = c.tan(t) + side * (0.75 + 0.25 * r1), L = (34 + 18 * r2) * mult;
+    const tip = [node[0] + Math.cos(ang) * L, node[1] + Math.sin(ang) * L];
+    let leftward = Math.cos(ang) < -0.15; if (flip) leftward = !leftward;
+    return { node, ang, tip, L, left: leftward ? tip[0] - w : tip[0], top: tip[1] - h / 2 };
+  }
+  const boxOf = pts => { let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity; for (const p of pts) { a = Math.min(a, p[0]); b = Math.min(b, p[1]); c = Math.max(c, p[0]); d = Math.max(d, p[1]); } return [a, b, c, d]; };
+  const sc = () => narrowNow() ? 0.82 : clamp(H / 800, 0.9, 1.4);
+  const clumpR = () => narrowNow() ? 0.36 * clamp(0.145 * W, 46, 62) : 0.31 * clamp(0.135 * H, 84, 160);
+  // leaves along a branch: clumps on alternating sides, smaller toward the tip, keeping off the words
+  function foliage(d, c, R, keepOff, t0, t1, k = 1) {
+    const Rr = clumpR() * k, n = Math.max(2, Math.floor(0.84 * c.len / (Rr * (narrowNow() ? 0.95 : 0.9))));
+    for (let k = 0; k < n; k++) {
+      const t = 0.12 + 0.8 * (k + 0.5) / n + (R() - 0.5) * 0.04, [x, y] = c.at(t), a = c.tan(t), s = k % 2 ? 1 : -1;
+      let r = Rr * lerp(0.9, 0.55, t) * (0.85 + R() * 0.3);
+      const off = r * (0.3 + R() * 0.25), cx = x - Math.sin(a) * off * s, cy = y + Math.cos(a) * off * s;
+      while (r >= 7 && keepOff.some(o => hits([cx - r * 1.5, cy - r * 0.95, r * 3, r * 1.8], o))) r *= 0.8; // the tufts scatter a little past r, so test a wider box
+      if (r < 7) continue;
+      const tt = lerp(t0, t1, t);
+      for (let q = 0; q < 3; q++) clumpDots(d, cx + (R() - 0.5) * r * 0.9, cy - 2 + (R() - 0.6) * r * 0.6, r * (0.55 + R() * 0.25), tt, R);
+    }
+    const [ex, ey] = c.at(0.97); clumpDots(d, ex, ey - 2, Math.max(8, 0.36 * Rr), lerp(t0, t1, 0.97), R);
+  }
+  // words are written and unwritten letter by letter, from the end
+  function setLetters(b, f) { const ch = b.children, n = Math.ceil(ch.length * f); for (let q = 0; q < ch.length; q++) ch[q].classList.toggle('on', q < n); b._f = f; }
+  function typeWord(b, to, ms) {
+    cancelAnimationFrame(b._raf);
+    const from = b._f == null ? (b.querySelectorAll('.ch.on').length / Math.max(1, b.children.length)) : b._f;
+    if (!ms || from === to) return setLetters(b, to);
+    let t0 = 0; const step = now => { if (!t0) t0 = now; const x = Math.min(1, (now - t0) / ms); setLetters(b, lerp(from, to, easeIO(x))); if (x < 1) b._raf = requestAnimationFrame(step); };
+    b._raf = requestAnimationFrame(step);
+  }
+  function spell(b, word) { b.setAttribute('aria-label', word); b.textContent = ''; for (const ch of word) { const s = document.createElement('span'); s.className = 'ch'; s.setAttribute('aria-hidden', 'true'); s.textContent = ch; b.append(s); } }
+  // pull a drawn branch back in, tip first
+  function retract(canvas, d, ms, done) {
+    const c = canvas.getContext('2d'); d.sort((a, b) => a[2] - b[2]); let t0 = 0, raf = 0, over = false;
+    const fin = () => { if (over) return; over = true; cancelAnimationFrame(raf); done(); };
+    const step = now => {
+      if (!t0) t0 = now; const x = Math.min(1, (now - t0) / ms), p = 1 - easeIO(x);
+      c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, canvas.width, canvas.height); c.restore();
+      for (let q = 0; q < d.length && d[q][2] <= p; q++) { c.fillStyle = SHADES[d[q][3]]; c.fillRect(d[q][0], d[q][1], 1, 1); }
+      if (x < 1) raf = requestAnimationFrame(step); else fin();
+    };
+    raf = requestAnimationFrame(step); return fin;
+  }
 
-  // a section's branch: out of the tapped label, up and away from the trunk, a twig per item on alternating sides
+  function clearSub() { if (stopSub) stopSub(); stopSub = null; wipe(subC); leaf.hidden = true; leaf.classList.remove('typing'); leaf.replaceChildren(); }
+  function clearAll() { clearSub(); if (stopList) stopList(); stopList = null; if (geo) clearTimeout(geo.foldT); wipe(listC); twigBox.replaceChildren(); geo = null; }
+  // leaving a section: its words unwrite themselves and its branch draws back into the label
+  function closeSection() {
+    const g = geo; clearSub(); clearTimeout(g.foldT); if (stopList) stopList(); geo = null;
+    g.twigs.forEach(t => { t.b.style.pointerEvents = 'none'; typeWord(t.b, 0, 400); });
+    stopList = retract(listC, g.dAll.slice(), 550, () => { wipe(listC); twigBox.replaceChildren(); });
+  }
+
+  // a section opens: a branch out of its label, a word per item on twigs that alternate sides
   function growSection(k, instant) {
     const panel = $(k), side = SIDE[k] || 1, narrow = narrowNow(), lb = labelBox[k], tip = tipsAt[k];
     if (!panel || !lb || !tip) return null;
-    const leafOnly = leafy(k), items = itemsOf(k), n = items.length;
-    const R = rng({ path: 31, work: 47, hi: 59, me: 73 }[k] || 47);
-    const d = [];
-    // things a twig's name (and later the text) must not sit on: every label, the branch itself, other names
-    const blocks = Object.values(labelBox).map(b => [b[0] - 4, b[1] + 6, b[2] + 8, b[3] - 12]);
-    blocks.push([crownBox[0], crownBox[1], crownBox[2] - crownBox[0], crownBox[3] - crownBox[1]]); // ...and the tree's own crown
-    let P0;
-    if (narrow) { // phones: the labels stand in a row, so the branch starts as the word's underline and turns up at its outer end
-      P0 = [lb[0] + (side > 0 ? lb[2] + 2 : -2), lb[1] + lb[3] - 7];
-      limbDots(d, u => [tip[0] + (P0[0] - tip[0]) * u, P0[1] + Math.sin(u * 7) * 1.2], Math.abs(P0[0] - tip[0]), 2.6, 2.6, 0, 0.06, R);
-    } else P0 = [tip[0] - side * 10, tip[1] - 3];
-    let dx, dy;
-    if (leafOnly) { dx = narrow ? 40 : 130; dy = narrow ? lb[3] + 30 : Math.max(96, P0[1] - crownBox[1]); } // up to the top of the crown: the text hangs beside the whole tree
-    else if (narrow) { dx = W * 0.4; dy = clamp(n * 56, 200, H - 230); }
-    else { dx = clamp(n * 95, 300, W - 340); dy = clamp(n * 60, 200, H - 230); }
-    const E = [P0[0] + side * dx, P0[1] - dy], qx = P0[0] + side * dx * (narrow ? 0.2 : 0.25);
-    const at = u => { const a = 1 - u; return [a * a * P0[0] + 2 * a * u * qx + u * u * E[0], P0[1] - dy * u + Math.sin(u * 11) * 2.2 * Math.sin(u * Math.PI)]; };
-    const len = Math.hypot(dx, dy) * 1.06;
-    limbDots(d, at, len, narrow ? 5.5 : 8, 1.8, 0.06, 0.8, R);
-    for (let i = 0, m = Math.ceil(len / 11); i <= m; i++) { const [x, y] = at(i / m); blocks.push([x - 7, y - 6, 14, 12]); }
-
-    const ua = narrow ? 0.14 : 0.2, ub = 0.96, padIn = narrow ? 90 : 170;
-    const win = side > 0 ? [P0[0] - padIn, P0[0] - padIn + W - 24] : [P0[0] + padIn - (W - 24), P0[0] + padIn]; // one window's width of scene
-    const uOf = i => n > 1 ? ua + (ub - ua) * i / (n - 1) : 0.6;
-    const twigs = items.map((el, i) => {
+    const items = itemsOf(k), n = items.length; if (!n) return null;
+    const words = items.map((el, i) => {
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'twig'; b.textContent = twigName(el); b.dataset.i = i;
+      b.type = 'button'; b.className = 'twig on'; spell(b, twigName(el)); b.dataset.i = i;
       b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-controls', 'leaf');
-      twigBox.append(b);
-      const bw = b.offsetWidth + 6, bh = b.offsetHeight; // + room for the full stop it gets when open
-      const u = uOf(i), [x0, y0] = at(u), t0 = 0.06 + 0.74 * u;
-      const [xa, ya] = at(Math.max(0, u - 0.02)), [xb, yb] = at(Math.min(1, u + 0.02));
-      let nx = -(yb - ya), ny = xb - xa; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
-      if (ny < 0) { nx = -nx; ny = -ny; } // (nx, ny): square to the branch, pointing down and away from the trunk
-      let pick = null;
-      // twigs alternate sides, outer then inner, so the branch keeps spreading both ways like a real one;
-      // each twig's text later grows out on its own twig's side (see showLeaf)
-      const pref = i % 2 === 0;
-      for (const [low, tier] of [[pref, 0], [!pref, 0], [pref, 1], [!pref, 1], [pref, 2], [!pref, 2]]) {
-        const L = 30 + tier * 28, s = low ? 1 : -1, x = x0 + nx * L * s, y = y0 + ny * L * s;
-        const out = low ? side > 0 : side < 0; // does the name run rightwards from the stalk?
-        const left = out ? x + 1 : x - 1 - bw, top = y - bh / 2 + (low ? 4 : -4);
-        const text = [left + 3, top + 9, bw - 6, bh - 18]; // the name itself, inside the button's 44px tap area
-        const stalk = [Math.min(x0, x) - 1, Math.min(y0, y) - 1, Math.abs(x - x0) + 2, Math.abs(y - y0) + 2];
-        const c = { x, y, low, left, top, text, L, s };
-        if (!pick) pick = c; // if nothing is clear, fall back to the plain alternating spot
-        if (left < win[0] || left + bw > win[1]) continue;
-        if (blocks.some(o => hits(text, o)) || blocks.some(o => o.name && hits(stalk, o))) continue;
-        pick = c; break;
-      }
-      const name = pick.text.slice(); name.name = true; blocks.push(name);
-      for (let q = 0; q < pick.L; q++) d.push([x0 + nx * q * pick.s, y0 + ny * q * pick.s, t0 + 0.05 * q / pick.L, 1]);
-      b.style.left = pick.left + 'px'; b.style.top = pick.top + 'px'; b.dataset.t = t0 + 0.06;
-      return { b, low: pick.low, node: [x0, y0], u, rect: [pick.left, pick.top, bw, bh] };
+      twigBox.append(b); setLetters(b, 0);
+      return { b, bw: b.offsetWidth + 6, bh: b.offsetHeight }; // + room for the full stop it gets when open
     });
-    // leaf clumps between the twigs, smaller towards the tip
-    const cl = leafOnly ? [0.3, 0.55, 0.8] : twigs.slice(1).map((_, i) => (uOf(i) + uOf(i + 1)) / 2);
-    for (const u of cl) { const [x, y] = at(u); clumpDots(d, x, y - 3, (narrow ? 20 : 34) * (1 - u * 0.5) * (0.8 + R() * 0.4), 0.1 + 0.74 * u, R); }
-    clumpDots(d, E[0], E[1], narrow ? 10 : 14, 0.86, R);
-
-    // what the camera should hold in view for this section
-    const box = [Math.min(lb[0], P0[0], E[0]) - 4, E[1] - 16, Math.max(lb[0] + lb[2] + 8, P0[0], E[0]) + 4, lb[1] + lb[3]];
+    const widest = Math.max(...words.map(w => w.bw));
+    let len = narrow ? Math.min(Math.max(120, W - widest - 70, Math.min(0.6 * H, 150 + 42 * n)), 150 + 42 * n) : Math.min(Math.max(440, Math.min(0.9 * H, 780)), 200 + 56 * n);
+    len = Math.min(len, Math.max(220, H - 250) / (narrow ? 1 : 0.7)); // the whole branch has to fit the window's height
+    const O = [tip[0] - side * 10, tip[1] - 3];
+    // the twig a label sits on points away from the trunk; on narrow screens it is taken as pointing mostly up, so the branch stays inside the width
+    const i0 = narrow ? (side > 0 ? -1.0 : Math.PI + 1.0) : (side > 0 ? -0.12 : Math.PI + 0.12);
+    const crownR = [crownBox[0], crownBox[1], crownBox[2] - crownBox[0], crownBox[3] - crownBox[1]], own = [lb[0] - 4, lb[1] + 6, lb[2] + 8, lb[3] - 12];
+    const best = bestCurve(O, i0, len, { path: 31, work: 47, hi: 59, me: 73 }[k] * 7919, (c, R) => {
+      let s = 0; const bl = [crownR, own];
+      c.pts.forEach((p, q) => { if (q > 2 && hits([p[0] - 5, p[1] - 5, 10, 10], crownR)) s += 1.5; bl.push([p[0] - 7, p[1] - 6, 14, 12]); });
+      let pref = R() < 0.5 ? 1 : -1, conflicts = 0; const placed = [], step = n > 1 ? 0.73 / (n - 1) : 0;
+      for (let j = 0; j < n; j++) {
+        const t = clamp((n > 1 ? 0.22 + step * j : 0.6) + (R() - 0.5) * 0.3 * step, 0.12, 0.98), r1 = R(), r2 = R(), w = words[j];
+        let pick = null;
+        for (const [sd, mult, flip] of [[pref, 1, 0], [-pref, 1, 0], [pref, 1.4, 0], [-pref, 1.4, 0], [pref, 1, 1], [-pref, 1, 1], [pref, 1.8, 0], [-pref, 1.8, 0]]) {
+          const h = hang(c, t, sd, r1, r2, mult, w.bw, w.bh, flip); h.side = sd; h.t = t;
+          h.text = [h.left + 3, h.top + 9, w.bw - 6, w.bh - 18];
+          if (!pick) pick = h;
+          if (bl.some(o => hits(h.text, o))) continue;
+          pick = h; pick.ok = true; break;
+        }
+        if (!pick.ok) conflicts++;
+        const name = pick.text.slice(); name.name = true; bl.push(name); placed.push(pick); pref = -pick.side;
+      }
+      s += 10 * conflicts;
+      if (narrow) { // everything has to fit across a phone's screen
+        const xs = c.pts.map(p => p[0]).concat(placed.flatMap((h, j) => [h.left, h.left + words[j].bw]), [lb[0], lb[0] + lb[2]]);
+        const span = Math.max(...xs) - Math.min(...xs); if (span > W - 16) s += (span - (W - 16)) / 12;
+      }
+      return { s, placed, bl };
+    });
+    const c = best.c, R = best.R, placed = best.extra.placed, blocks = best.extra.bl, G = 0.88; // the limb is fully drawn at 88% of the growth
+    const d0 = [];
+    limbDots(d0, c.at, c.len * 1.04, narrow ? 5.5 : 8, 1.8, 0, G, R);
+    foliage(d0, c, R, blocks.filter(o => o.name), 0, G);
+    const twigs = placed.map((h, j) => {
+      const w = words[j], sd = [], L = h.L - Math.min(4, h.L * 0.1), t0 = h.t * G;
+      for (let q = 0; q < L; q++) sd.push([h.node[0] + Math.cos(h.ang) * q, h.node[1] + Math.sin(h.ang) * q + Math.sin(q / L * Math.PI) * L * 0.06, t0 + 0.04 * q / L, 1]);
+      w.b.style.left = h.left + 'px'; w.b.style.top = h.top + 'px';
+      return { b: w.b, node: h.node, tip: h.tip, ang: h.ang, t0, sd, rect: [h.left, h.top, w.bw, w.bh] };
+    });
+    const dAll = d0.concat(...twigs.map(t => t.sd));
+    const bb = boxOf(c.pts), box = [Math.min(lb[0], bb[0]) - 4, bb[1] - 16, Math.max(lb[0] + lb[2] + 8, bb[2]) + 4, Math.max(lb[1] + lb[3], bb[3])];
     for (const t of twigs) { box[0] = Math.min(box[0], t.rect[0]); box[1] = Math.min(box[1], t.rect[1]); box[2] = Math.max(box[2], t.rect[0] + t.rect[2]); box[3] = Math.max(box[3], t.rect[1] + t.rect[3]); }
-
-    const show = p => twigs.forEach(t => t.b.classList.toggle('on', +t.b.dataset.t <= p));
-    stopList = paint(listC, d, instant ? 0 : 1300, 350, show);
-    twigBox.setAttribute('aria-label', panel.querySelector('h2').textContent.trim() + ': ' + (n ? n + ' items on this branch' : 'branch'));
-    return { k, side, narrow, panel, items, twigs, blocks, box, E, lb, leafOnly, seed: R, at };
+    const show = p => twigs.forEach(t => { if (geo && geo.open >= 0) return; setLetters(t.b, p >= 1 ? 1 : clamp((p - t.t0 - 0.04) * 8, 0, 1)); });
+    stopList = paint(listC, dAll.slice(), instant ? 0 : 1100, 150, show, easeOut);
+    twigBox.setAttribute('aria-label', panel.querySelector('h2').textContent.trim() + ': ' + n + ' items on this branch');
+    return { k, side, narrow, panel, items, twigs, blocks, box, lb, d0, dAll, pts: c.pts, open: -1, foldT: 0, subDots: null };
   }
 
   // wrap each word so the text can be written out visually while all of it is already there for screen readers
@@ -961,87 +1020,94 @@
     return w;
   }
 
-  // one twig's text (i >= 0), a twig-less section's text, or just the list (i < 0): placed in the scene, then framed
+  // an item opens (i >= 0) exactly like a section: a branch from its own twig, with its text hanging from a bare stalk.
+  // i < 0 goes back to the list: the branch draws back in and the other words write themselves again.
   function showLeaf(i, instant) {
     const g = geo; if (!g) return;
+    const had = g.open >= 0; clearTimeout(g.foldT);
+    g.twigs.forEach((t, j) => t.b.setAttribute('aria-pressed', String(j === i)));
+    if (i < 0) {
+      if (had && !instant && g.subDots) {
+        if (stopSub) stopSub(); leaf.hidden = true; leaf.classList.remove('typing'); leaf.replaceChildren();
+        stopSub = retract(subC, g.subDots, 550, () => wipe(subC));
+      } else clearSub();
+      if (had) { if (stopList) stopList(); stopList = paint(listC, g.dAll.slice(), 0, 0, null); }
+      g.open = -1; g.subDots = null;
+      if (had) g.twigs.forEach(t => { t.b.style.pointerEvents = ''; t.b.tabIndex = 0; typeWord(t.b, 1, instant ? 0 : 550); });
+      frameBox(g.box); return;
+    }
     clearSub();
-    g.twigs.forEach((t, j) => { t.b.setAttribute('aria-pressed', String(j === i)); t.b.style.visibility = ''; });
-    if (!g.leafOnly && i < 0) { frameBox(g.box); return; }
-    const src = g.leafOnly ? null : g.items[i];
-    leaf.innerHTML = g.leafOnly ? [...g.panel.children].filter(c => !c.matches('.back,h2')).map(c => c.outerHTML).join('')
-      : src.tagName === 'LI' ? src.innerHTML : src.outerHTML;
+    const narrow = g.narrow, tg = g.twigs[i], src = g.items[i];
+    leaf.innerHTML = src.tagName === 'LI' ? src.innerHTML : src.outerHTML;
     leaf.querySelectorAll('[data-twig]').forEach(x => x.removeAttribute('data-twig'));
-    leaf.setAttribute('aria-label', g.leafOnly ? g.panel.querySelector('h2').textContent.trim() : twigName(src));
+    leaf.setAttribute('aria-label', twigName(src));
     const words = wordify(leaf);
-    const tw = g.narrow ? W - 56 : Math.min(g.leafOnly ? 620 : 440, W * 0.44);
+    const tw = narrow ? Math.min(W - 56, 360) : Math.min(440, W * 0.44);
     leaf.style.width = tw + 'px'; leaf.style.maxHeight = Math.max(160, H - 150) + 'px'; leaf.style.left = leaf.style.top = '0px';
     leaf.hidden = false;
     const th = leaf.offsetHeight;
-    const tg = g.leafOnly ? null : g.twigs[i];
-    let T, rect, S0, dir = g.side, from;
-    const R = rng(900 + (i < 0 ? 0 : i) * 7), d = [];
-    if (!g.leafOnly) {
-      // like natochi: the branch keeps growing. A leafy shoot rises from the twig's own spot on the branch, onward in the
-      // branch's direction but steeper, and the text sits beside its tip; the other twigs step aside meanwhile
-      S0 = tg.node;
-      const [xa, ya] = g.at(Math.max(0, tg.u - 0.02)), [xb, yb] = g.at(Math.min(1, tg.u + 0.02));
-      const along = Math.atan2(yb - ya, xb - xa); let turn = (-Math.PI / 2 - along) * 0.55;
-      if (Math.abs(turn) < 0.4) turn = -g.side * 0.4; // an almost upright branch: the shoot still leans away from it, toward the trunk's side
-      const ang = along + turn, ux = Math.cos(ang), uy = Math.sin(ang);
-      const clear = g.blocks.filter(o => !o.name); // the twig names fade, so only labels, crown and branch count
-      for (let L = g.narrow ? 120 : 170; L < 2400; L += 14) {
-        T = [S0[0] + ux * L, S0[1] + uy * L];
-        rect = g.narrow ? [T[0] - tw / 2, T[1] - th - 20, tw, th] : [g.side > 0 ? T[0] + 16 : T[0] - 16 - tw, T[1] - 12, tw, th];
-        const fat = [rect[0] - 12, rect[1] - 10, tw + 24, th + 20];
-        if (!clear.some(o => hits(fat, o))) break;
+    // the branch starts beside the word: 80% of the way along the word's own twig, heading on from the twig's angle
+    const ownWord = [tg.rect[0] + 3, tg.rect[1] + 9, tg.rect[2] - 6, tg.rect[3] - 18];
+    let O = null; // ...stepping back toward the branch if the word itself sits over that spot
+    for (const f of [0.8, 0.65, 0.5, 0.35, 0.2, 0.05]) { O = [lerp(tg.node[0], tg.tip[0], f), lerp(tg.node[1], tg.tip[1], f)]; if (!hits([O[0] - 5, O[1] - 5, 10, 10], [ownWord[0] - 4, ownWord[1] - 5, ownWord[2] + 8, ownWord[3] + 10])) break; }
+    const solid = g.blocks.filter(o => !o.name); // the other words are unwritten, so only the label, the crown and the branch are in the way
+    const best = bestCurve(O, tg.ang, narrow ? 192 : 256, 104729 * (i + 1) + 7919 * g.k.length, (c, R) => {
+      let s = 0; const m = c.pts.length - 1;
+      let cross = 0; c.pts.forEach((p, q) => { if (q / m > 0.2 && solid.some(o => hits([p[0] - 5, p[1] - 5, 10, 10], o))) cross++; });
+      if (cross) s += 14 + 2 * cross; // never across the branch it grew from, the crown or a label: it stays on its word's side
+      // it grows beside its word, never through it
+      const wordPad = [ownWord[0] - 4, ownWord[1] - 5, ownWord[2] + 8, ownWord[3] + 10];
+      let onWord = 0; c.pts.forEach((p, q) => { if (q > 1 && hits([p[0] - 3, p[1] - 3, 6, 6], wordPad)) onWord++; });
+      if (onWord) s += 80 + 8 * onWord; // worse than any other fault
+      // ...and it has to leave that branch behind: the further along, the more clear sky between the two
+      let near = 0; c.pts.forEach((p, q) => { const t = q / m; if (t < 0.15) return; const need = Math.min(70, 16 + 90 * t); let dm = Infinity; for (const o of g.pts) { const dd = Math.hypot(p[0] - o[0], p[1] - o[1]); if (dd < dm) dm = dd; } if (dm < need) near += (need - dm) / need; });
+      s += near * 1.6;
+      const self = c.pts.filter((p, q) => q / m < 0.8).map(p => [p[0] - 6, p[1] - 6, 12, 12]), tipEnd = c.pts.filter((p, q) => q / m >= 0.8).map(p => [p[0] - 4, p[1] - 4, 8, 8]);
+      const clear = r => { const fat = [r[0] - 10, r[1] - 8, r[2] + 20, r[3] + 16]; return !solid.some(o => hits(fat, o)) && !hits(fat, ownWord) && !self.some(o => hits(fat, o)) && !tipEnd.some(o => hits(r, o)); }; // the text keeps off the label, the crown, both branches and its own word
+      let pick = null; const r1 = R(), r2 = R(), s0 = R() < 0.5 ? 1 : -1;
+      if (narrow) { // a phone has no room beside the branch: the text sits just above its tip, across the screen
+        const bb = boxOf(c.pts.concat([O])), tipP = c.at(1), x = clamp((bb[0] + bb[2]) / 2 - tw / 2, Math.max(bb[2], O[0]) - tw - 4, Math.min(bb[0], O[0]) + 4);
+        let rect = [x, bb[1] - 26 - th, tw, th];
+        for (let up = 0; up < 10 && !clear(rect); up++) rect = [x, rect[1] - 28, tw, th]; // higher, until it is over open sky
+        const top = c.pts.reduce((a, q) => q[1] < a[1] ? q : a, O); // the stalk leaves the branch's highest point
+        pick = { rect, from: top, to: [clamp(top[0], x + 12, x + tw - 12), rect[1] + th + 6], ok: clear(rect) };
+      } else for (const [sd, mult, flip] of [[s0, 1, 0], [-s0, 1, 0], [s0, 1.4, 0], [-s0, 1.4, 0], [s0, 1.8, 0], [-s0, 1.8, 0], [s0, 1, 1], [-s0, 1, 1], [s0, 2.6, 0], [-s0, 2.6, 0], [s0, 2.6, 1], [-s0, 2.6, 1]]) {
+        const h = hang(c, 0.9, sd, r1, r2, mult, tw + 14, 26, flip), rect = [h.left + (h.left < h.tip[0] ? 0 : 14), h.tip[1] - 13, tw, th];
+        const cand = { rect, from: h.node, to: h.tip, ok: clear(rect) && rect[1] + Math.min(th, 120) < base[1] - 6 };
+        if (!pick) pick = cand;
+        if (cand.ok) { pick = cand; break; }
       }
-      const run = Math.hypot(T[0] - S0[0], T[1] - S0[1]), bend = g.side * Math.min(30, run * 0.12);
-      const mx = (S0[0] + T[0]) / 2 + bend, my = (S0[1] + T[1]) / 2;
-      const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0] + Math.sin(u * 9) * 1.6 * Math.sin(u * Math.PI), a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
-      limbDots(d, at, run, g.narrow ? 4.6 : 6, 1.6, 0, 0.78, R);
-      for (let c = 1, m = Math.max(3, Math.floor(run / 30)); c <= m; c++) { // fluffy clumps: a few overlapping tufts each
-        const u = c / (m + 1), [x, y] = at(u), r = (g.narrow ? 17 : 25) * (1 - u * 0.4) * (0.8 + R() * 0.45);
-        for (let q = 0; q < 3; q++) clumpDots(d, x + (R() - 0.5) * r * 1.1, y - 2 + (R() - 0.6) * r * 0.8, r * (0.5 + R() * 0.25), 0.78 * u, R);
-      }
-      clumpDots(d, T[0], T[1] - 2, g.narrow ? 12 : 16, 0.84, R);
-      for (const s2 of [-1, 1]) { let x = T[0], y = T[1]; for (let q = 0; q < 12; q++) { x += Math.cos(ang + s2 * 0.6); y += Math.sin(ang + s2 * 0.6); d.push([x, y, 0.84 + q * 0.004, 1]); } }
-      g.twigs.forEach((t, j) => { if (j !== i) t.b.style.visibility = 'hidden'; });
-      from = [Math.min(S0[0], T[0]) - 20, Math.min(S0[1], T[1]) - 10, Math.max(S0[0], T[0]) + 20, Math.max(S0[1], T[1]) + 10];
-    } else {
-      // a section with no twigs: its text hangs at the end of its branch, heading away from the trunk
-      S0 = g.E;
-      const phi = -0.15, ux = dir * Math.cos(phi), uy = Math.sin(phi);
-      for (let r = 18; r < 2400; r += 16) {
-        T = [S0[0] + ux * r, S0[1] + uy * r];
-        rect = [dir > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
-        const fat = [rect[0] - 14, rect[1] - 10, tw + 28, th + 20];
-        if (!g.blocks.some(o => hits(fat, o))) break;
-      }
-      const run = Math.hypot(T[0] - S0[0], T[1] - S0[1]), mx = (S0[0] + T[0]) / 2, my = (S0[1] + T[1]) / 2 + Math.min(26, run * 0.12);
-      const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0], a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
-      limbDots(d, at, run, 3.4, 1.4, 0, 0.8, R);
-      for (let c = 1, m = Math.min(5, Math.floor(run / 70)); c <= m; c++) { const u = c / (m + 1), [x, y] = at(u); clumpDots(d, x, y - 2, 9 + R() * 8, 0.8 * u, R); }
-      clumpDots(d, T[0], T[1], 7, 0.86, R);
-      from = [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]];
-    }
+      if (!pick.ok) s += 40;
+      const endP = c.pts[m]; if (endP[1] > O[1] - 10) s += narrow ? 30 : 8; // a branch grows up; hanging down is a last resort (and on a phone the text sits above it)
+      if (narrow) { const xs = c.pts.map(p => p[0]).concat([pick.rect[0], pick.rect[0] + tw, O[0]]), span = Math.max(...xs) - Math.min(...xs); if (span > W - 16) s += (span - (W - 16)) / 12; }
+      return { s, pick };
+    });
+    const c = best.c, R = best.R, pick = best.extra.pick, rect = pick.rect, G = 0.88, d = [];
+    limbDots(d, c.at, c.len * 1.04, 3.8 * sc(), 1.3, 0, G, R);
+    foliage(d, c, R, [[ownWord[0] - 8, ownWord[1] - 6, ownWord[2] + 16, ownWord[3] + 12], [rect[0] - 6, rect[1] - 4, tw + 12, th + 8]], 0, G, 0.6); // a young branch: smaller leaves, closer together
+    const sl = Math.hypot(pick.to[0] - pick.from[0], pick.to[1] - pick.from[1]);
+    for (let q = 0; q < sl - 6; q++) d.push([lerp(pick.from[0], pick.to[0], q / sl), lerp(pick.from[1], pick.to[1], q / sl) + Math.sin(q / sl * Math.PI) * sl * 0.03, 0.9 * G + 0.1 * q / sl, 1]);
     leaf.style.left = rect[0] + 'px'; leaf.style.top = rect[1] + 'px';
-    stopSub = paint(subC, d, instant ? 0 : (g.leafOnly ? 520 : 950), 150, null);
+    g.subDots = d.slice(); g.open = i;
+    stopSub = paint(subC, d, instant ? 0 : 1100, 100, null, easeOut);
     if (!instant) {
-      leaf.style.setProperty('--d0', (g.leafOnly ? 900 : 1050) + 'ms');
+      leaf.style.setProperty('--d0', '950ms'); // the writing starts as the branch reaches its stalk
       leaf.style.setProperty('--ws', Math.min(26, 1900 / Math.max(1, words)).toFixed(1) + 'ms');
       leaf.classList.add('typing');
     }
+    // the other words unwrite themselves, then their twigs go; the open word stays, bold, with its full stop
+    setLetters(tg.b, 1); tg.b.style.pointerEvents = ''; tg.b.tabIndex = 0;
+    g.twigs.forEach((t, j) => { if (j !== i) { if (document.activeElement === t.b) tg.b.focus({ preventScroll: true }); t.b.style.pointerEvents = 'none'; t.b.tabIndex = -1; typeWord(t.b, 0, instant ? 0 : 400); } });
+    const fold = () => { if (geo !== g || g.open !== i) return; if (stopList) stopList(); stopList = paint(listC, g.d0.concat(tg.sd), 0, 0, null); };
+    if (instant) fold(); else g.foldT = setTimeout(fold, 420);
     // hold the text in view, and with it as much of where it hangs from as the window has room for
     const join = (a, b) => [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
     const fits = b => b[2] - b[0] <= W - 16 && b[3] - b[1] <= H - 144;
-    const own = [rect[0] - 8, rect[1] - 6, rect[0] + tw + 8, rect[1] + th];
-    const stub = [Math.min(T[0] - dir * 20, T[0]), T[1] - 26, Math.max(T[0] - dir * 20, T[0]), T[1]]; // at least the tip of its branch
-    const all = join(join(own, from), [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]]);
-    const tree = join(all, crownBox); // best of all: the whole tree beside the text
-    frameBox(fits(tree) ? tree : fits(all) ? all : fits(join(own, from)) ? join(own, from) : fits(join(own, stub)) ? join(own, stub) : own, g.narrow); // phones read from the top of the screen
-    // a neighbouring twig that the slide leaves under the back button steps out of its way
-    const corner = [0, H - 76, 88, 76];
-    g.twigs.forEach((t, j) => { if (j !== i && hits([t.rect[0] + cam[0], t.rect[1] + cam[1], t.rect[2], t.rect[3]], corner)) t.b.style.visibility = 'hidden'; });
+    const ownB = [rect[0] - 8, rect[1] - 6, rect[0] + tw + 8, rect[1] + th];
+    const shoot = join(boxOf(c.pts), [tg.rect[0], tg.rect[1], tg.rect[0] + tg.rect[2], tg.rect[1] + tg.rect[3]]);
+    const all = join(join(ownB, shoot), [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]]);
+    const tipB = [pick.to[0] - 20, pick.to[1] - 26, pick.to[0] + 20, pick.to[1] + 10];
+    frameBox(fits(all) ? all : fits(join(ownB, shoot)) ? join(ownB, shoot) : fits(join(ownB, tipB)) ? join(ownB, tipB) : ownB, narrow && !fits(join(ownB, shoot))); // a long text on a phone reads from the top of the screen
   }
 
   try {
@@ -1056,6 +1122,19 @@
     const labelFor = k => labels.find(b => b.dataset.open === k) || null;
     labels.forEach(b => b.setAttribute('aria-controls', leafy(b.dataset.open) ? 'leaf' : 'twigs'));
     let opener = null;
+    // the trail: tree > section > word. The last step is where you are; the earlier ones take you back there
+    const trailEl = $('trail');
+    function showTrail() {
+      trailEl.replaceChildren(); trailEl.hidden = !cur.sec; if (!cur.sec) return;
+      const step = (text, here, to) => { const el = document.createElement(here ? 'b' : 'button'); el.textContent = text; if (here) el.setAttribute('aria-current', 'location'); else { el.type = 'button'; el.dataset.crumb = to; } trailEl.append(el); };
+      const sep = () => { const s = document.createElement('i'); s.textContent = '›'; s.setAttribute('aria-hidden', 'true'); trailEl.append(s); };
+      const name = labelFor(cur.sec).getAttribute('aria-label'), item = cur.item >= 0 && geo ? twigName(geo.items[cur.item]) : null;
+      step('tree', false, 'tree'); sep(); step(name, !item, 'sec'); if (item) { sep(); step(item, true); }
+    }
+    trailEl.addEventListener('click', e => {
+      const b = e.target.closest('[data-crumb]'); if (!b) return; e.stopPropagation();
+      if (b.dataset.crumb === 'tree') back(true); else if (cur.item >= 0) back();
+    });
     // the one place that changes what is open. sec: a section id or null; item: a twig's number or -1
     function go(sec, item, o = {}) {
       sec = sec && SIDE[sec] && $(sec) ? sec : null;
@@ -1063,16 +1142,18 @@
       if (!changed && item === cur.item) return; // browser Back fires twice (popstate + hashchange): do it once
       const instant = !!o.instant || reduce.matches || root.classList.contains('instant');
       const before = cur.item, was = geo && geo.twigs[before];
-      if (changed) { clearAll(); cur.sec = sec; if (sec) geo = growSection(sec, instant); if (!geo) cur.sec = sec = null; }
+      if (changed) { if (!sec && geo && !instant) closeSection(); else clearAll(); cur.sec = sec; if (sec) geo = growSection(sec, instant); if (!geo) cur.sec = sec = null; }
       cur.item = geo && item >= 0 && item < geo.twigs.length ? item : -1;
       labels.forEach(b => b.setAttribute('aria-expanded', String(b.dataset.open === sec)));
+      labels.forEach(b => { const fold = !!sec && b.dataset.open !== sec; b.classList.toggle('folded', fold); b.tabIndex = fold ? -1 : 0; typeWord(b, fold ? 0 : 1, instant ? 0 : fold ? 400 : 550); }); // the other labels unwrite themselves while one is open
       root.classList.toggle('panel-open', !!sec);
       pill.hidden = !sec;
+      showTrail();
       if (geo) showLeaf(cur.item, instant); else setCam(0, 0);
       // the page may have been scrolled under the open branch: come back to the fully grown tree, labels and all
       if (changed && !sec && !o.force) finishGrowth(); // (a redraw after a resize or the fonts loading is not a return: the growth carries on)
       if (!o.keepFocus) {
-        if (changed && sec) { opener = o.from || labelFor(sec); (geo.leafOnly ? leaf : twigBox).focus({ preventScroll: true }); } // into the branch
+        if (changed && sec) { opener = o.from || labelFor(sec); twigBox.focus({ preventScroll: true }); } // into the branch
         else if (changed && opener) { opener.focus({ preventScroll: true }); opener = null; } // back to the label that opened it
         else if (!changed && cur.item < 0 && was && !o.from) was.b.focus({ preventScroll: true }); // back to the twig that was open
       }
