@@ -922,7 +922,7 @@
       const name = pick.text.slice(); name.name = true; blocks.push(name);
       for (let q = 0; q < pick.L; q++) d.push([x0 + nx * q * pick.s, y0 + ny * q * pick.s, t0 + 0.05 * q / pick.L, 1]);
       b.style.left = pick.left + 'px'; b.style.top = pick.top + 'px'; b.dataset.t = t0 + 0.06;
-      return { b, low: pick.low, node: [x0, y0], rect: [pick.left, pick.top, bw, bh] };
+      return { b, low: pick.low, node: [x0, y0], u, rect: [pick.left, pick.top, bw, bh] };
     });
     // leaf clumps between the twigs, smaller towards the tip
     const cl = leafOnly ? [0.3, 0.55, 0.8] : twigs.slice(1).map((_, i) => (uOf(i) + uOf(i + 1)) / 2);
@@ -936,7 +936,7 @@
     const show = p => twigs.forEach(t => t.b.classList.toggle('on', +t.b.dataset.t <= p));
     stopList = paint(listC, d, instant ? 0 : 1300, 350, show);
     twigBox.setAttribute('aria-label', panel.querySelector('h2').textContent.trim() + ': ' + (n ? n + ' items on this branch' : 'branch'));
-    return { k, side, narrow, panel, items, twigs, blocks, box, E, lb, leafOnly, seed: R };
+    return { k, side, narrow, panel, items, twigs, blocks, box, E, lb, leafOnly, seed: R, at };
   }
 
   // wrap each word so the text can be written out visually while all of it is already there for screen readers
@@ -977,32 +977,57 @@
     leaf.style.width = tw + 'px'; leaf.style.maxHeight = Math.max(160, H - 150) + 'px'; leaf.style.left = leaf.style.top = '0px';
     leaf.hidden = false;
     const th = leaf.offsetHeight;
-    // its own little branch leaves the twig (or the end of the section's branch) heading away from the trunk and down,
-    // and runs on until the text has clear sky to itself
     const tg = g.leafOnly ? null : g.twigs[i];
-    // a twig's text grows out on that twig's own side: outer twigs away from the trunk (and a little down),
-    // inner twigs toward it (and a little up, into the open sky above the branch)
-    const dir = g.leafOnly || tg.low ? g.side : -g.side;
-    const S0 = g.leafOnly ? g.E : [tg.rect[0] + (dir > 0 ? tg.rect[2] + 1 : -1), tg.rect[1] + tg.rect[3] / 2 + 3];
-    const phi = g.leafOnly ? -0.15 : !tg.low ? -0.35 : g.narrow ? 0.5 : 0.6, ux = dir * Math.cos(phi), uy = Math.sin(phi);
-    let T, rect;
-    for (let r = g.leafOnly ? 18 : 60; r < 2400; r += 16) {
-      T = [S0[0] + ux * r, S0[1] + uy * r];
-      rect = [dir > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
-      const fat = [rect[0] - 14, rect[1] - 10, tw + 28, th + 20];
-      if (!g.blocks.some(o => hits(fat, o))) break;
+    let T, rect, S0, dir = g.side, from;
+    const R = rng(900 + (i < 0 ? 0 : i) * 7), d = [];
+    if (!g.leafOnly) {
+      // like natochi: the branch keeps growing. A leafy shoot rises from the twig's own spot on the branch, onward in the
+      // branch's direction but steeper, and the text sits beside its tip; the other twigs step aside meanwhile
+      S0 = tg.node;
+      const [xa, ya] = g.at(Math.max(0, tg.u - 0.02)), [xb, yb] = g.at(Math.min(1, tg.u + 0.02));
+      const along = Math.atan2(yb - ya, xb - xa); let turn = (-Math.PI / 2 - along) * 0.55;
+      if (Math.abs(turn) < 0.4) turn = -g.side * 0.4; // an almost upright branch: the shoot still leans away from it, toward the trunk's side
+      const ang = along + turn, ux = Math.cos(ang), uy = Math.sin(ang);
+      const clear = g.blocks.filter(o => !o.name); // the twig names fade, so only labels, crown and branch count
+      for (let L = g.narrow ? 120 : 170; L < 2400; L += 14) {
+        T = [S0[0] + ux * L, S0[1] + uy * L];
+        rect = g.narrow ? [T[0] - tw / 2, T[1] - th - 20, tw, th] : [g.side > 0 ? T[0] + 16 : T[0] - 16 - tw, T[1] - 12, tw, th];
+        const fat = [rect[0] - 12, rect[1] - 10, tw + 24, th + 20];
+        if (!clear.some(o => hits(fat, o))) break;
+      }
+      const run = Math.hypot(T[0] - S0[0], T[1] - S0[1]), bend = g.side * Math.min(30, run * 0.12);
+      const mx = (S0[0] + T[0]) / 2 + bend, my = (S0[1] + T[1]) / 2;
+      const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0] + Math.sin(u * 9) * 1.6 * Math.sin(u * Math.PI), a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
+      limbDots(d, at, run, g.narrow ? 4.6 : 6, 1.6, 0, 0.78, R);
+      for (let c = 1, m = Math.max(3, Math.floor(run / 30)); c <= m; c++) { // fluffy clumps: a few overlapping tufts each
+        const u = c / (m + 1), [x, y] = at(u), r = (g.narrow ? 17 : 25) * (1 - u * 0.4) * (0.8 + R() * 0.45);
+        for (let q = 0; q < 3; q++) clumpDots(d, x + (R() - 0.5) * r * 1.1, y - 2 + (R() - 0.6) * r * 0.8, r * (0.5 + R() * 0.25), 0.78 * u, R);
+      }
+      clumpDots(d, T[0], T[1] - 2, g.narrow ? 12 : 16, 0.84, R);
+      for (const s2 of [-1, 1]) { let x = T[0], y = T[1]; for (let q = 0; q < 12; q++) { x += Math.cos(ang + s2 * 0.6); y += Math.sin(ang + s2 * 0.6); d.push([x, y, 0.84 + q * 0.004, 1]); } }
+      g.twigs.forEach((t, j) => { if (j !== i) t.b.style.visibility = 'hidden'; });
+      from = [Math.min(S0[0], T[0]) - 20, Math.min(S0[1], T[1]) - 10, Math.max(S0[0], T[0]) + 20, Math.max(S0[1], T[1]) + 10];
+    } else {
+      // a section with no twigs: its text hangs at the end of its branch, heading away from the trunk
+      S0 = g.E;
+      const phi = -0.15, ux = dir * Math.cos(phi), uy = Math.sin(phi);
+      for (let r = 18; r < 2400; r += 16) {
+        T = [S0[0] + ux * r, S0[1] + uy * r];
+        rect = [dir > 0 ? T[0] + 8 : T[0] - 8 - tw, T[1] - 16, tw, th];
+        const fat = [rect[0] - 14, rect[1] - 10, tw + 28, th + 20];
+        if (!g.blocks.some(o => hits(fat, o))) break;
+      }
+      const run = Math.hypot(T[0] - S0[0], T[1] - S0[1]), mx = (S0[0] + T[0]) / 2, my = (S0[1] + T[1]) / 2 + Math.min(26, run * 0.12);
+      const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0], a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
+      limbDots(d, at, run, 3.4, 1.4, 0, 0.8, R);
+      for (let c = 1, m = Math.min(5, Math.floor(run / 70)); c <= m; c++) { const u = c / (m + 1), [x, y] = at(u); clumpDots(d, x, y - 2, 9 + R() * 8, 0.8 * u, R); }
+      clumpDots(d, T[0], T[1], 7, 0.86, R);
+      from = [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]];
     }
     leaf.style.left = rect[0] + 'px'; leaf.style.top = rect[1] + 'px';
-    // the sub-branch, with a few leaves, ending in a tuft where the writing starts
-    const R = rng(900 + (i < 0 ? 0 : i) * 7), d = [], run = Math.hypot(T[0] - S0[0], T[1] - S0[1]);
-    const mx = (S0[0] + T[0]) / 2, my = (S0[1] + T[1]) / 2 + Math.min(26, run * 0.12);
-    const at = u => { const a = 1 - u; return [a * a * S0[0] + 2 * a * u * mx + u * u * T[0], a * a * S0[1] + 2 * a * u * my + u * u * T[1]]; };
-    limbDots(d, at, run, 3.4, 1.4, 0, 0.8, R);
-    for (let c = 1, m = Math.min(5, Math.floor(run / 70)); c <= m; c++) { const u = c / (m + 1), [x, y] = at(u); clumpDots(d, x, y - 2, 9 + R() * 8, 0.8 * u, R); }
-    clumpDots(d, T[0], T[1], 7, 0.86, R);
-    stopSub = paint(subC, d, instant ? 0 : 520, 150, null);
+    stopSub = paint(subC, d, instant ? 0 : (g.leafOnly ? 520 : 950), 150, null);
     if (!instant) {
-      leaf.style.setProperty('--d0', (g.leafOnly ? 900 : 560) + 'ms');
+      leaf.style.setProperty('--d0', (g.leafOnly ? 900 : 1050) + 'ms');
       leaf.style.setProperty('--ws', Math.min(26, 1900 / Math.max(1, words)).toFixed(1) + 'ms');
       leaf.classList.add('typing');
     }
@@ -1010,7 +1035,6 @@
     const join = (a, b) => [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
     const fits = b => b[2] - b[0] <= W - 16 && b[3] - b[1] <= H - 144;
     const own = [rect[0] - 8, rect[1] - 6, rect[0] + tw + 8, rect[1] + th];
-    const from = tg ? [tg.rect[0], tg.rect[1], tg.rect[0] + tg.rect[2], tg.rect[1] + tg.rect[3]] : [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]];
     const stub = [Math.min(T[0] - dir * 20, T[0]), T[1] - 26, Math.max(T[0] - dir * 20, T[0]), T[1]]; // at least the tip of its branch
     const all = join(join(own, from), [g.lb[0], g.lb[1], g.lb[0] + g.lb[2] + 8, g.lb[1] + g.lb[3]]);
     const tree = join(all, crownBox); // best of all: the whole tree beside the text
