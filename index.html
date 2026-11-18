@@ -1216,41 +1216,51 @@
 })();
 </script>
 <script>
-// now and then a shooting star crosses the sky behind the tree: a stippled sand trail with a faint moonlit head.
-// Only on the tree, never while a branch is open, never for visitors who prefer less motion, and not in a hidden tab.
+// shooting stars cross the sky behind the tree: stippled sand trails with a faint moonlit head. One every few seconds,
+// sometimes two or three close together. Only on the tree, never while a branch is open, never for visitors who
+// prefer less motion, and not in a hidden tab.
 (() => {
   const c = document.getElementById('shoot'), g = c && c.getContext && c.getContext('2d'), root = document.documentElement;
   if (!g) return;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const later = ms => setTimeout(fly, ms != null ? ms : 7000 + Math.random() * 11000);
-  function fly() {
-    if (reduce.matches || document.hidden || !root.classList.contains('tree') || !root.classList.contains('grown') || root.classList.contains('panel-open')) return later();
-    const W = innerWidth, H = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
-    c.width = W * dpr; c.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const dir = Math.random() < 0.5 ? -1 : 1, a = (0.22 + Math.random() * 0.3), ux = dir * Math.cos(a), uy = Math.sin(a);
-    const x0 = W * (dir > 0 ? 0.05 + Math.random() * 0.5 : 0.45 + Math.random() * 0.5), y0 = H * (0.04 + Math.random() * 0.3);
-    const travel = Math.min(W, 520) * (0.7 + Math.random() * 0.5), tail = 90 + Math.random() * 110, dur = 900 + Math.random() * 500;
-    const jit = Array.from({ length: 160 }, () => [(Math.random() - 0.5) * 2.2, Math.random()]);
-    let t0 = 0;
-    const step = now => {
-      if (root.classList.contains('panel-open')) { g.clearRect(0, 0, W, H); return later(); } // a branch opened: the star goes at once
-      if (!t0) t0 = now;
-      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 2), fade = k < 0.7 ? 1 : 1 - (k - 0.7) / 0.3;
-      const hx = x0 + ux * travel * e, hy = y0 + uy * travel * e, len = tail * Math.min(1, k * 4);
-      g.clearRect(0, 0, W, H);
-      for (let i = 0; i < jit.length; i++) { // the trail: dots thinning out behind the head
-        const u = i / jit.length, d = u * len, al = (1 - u) * 0.85 * fade * (0.5 + jit[i][1] * 0.5);
-        g.fillStyle = `rgba(216,207,189,${al.toFixed(3)})`;
-        g.fillRect(hx - ux * d - uy * jit[i][0] * (1 - u), hy - uy * d + ux * jit[i][0] * (1 - u), u < 0.15 ? 1.6 : 1, u < 0.15 ? 1.6 : 1);
-      }
-      const glow = g.createRadialGradient(hx, hy, 0, hx, hy, 6);
-      glow.addColorStop(0, `rgba(240,226,190,${(0.95 * fade).toFixed(3)})`); glow.addColorStop(1, 'rgba(232,199,122,0)');
-      g.fillStyle = glow; g.fillRect(hx - 6, hy - 6, 12, 12);
-      if (k < 1) requestAnimationFrame(step); else { g.clearRect(0, 0, W, H); later(); }
-    };
-    requestAnimationFrame(step);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)'), stars = [];
+  let W = 0, H = 0, running = false;
+  const quiet = () => reduce.matches || document.hidden || !root.classList.contains('tree') || !root.classList.contains('grown') || root.classList.contains('panel-open');
+  function star(delay) {
+    const dir = Math.random() < 0.5 ? -1 : 1, a = 0.2 + Math.random() * 0.36, big = Math.random() < 0.2;
+    stars.push({ ux: dir * Math.cos(a), uy: Math.sin(a), t0: performance.now() + delay,
+      x0: W * (dir > 0 ? 0.03 + Math.random() * 0.55 : 0.42 + Math.random() * 0.55), y0: H * (0.03 + Math.random() * 0.36),
+      travel: Math.min(W, 520) * (0.55 + Math.random() * 0.6) * (big ? 1.3 : 1), tail: (70 + Math.random() * 110) * (big ? 1.4 : 1), dur: 750 + Math.random() * 650, head: big ? 8 : 5 + Math.random() * 2,
+      jit: Array.from({ length: big ? 200 : 130 }, () => [(Math.random() - 0.5) * 2.2, Math.random()]) });
   }
-  later(5500); // the first one a few seconds after the tree has grown
+  function frame(now) {
+    g.clearRect(0, 0, W, H);
+    if (root.classList.contains('panel-open')) stars.length = 0; // a branch opened: the stars go at once
+    for (let n = stars.length - 1; n >= 0; n--) {
+      const s = stars[n]; if (now < s.t0) continue;
+      const k = Math.min(1, (now - s.t0) / s.dur), e = 1 - Math.pow(1 - k, 2), fade = k < 0.7 ? 1 : 1 - (k - 0.7) / 0.3;
+      const hx = s.x0 + s.ux * s.travel * e, hy = s.y0 + s.uy * s.travel * e, len = s.tail * Math.min(1, k * 4);
+      for (let i = 0; i < s.jit.length; i++) { // the trail: dots thinning out behind the head
+        const u = i / s.jit.length, d = u * len, al = (1 - u) * 0.85 * fade * (0.5 + s.jit[i][1] * 0.5), sz = u < 0.15 ? 1.6 : 1;
+        g.fillStyle = `rgba(216,207,189,${al.toFixed(3)})`;
+        g.fillRect(hx - s.ux * d - s.uy * s.jit[i][0] * (1 - u), hy - s.uy * d + s.ux * s.jit[i][0] * (1 - u), sz, sz);
+      }
+      const glow = g.createRadialGradient(hx, hy, 0, hx, hy, s.head);
+      glow.addColorStop(0, `rgba(240,226,190,${(0.95 * fade).toFixed(3)})`); glow.addColorStop(1, 'rgba(232,199,122,0)');
+      g.fillStyle = glow; g.fillRect(hx - s.head, hy - s.head, s.head * 2, s.head * 2);
+      if (k >= 1) stars.splice(n, 1);
+    }
+    if (stars.length) requestAnimationFrame(frame); else { running = false; g.clearRect(0, 0, W, H); }
+  }
+  function launch() {
+    setTimeout(launch, 2200 + Math.random() * 3800); // the next one in 2 to 6 seconds
+    if (quiet()) return;
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    if (!running) { W = innerWidth; H = innerHeight; c.width = W * dpr; c.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    const r = Math.random(), n = r < 0.12 ? 3 : r < 0.4 ? 2 : 1; // now and then a pair, rarely three
+    for (let q = 0; q < n; q++) star(q * (180 + Math.random() * 420));
+    if (!running) { running = true; requestAnimationFrame(frame); }
+  }
+  setTimeout(launch, 4000); // the first a few seconds after the tree has grown
 })();
 </script>
 </body>
